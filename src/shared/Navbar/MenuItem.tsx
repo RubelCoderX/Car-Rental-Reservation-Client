@@ -24,7 +24,7 @@ const MenuItem = () => {
         </Link>
 
         {/* About Us - Always visible */}
-        <div className="text-sm font-semibold px-3 md:px-6">About Us</div>
+        <div className="text-sm font-semibold px-3 md:px-6">View Details</div>
         <div className="hidden sm:block text-sm font-semibold px-3 md:px-6">
           Contact Us
         </div>
