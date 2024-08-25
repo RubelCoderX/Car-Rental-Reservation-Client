@@ -27,7 +27,7 @@ const MenuItem = () => {
         <Link to="/view-details">
           <div className="text-sm font-semibold px-3 md:px-6">View Details</div>
         </Link>
-        <Link to="/abouts-us">
+        <Link to="/about-us">
           <div className="hidden sm:block text-sm font-semibold px-3 md:px-6">
             About Us
           </div>

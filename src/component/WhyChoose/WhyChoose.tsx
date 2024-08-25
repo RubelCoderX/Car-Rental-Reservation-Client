@@ -26,7 +26,8 @@ const WhyChoose = () => {
   return (
     <div className="relative text-center py-12">
       <h2 className="text-3xl font-bold mb-4">
-        Why <span className="text-red-600">Choose Us</span>
+        Why We are <span className="text-red-600">Specialized!</span> Why Choose
+        Us?
       </h2>
       <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
         We believe in delivering excellence through personalized services,
