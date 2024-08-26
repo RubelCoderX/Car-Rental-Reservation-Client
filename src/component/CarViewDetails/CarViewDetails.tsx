@@ -4,7 +4,7 @@ import CarInformation from "./CarInformation";
 const CarViewDetails = () => {
   return (
     <div>
-      <div className="relative h-[300px] md:h-[700px] w-full">
+      <div className="relative h-[300px] md:h-[500px] w-full">
         <div
           style={{
             backgroundImage: "url('https://i.ibb.co/GCbYCyH/detailspage.png')",

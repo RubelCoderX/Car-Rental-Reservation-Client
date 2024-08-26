@@ -6,6 +6,8 @@ import CarViewDetails from "../component/CarViewDetails/CarViewDetails";
 import AboutUs from "../component/AboutUs/AboutUs";
 import PageError from "../component/PageError/PageError";
 import ContactUs from "../component/ContactUs/ContactUs";
+import Register from "../component/AuthentiCation/Register/Register";
+import Login from "../component/AuthentiCation/Login/Login";
 
 export const router = createBrowserRouter([
   {
@@ -35,6 +37,14 @@ export const router = createBrowserRouter([
       {
         path: "/contact-us",
         element: <ContactUs></ContactUs>,
+      },
+      {
+        path: "/register",
+        element: <Register></Register>,
+      },
+      {
+        path: "/login",
+        element: <Login></Login>,
       },
     ],
   },

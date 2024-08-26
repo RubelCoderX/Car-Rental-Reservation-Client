@@ -1,4 +1,3 @@
-import carBanner from "../../assets/Luxury-Car-PNG-HD.png";
 import CarCard from "./CarCard";
 import FilterCard from "./FilterCard";
 
@@ -33,7 +32,7 @@ const CarList = () => {
 
   return (
     <>
-      <div className="relative h-[300px] md:h-[600px] w-full">
+      <div className="relative h-[300px] md:h-[500px] w-full">
         <div
           style={{
             backgroundImage:

@@ -4,7 +4,7 @@ import { MdDialerSip } from "react-icons/md";
 const ContactUs = () => {
   return (
     <div>
-      <div className="relative h-[300px] md:h-[700px] w-full">
+      <div className="relative h-[300px] md:h-[500px] w-full">
         <div
           style={{
             backgroundImage:
