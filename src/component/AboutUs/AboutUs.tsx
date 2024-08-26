@@ -1,36 +1,29 @@
 import { FaCircleDollarToSlot, FaFacebook, FaInstagram } from "react-icons/fa6";
-import car from "../../assets/about-us-2.jpg";
 import { GiCarWheel } from "react-icons/gi";
-import carIcon from "../../assets/car-icon.png";
-import carRight from "../../assets/car-right.png";
-import worker from "../../assets/worker.png";
-import newCar from "../../assets/new-car.png";
-import carIns from "../../assets/car-insurance.png";
 import { MdAddCall } from "react-icons/md";
-import man1 from "../../assets/team/man1.jpg";
-import man2 from "../../assets/team/women1.avif";
-import man3 from "../../assets/team/women1.jpg";
-import man4 from "../../assets/team/rubel_princ.png";
 import { LiaLinkedin } from "react-icons/lia";
 
 const AboutUs = () => {
   return (
     <div>
       {/* Background Section */}
-      <div className="relative h-[300px] md:h-[400px] w-full">
-        <div className="absolute inset-0">
-          <img
-            src={car}
-            alt="Background"
-            className="w-full h-full object-cover"
-          />
+      <div className="relative h-[300px] md:h-[650px] w-full">
+        <div
+          style={{
+            backgroundImage: "url('https://i.ibb.co/dMVkjZv/aboutpage.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundAttachment: "fixed",
+          }}
+          className="absolute inset-0"
+        >
           <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-70"></div>
         </div>
-        <div className="relative container mx-auto flex justify-center items-center h-full px-4">
+        {/* <div className="relative container mx-auto flex justify-center items-center h-full px-4">
           <h1 className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white text-center">
             About Us
           </h1>
-        </div>
+        </div> */}
       </div>
 
       {/* Services Section */}
@@ -60,7 +53,7 @@ const AboutUs = () => {
 
         <div className="bg-white text-center p-6 md:p-10 shadow-md">
           <img
-            src={carIcon}
+            src="https://i.ibb.co/L1Nbg2X/car-icon.png"
             className="w-12 h-12 mx-auto mb-4"
             alt="Car Icon"
           />
@@ -101,7 +94,7 @@ const AboutUs = () => {
             <div>
               <span>
                 <img
-                  src={newCar}
+                  src="https://i.ibb.co/12s8F7z/new-car.png"
                   className="w-12 h-12 mx-auto mb-4"
                   alt="New Car"
                 />
@@ -111,7 +104,7 @@ const AboutUs = () => {
             <div>
               <span>
                 <img
-                  src={carIns}
+                  src="https://i.ibb.co/LP15fBH/car-insurance.png"
                   className="w-12 h-12 mx-auto mb-4"
                   alt="Car Insurance"
                 />
@@ -121,7 +114,7 @@ const AboutUs = () => {
             <div>
               <span>
                 <img
-                  src={worker}
+                  src="https://i.ibb.co/chW0ZFS/worker.png"
                   className="w-12 h-12 mx-auto mb-4"
                   alt="Safety Checks"
                 />
@@ -131,7 +124,10 @@ const AboutUs = () => {
           </div>
         </div>
         <div>
-          <img src={carRight} alt="Car Display" />
+          <img
+            src="https://i.ibb.co/DkBNx10/Pngtree-black-super-car-14860193.png"
+            alt="Car Display"
+          />
         </div>
       </div>
 
@@ -175,8 +171,8 @@ const AboutUs = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
           <div className="bg-white p-6 rounded-lg shadow-md">
             <img
-              src={man4}
-              className="w-40 h-40 mx-auto rounded-full border border-gray-200"
+              src="https://i.ibb.co/LxpHv9N/rubel-princ.png"
+              className="w-40 h-40 mx-auto object-cover rounded-full border border-gray-200"
               alt="Prince Rubel"
             />
             <h3 className="text-xl font-semibold mt-4">Prince Rubel</h3>
@@ -195,8 +191,8 @@ const AboutUs = () => {
           </div>
           <div className="bg-white p-6 rounded-lg shadow-md">
             <img
-              src={man1}
-              className="w-40 h-40 mx-auto rounded-full border border-gray-200"
+              src="https://i.ibb.co/jVf4PHF/man1.jpg"
+              className="w-40 h-40 mx-auto object-cover rounded-full border border-gray-200"
               alt="Diago Johnson"
             />
             <h3 className="text-xl font-semibold mt-4">Diago Johnson</h3>
@@ -215,8 +211,8 @@ const AboutUs = () => {
           </div>
           <div className="bg-white p-6 rounded-lg shadow-md">
             <img
-              src={man2}
-              className="w-40 h-40 mx-auto rounded-full border border-gray-200"
+              src="https://i.ibb.co/Gds0ZFQ/women1.jpg"
+              className="w-40 h-40 mx-auto rounded-full  border border-gray-200"
               alt="Sophia Lauren"
             />
             <h3 className="text-xl font-semibold mt-4">Sophia Lauren</h3>
@@ -235,8 +231,8 @@ const AboutUs = () => {
           </div>
           <div className="bg-white p-6 rounded-lg shadow-md">
             <img
-              src={man3}
-              className="w-40 h-40 mx-auto rounded-full border border-gray-200"
+              src="https://i.ibb.co/R2j250b/women1.jpg"
+              className="w-40 h-40 mx-auto rounded-full object-cover border border-gray-200"
               alt="Inaya"
             />
             <h3 className="text-xl font-semibold mt-4">Inaya</h3>

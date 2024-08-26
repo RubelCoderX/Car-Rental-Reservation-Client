@@ -4,6 +4,8 @@ import Home from "../component/Home/Home";
 import CarList from "../component/CarList/CarList";
 import CarViewDetails from "../component/CarViewDetails/CarViewDetails";
 import AboutUs from "../component/AboutUs/AboutUs";
+import PageError from "../component/PageError/PageError";
+import ContactUs from "../component/ContactUs/ContactUs";
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +27,14 @@ export const router = createBrowserRouter([
       {
         path: "about-us",
         element: <AboutUs></AboutUs>,
+      },
+      {
+        path: "/error",
+        element: <PageError />,
+      },
+      {
+        path: "/contact-us",
+        element: <ContactUs></ContactUs>,
       },
     ],
   },

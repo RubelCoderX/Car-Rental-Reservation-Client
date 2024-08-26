@@ -32,6 +32,11 @@ const MenuItem = () => {
             About Us
           </div>
         </Link>
+        <Link to="/contact-us">
+          <div className="hidden sm:block text-sm font-semibold px-3 md:px-6">
+            Contact Us
+          </div>
+        </Link>
       </div>
     </div>
   );

@@ -1,23 +1,23 @@
-import car from "../../assets/car-detials-banner.jpg";
 import CarDetailsCard from "./CarDetailsCard";
 import CarInformation from "./CarInformation";
 
 const CarViewDetails = () => {
   return (
     <div>
-      <div className="relative h-[300px] md:h-[400px] w-full">
-        <div className="absolute inset-0">
-          {/* Background image */}
-          <img
-            src={car}
-            alt="Background"
-            className="w-full h-full object-cover"
-          />
-
+      <div className="relative h-[300px] md:h-[700px] w-full">
+        <div
+          style={{
+            backgroundImage: "url('https://i.ibb.co/GCbYCyH/detailspage.png')",
+            backgroundAttachment: "fixed",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+          className="absolute inset-0"
+        >
           <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-70"></div>
         </div>
         <div className="relative container mx-auto flex flex-col md:flex-row justify-between items-end h-full px-4 pb-8">
-          <div className="flex flex-col justify-center  text-center md:text-left">
+          <div className="flex flex-col justify-center text-center md:text-left">
             <h1 className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl mt-10 font-bold text-white">
               BMW 7 Series
             </h1>

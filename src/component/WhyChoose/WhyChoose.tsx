@@ -1,25 +1,20 @@
-import service from "../../assets/services.png";
-import support from "../../assets/support.png";
-import company from "../../assets/company.png";
-import bestPrice from "../../assets/best-price.jpg";
-
 const WhyChoose = () => {
   const services = [
     {
       title: "Personalized Service",
-      image: service,
+      image: "https://i.ibb.co/JtHhFYQ/services.png",
     },
     {
       title: "24/7 Support",
-      image: support,
+      image: "https://i.ibb.co/XxR7yM7/support.png",
     },
     {
       title: "Best Price",
-      image: bestPrice,
+      image: "https://i.ibb.co/g6Dv298/best-price.jpg",
     },
     {
       title: "Trusted Service",
-      image: company,
+      image: "https://i.ibb.co/0Q7nYBq/company.png",
     },
   ];
 
