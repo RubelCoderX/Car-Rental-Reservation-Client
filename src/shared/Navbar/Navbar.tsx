@@ -1,9 +1,13 @@
+import { useCurrentToken } from "../../redux/features/Auth/authSlice";
+import { useAppSelector } from "../../redux/hooks";
 import Container from "../Container/Container";
 import Logo from "./Logo";
 import MenuDropDown from "./MenuDropDown";
 import MenuItem from "./MenuItem";
 
 const Navbar = () => {
+  // const token = useAppSelector(useCurrentToken);
+  // console.log(token);
   return (
     <div className="fixed w-full bg-white z-10 shadow-sm">
       <div className="py-4 border-b-[1px]">

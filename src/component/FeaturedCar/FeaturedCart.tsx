@@ -110,7 +110,7 @@ const FeaturedCart = () => {
   ];
 
   return (
-    <div className="text-center py-8">
+    <div className="text-center py-16">
       <h2 className="text-3xl md:text-4xl font-semibold mb-4">
         Recommended <span className="text-red-500">Cars</span>
       </h2>

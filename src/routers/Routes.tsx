@@ -8,6 +8,8 @@ import PageError from "../component/PageError/PageError";
 import ContactUs from "../component/ContactUs/ContactUs";
 import Register from "../component/AuthentiCation/Register/Register";
 import Login from "../component/AuthentiCation/Login/Login";
+import ProtectedRoutes from "./ProtectedRoutes";
+import DashboadLayout from "../layout/DashboardLayout/DashboadLayout";
 
 export const router = createBrowserRouter([
   {
@@ -20,7 +22,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "car",
-        element: <CarList></CarList>,
+        element: (
+          <ProtectedRoutes>
+            <CarList></CarList>
+          </ProtectedRoutes>
+        ),
       },
       {
         path: "/view-details",
@@ -47,5 +53,14 @@ export const router = createBrowserRouter([
         element: <Login></Login>,
       },
     ],
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <ProtectedRoutes>
+        <DashboadLayout></DashboadLayout>
+      </ProtectedRoutes>
+    ),
+    children: [{}],
   },
 ]);

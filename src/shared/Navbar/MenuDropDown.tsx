@@ -1,11 +1,17 @@
 import { useCallback, useState, useEffect, useRef } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
-import { RxAvatar } from "react-icons/rx";
 import { Link } from "react-router-dom";
+import Avatar from "./Avater";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../redux/hooks";
+import { logOut, useCurrentToken } from "../../redux/features/Auth/authSlice";
+import { verifyToken } from "../../utils/verifyToken";
 
 const MenuDropDown = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
+  const disptach = useDispatch();
+  const token = useAppSelector(useCurrentToken);
 
   const toggleMenu = useCallback(() => {
     setMenuOpen((prev) => !prev);
@@ -23,6 +29,16 @@ const MenuDropDown = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [handleClickOutside]);
+  // logout
+  const handleLogOut = () => {
+    disptach(logOut());
+  };
+  let user;
+
+  if (token) {
+    user = verifyToken(token);
+  }
+  console.log(user);
 
   return (
     <div className="relative" ref={menuRef}>
@@ -33,12 +49,12 @@ const MenuDropDown = () => {
         >
           <AiOutlineMenu />
           <div className="hidden md:block">
-            <RxAvatar />
+            <Avatar />
           </div>
         </div>
       </div>
       {menuOpen && (
-        <div className="absolute rounded-b-md shadow-md w-[40vw] md:w-[150px] bg-white overflow-hidden -right-20 top-12 text-sm">
+        <div className="absolute rounded-b-md shadow-md w-[40vw] md:w-[150px] bg-white overflow-hidden md:-right-20 -right-0 top-16 md:top-14 text-sm">
           <div className="flex flex-col cursor-pointer">
             <Link
               to="/"
@@ -46,29 +62,49 @@ const MenuDropDown = () => {
             >
               Home
             </Link>
+
+            {user ? (
+              <>
+                <Link
+                  to="/dashboard"
+                  className="px-4 py-3 hover:bg-neutral-100 transition font-semibold"
+                >
+                  Dashboard
+                </Link>
+                <div
+                  onClick={handleLogOut}
+                  className="px-4 py-3 hover:bg-neutral-100 transition font-semibold cursor-pointer"
+                >
+                  Logout
+                </div>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="px-4 py-3 hover:bg-neutral-100 transition font-semibold"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="px-4 py-3 hover:bg-neutral-100 transition font-semibold"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
             <Link
-              to="/dashboard"
-              className="px-4 py-3 hover:bg-neutral-100 transition font-semibold"
+              to="/about-us"
+              className="block md:hidden px-4 py-3 hover:bg-neutral-100 transition font-semibold"
             >
-              Dashboard
+              About Us
             </Link>
-            <div
-              onClick={() => {}}
-              className="px-4 py-3 hover:bg-neutral-100 transition font-semibold cursor-pointer"
-            >
-              Logout
-            </div>
             <Link
-              to="/login"
-              className="px-4 py-3 hover:bg-neutral-100 transition font-semibold"
+              to="contact-us"
+              className="block md:hidden px-4 py-3 hover:bg-neutral-100 transition font-semibold"
             >
-              Login
-            </Link>
-            <Link
-              to="/register"
-              className="px-4 py-3 hover:bg-neutral-100 transition font-semibold"
-            >
-              Sign Up
+              Contact Us
             </Link>
           </div>
         </div>

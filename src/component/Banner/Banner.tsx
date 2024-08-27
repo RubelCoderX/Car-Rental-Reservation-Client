@@ -1,85 +1,100 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
-import car1 from "../../assets/car-1.avif";
-import car2 from "../../assets/car-2.avif";
-import car3 from "../../assets/car-6.avif";
-import car4 from "../../assets/car-4.avif";
+import car1 from "../../assets/bann1.jpg";
+import car2 from "../../assets/banner2.jpg";
+import car3 from "../../assets/banner3.jpg";
+import car4 from "../../assets/banner4.jpg";
 import "./Banner.css";
 import { Link } from "react-router-dom";
-import BookingForm from "./BookingForm/BookingFrom";
 
 const Banner = () => {
-  const slides = [
-    {
-      image: car1,
-      title: "Upto 25% off on first booking Car through your app!",
-
-      buttonText: "Book Now",
-      buttonLink: "/find-out-more",
-    },
-    {
-      image: car2,
-      title: "Exclusive Discounts for Premium Members",
-      buttonText: "Book Now",
-      buttonLink: "/join-now",
-    },
-    {
-      image: car3,
-      title: "Weekend Specials: Save More on Rentals!",
-      buttonText: "Book Now",
-      buttonLink: "/weekend-specials",
-    },
-    {
-      image: car4,
-      title: "Travel with Ease: Hassle-Free Rentals",
-      buttonText: "Book Now",
-      buttonLink: "/learn-more",
-    },
-  ];
-
   return (
-    <div className="hero-section  relative">
+    <div className="hero-section relative">
       <Carousel
         className="main-slide"
-        autoPlay={true}
+        // autoPlay={true}
         interval={3000}
         infiniteLoop={true}
         showThumbs={false}
         showStatus={false}
       >
-        {slides.map((slide, index) => (
-          <div key={index} className="relative">
-            <img
-              src={slide.image}
-              alt={`Slide ${index + 1}`}
-              className="w-full h-[400px] md:h-[600px] lg:h-[900px] object-cover"
-            />
-            <div className="slide-content absolute inset-0 flex flex-col justify-center items-center text-center text-white p-4 md:p-8 lg:p-16">
-              <h1 className="text-xl md:text-3xl lg:text-5xl font-bold leading-tight mb-4">
-                {slide.title}
-              </h1>
-              <Link to={slide.buttonLink} className="mt-4">
-                <button className="border border-white bg-black text-[white] hover:text-black py-2 px-4 md:px-6 rounded-md hover:bg-white hover:text-primary transition duration-300">
-                  {slide.buttonText}
-                </button>
-              </Link>
-            </div>
+        <div>
+          <img src={car1} className="h-[900px]" alt="Affordable car rentals" />
+          <div className="slide-content absolute inset-0 flex flex-col justify-center items-start text-left p-4 md:p-8 lg:p-16">
+            <h1 className="text-xl md:text-3xl lg:text-5xl font-bold leading-tight mb-4 text-black">
+              We offer the best prices{" "}
+              <span className="text-red-500">in town</span>
+            </h1>
+            <p className="text-lg md:text-xl lg:text-2xl text-gray-400 mb-4">
+              Drive away with unbeatable deals on top-rated vehicles.
+            </p>
+            <Link to="/book" className="mt-4">
+              <button className="border border-red-500 border-b-2 bg-black text-white hover:border-b-2 hover:border-b-white hover:text-white py-2 px-4 md:px-6 rounded-md hover:bg-red-500 hover:text-primary transition duration-300">
+                Book Now
+              </button>
+            </Link>
           </div>
-        ))}
+        </div>
+
+        <div>
+          <img src={car2} className="h-[900px]" alt="Wide selection of cars" />
+          <div className="slide-content absolute inset-0 flex flex-col justify-center items-start text-left p-4 md:p-8 lg:p-16">
+            <h1 className="text-xl md:text-3xl lg:text-5xl  font-bold leading-tight mb-4 text-white">
+              Wide Range of <span className="text-red-500">Vehicles</span>
+            </h1>
+            <p className="text-lg md:text-xl lg:text-2xl text-gray-500 mb-4">
+              From compact cars to luxury SUVs, we have the perfect <br /> ride
+              for every journey.
+            </p>
+            <Link to="/fleet" className="mt-4">
+              <button className="border border-white bg-black text-white hover:text-black py-2 px-4 md:px-6 rounded-md hover:bg-white hover:text-primary transition duration-300">
+                Explore Our Fleet
+              </button>
+            </Link>
+          </div>
+        </div>
+
+        <div>
+          <img
+            src="https://i.postimg.cc/bNFJ59zc/banner4.jpg"
+            className="h-[900px]"
+            alt="Flexible rental options"
+          />
+          <div className="slide-content absolute inset-0 flex flex-col justify-center items-start text-left p-4 md:p-8 lg:p-16">
+            <h1 className="text-xl md:text-3xl lg:text-5xl font-bold leading-tight mb-4 text-white">
+              Flexible Rental <span className="text-red-500"> Plans</span>
+            </h1>
+            <p className="text-lg md:text-xl lg:text-2xl text-white mb-4">
+              Rent by the day, week, or month – the choice is yours.
+            </p>
+            <Link to="/plans" className="mt-4">
+              <button className="border border-white bg-black text-white hover:text-black py-2 px-4 md:px-6 rounded-md hover:bg-white hover:text-primary transition duration-300">
+                Choose Your Plan
+              </button>
+            </Link>
+          </div>
+        </div>
+
+        <div>
+          <img src={car4} className="h-[900px]" alt="24/7 customer support" />
+          <div className="slide-content absolute inset-0 flex flex-col justify-center items-start text-left p-4 md:p-8 lg:p-16">
+            <h1 className="text-xl md:text-3xl lg:text-5xl  font-bold leading-tighttext-white">
+              24/7 Customer <span className="text-red-500">Support</span>
+            </h1>
+            <p className="text-lg md:text-xl lg:text-2xl text-black mb-4 mt-8">
+              We're here for you anytime, anywhere. Your satisfaction
+              <br /> is our priority.
+            </p>
+            <Link to="/support" className="">
+              <button className="border border-white bg-black text-white hover:text-black py-2 px-4 md:px-6 rounded-md hover:bg-white hover:text-primary transition duration-300">
+                Contact Us
+              </button>
+            </Link>
+          </div>
+        </div>
       </Carousel>
-      {/* <div className="absolute  z-10 w-full">
-        <BookingForm />
-      </div> */}
     </div>
   );
 };
 
 export default Banner;
-
-{
-  /* <div className="absolute -bottom-40 w-full flex items-center justify-center p-4">
-        <div className="bg-white bg-opacity-75 p-4 rounded-lg shadow-lg w-full ">
-          <BookingForm />
-        </div>
-      </div> */
-}

@@ -1,12 +1,26 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { authApi } from "../../../redux/features/Auth/authApi";
+import { toast } from "sonner";
 
 const Register = () => {
-  const [isChecked, setIsChecked] = useState(false);
+  const [addSignUp, { isLoading }] = authApi.useSignUpMutation();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-  const handleCheckboxChange = (event) => {
-    setIsChecked(event.target.checked);
+  const onSubmit = async (data) => {
+    try {
+      await addSignUp(data).unwrap();
+      toast.success("Registration successful!");
+      reset();
+    } catch (error) {
+      toast(error.message);
+    }
   };
-
   return (
     <div>
       <div className="relative h-[300px] md:h-[400px] w-full">
@@ -30,7 +44,7 @@ const Register = () => {
               <h2 className="text-4xl font-serif font-bold text-center text-white mb-8">
                 Create New Account
               </h2>
-              <form>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 {/* Name and Email Fields */}
                 <div className="grid md:grid-cols-2 gap-4 mb-8">
                   <div>
@@ -42,8 +56,11 @@ const Register = () => {
                       id="name"
                       placeholder="Name"
                       className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      required
+                      {...register("name", { required: true })}
                     />
+                    {errors.name && (
+                      <span className="text-red-500">Name is required</span>
+                    )}
                   </div>
                   <div>
                     <label htmlFor="email" className="block text-white mb-2">
@@ -54,8 +71,18 @@ const Register = () => {
                       id="email"
                       placeholder="Email"
                       className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      required
+                      {...register("email", {
+                        required: true,
+                        pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i,
+                      })}
                     />
+                    {errors.email && (
+                      <span className="text-red-500">
+                        {errors.email.type === "required"
+                          ? "Email is required"
+                          : "Invalid email address"}
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -70,8 +97,18 @@ const Register = () => {
                       id="password"
                       placeholder="Password"
                       className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      required
+                      {...register("password", {
+                        required: true,
+                        minLength: 6,
+                      })}
                     />
+                    {errors.password && (
+                      <span className="text-red-500">
+                        {errors.password.type === "required"
+                          ? "Password is required"
+                          : "Password must be at least 6 characters"}
+                      </span>
+                    )}
                   </div>
                   <div>
                     <label
@@ -85,8 +122,18 @@ const Register = () => {
                       id="confirmPassword"
                       placeholder="Confirm Password"
                       className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      required
+                      {...register("confirmPassword", {
+                        required: true,
+                        validate: (value) =>
+                          value === watch("password") ||
+                          "Passwords do not match",
+                      })}
                     />
+                    {errors.confirmPassword && (
+                      <span className="text-red-500">
+                        {errors.confirmPassword.message}
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -100,8 +147,13 @@ const Register = () => {
                     id="phone"
                     placeholder="Your phone number"
                     className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
+                    {...register("phone", { required: true })}
                   />
+                  {errors.phone && (
+                    <span className="text-red-500">
+                      Phone number is required
+                    </span>
+                  )}
                 </div>
 
                 {/* Upload Image Field */}
@@ -113,8 +165,11 @@ const Register = () => {
                     type="file"
                     id="image"
                     className="w-full px-3 py-2 bg-white border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
+                    {...register("image", { required: true })}
                   />
+                  {errors.image && (
+                    <span className="text-red-500">Image is required</span>
+                  )}
                 </div>
 
                 {/* Terms & Conditions Checkbox */}
@@ -123,7 +178,7 @@ const Register = () => {
                     type="checkbox"
                     id="terms"
                     className="mr-2 leading-tight"
-                    required
+                    {...register("terms", { required: true })}
                   />
                   <label htmlFor="terms" className="text-white">
                     I agree to the{" "}
@@ -136,6 +191,11 @@ const Register = () => {
                       Terms & Conditions
                     </a>
                   </label>
+                  {errors.terms && (
+                    <span className="text-red-500">
+                      You must agree to continue
+                    </span>
+                  )}
                 </div>
 
                 {/* Submit Button */}

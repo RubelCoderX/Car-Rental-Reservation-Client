@@ -1,16 +1,20 @@
+/* Carousel Thumbnail Styles */
 .carousel .thumb {
-  width: 200px;
-  height: 50px;
+  width: 100px;
+  height: 30px;
 }
+
 /* HeroSection.css */
 .hero-section {
   position: relative;
 }
 
+/* Blur effect */
 .blur {
   filter: blur(4px);
 }
 
+/* Slide Content */
 .slide-content {
   position: absolute;
   top: 50%;
@@ -19,4 +23,30 @@
   text-align: center;
   color: white;
   z-index: 1;
+}
+
+@media (min-width: 768px) {
+  .carousel .thumb {
+    width: 150px;
+    height: 40px;
+  }
+
+  .slide-content {
+    text-align: left;
+    left: 10%; /* Move content slightly to the left on larger screens */
+    transform: translateY(-50%); /* Adjust translation to vertical only */
+  }
+}
+
+@media (min-width: 1024px) {
+  .carousel .thumb {
+    width: 200px;
+    height: 50px;
+  }
+
+  .slide-content {
+    text-align: left;
+    left: 10%; /* Keep content left-aligned */
+    transform: translateY(-50%);
+  }
 }

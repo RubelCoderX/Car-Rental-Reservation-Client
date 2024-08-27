@@ -1,4 +1,43 @@
+import { FieldValues, useForm } from "react-hook-form";
+import { authApi } from "../../../redux/features/Auth/authApi";
+import { toast } from "sonner";
+import { useAppDispatch } from "../../../redux/hooks";
+import { verifyToken } from "../../../utils/verifyToken";
+import { setUser } from "../../../redux/features/Auth/authSlice";
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
+  const { register, handleSubmit } = useForm();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const [addLogin, { isLoading }] = authApi.useLoginMutation();
+
+  const onSubmit = async (data: FieldValues) => {
+    const toastId = toast.loading("Logging in");
+    try {
+      const res = await addLogin(data).unwrap();
+
+      const user = verifyToken(res.token);
+
+      dispatch(setUser({ user: res.data, token: res.token }));
+      toast.success("Logged in", {
+        id: toastId,
+        duration: 2000,
+        position: "top-center",
+      });
+
+      console.log("Navigating to home...");
+      navigate("/");
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error(error?.data?.message || "Login failed", {
+        id: toastId,
+        duration: 2000,
+        position: "top-center",
+      });
+    }
+  };
+
   return (
     <div>
       {/* Background Section */}
@@ -25,7 +64,7 @@ const Login = () => {
               <h2 className="text-4xl font-serif font-bold text-center text-white mb-8">
                 Welcome to Drive Lux
               </h2>
-              <form>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 {/* Email Field */}
                 <div>
                   <label htmlFor="email" className="block text-white mb-2">
@@ -36,7 +75,7 @@ const Login = () => {
                     id="email"
                     placeholder="Email"
                     className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
+                    {...register("email", { required: true })}
                   />
                 </div>
 
@@ -50,7 +89,7 @@ const Login = () => {
                     id="password"
                     placeholder="Password"
                     className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
+                    {...register("password", { required: true })}
                   />
                 </div>
 
