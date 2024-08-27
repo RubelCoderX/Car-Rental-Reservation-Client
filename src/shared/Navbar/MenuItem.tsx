@@ -12,9 +12,11 @@ const MenuItem = () => {
         </Link>
 
         {/* Bookings - Always visible */}
-        <div className="text-sm font-semibold px-3 md:px-6  sm:border-x-[1px]">
-          Bookings
-        </div>
+        <Link to="/booking">
+          <div className="text-sm font-semibold px-3 md:px-6  sm:border-x-[1px]">
+            Bookings
+          </div>
+        </Link>
 
         {/* Contact Us - Always visible */}
         <Link to="/car">

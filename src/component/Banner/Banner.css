@@ -1,52 +1,30 @@
-/* Carousel Thumbnail Styles */
-.carousel .thumb {
-  width: 100px;
-  height: 30px;
-}
-
-/* HeroSection.css */
-.hero-section {
-  position: relative;
-}
-
-/* Blur effect */
-.blur {
-  filter: blur(4px);
-}
-
-/* Slide Content */
-.slide-content {
+.hero-section .slide-content {
   position: absolute;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: white;
-  z-index: 1;
+  left: 5%; /* Adjust for better positioning on small screens */
+  transform: translateY(-50%);
+  text-align: left;
+}
+
+.hero-section img {
+  width: 100%;
+  height: auto;
 }
 
 @media (min-width: 768px) {
-  .carousel .thumb {
-    width: 150px;
-    height: 40px;
-  }
-
-  .slide-content {
-    text-align: left;
-    left: 10%; /* Move content slightly to the left on larger screens */
-    transform: translateY(-50%); /* Adjust translation to vertical only */
+  .hero-section .slide-content {
+    left: 10%; /* Adjust as necessary for medium screens */
   }
 }
 
 @media (min-width: 1024px) {
-  .carousel .thumb {
-    width: 200px;
-    height: 50px;
+  .hero-section .slide-content {
+    left: 15%; /* Adjust as necessary for large screens */
   }
+}
 
-  .slide-content {
-    text-align: left;
-    left: 10%; /* Keep content left-aligned */
-    transform: translateY(-50%);
+@media (min-width: 1280px) {
+  .hero-section .slide-content {
+    left: 8%; /* Adjust as necessary for extra-large screens */
   }
 }

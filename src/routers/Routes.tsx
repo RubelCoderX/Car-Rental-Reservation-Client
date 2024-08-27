@@ -10,6 +10,12 @@ import Register from "../component/AuthentiCation/Register/Register";
 import Login from "../component/AuthentiCation/Login/Login";
 import ProtectedRoutes from "./ProtectedRoutes";
 import DashboadLayout from "../layout/DashboardLayout/DashboadLayout";
+import UserDashboard from "../component/Dashboard/User/UserDashboard/UserDashboard";
+import BookingManagement from "../component/Dashboard/User/BookingManagement/BookingManagement";
+import AdminDashboard from "../component/Dashboard/Admin/AdminDashboard/AdminDashboard";
+import AdminManageBooking from "../component/Dashboard/Admin/AdminManageBooking/AdminManageBooking";
+import UserManagement from "../component/Dashboard/Admin/UserManagement/UserManagement";
+import CarBooking from "../component/CarBooking/CarBooking";
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +43,10 @@ export const router = createBrowserRouter([
         element: <AboutUs></AboutUs>,
       },
       {
+        path: "booking",
+        element: <CarBooking></CarBooking>,
+      },
+      {
         path: "/error",
         element: <PageError />,
       },
@@ -61,6 +71,31 @@ export const router = createBrowserRouter([
         <DashboadLayout></DashboadLayout>
       </ProtectedRoutes>
     ),
-    children: [{}],
+    children: [
+      {
+        path: "user-dashboard",
+        element: <UserDashboard></UserDashboard>,
+      },
+      {
+        path: "user-bookings",
+        element: <BookingManagement></BookingManagement>,
+      },
+      {
+        path: "admin-dashboard",
+        element: <AdminDashboard></AdminDashboard>,
+      },
+      {
+        path: "admin-bookings",
+        element: <AdminManageBooking></AdminManageBooking>,
+      },
+      {
+        path: "admin-user-mangements",
+        element: <UserManagement></UserManagement>,
+      },
+    ],
+  },
+  {
+    path: "*",
+    element: <PageError />,
   },
 ]);

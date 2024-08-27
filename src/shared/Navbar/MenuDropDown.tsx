@@ -38,7 +38,6 @@ const MenuDropDown = () => {
   if (token) {
     user = verifyToken(token);
   }
-  console.log(user);
 
   return (
     <div className="relative" ref={menuRef}>
@@ -87,7 +86,7 @@ const MenuDropDown = () => {
                   Login
                 </Link>
                 <Link
-                  to="/signup"
+                  to="/register"
                   className="px-4 py-3 hover:bg-neutral-100 transition font-semibold"
                 >
                   Sign Up

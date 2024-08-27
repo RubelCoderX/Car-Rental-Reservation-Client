@@ -1,4 +1,4 @@
-import CarCard from "./CarCard";
+import FeaturedCarCard from "../FeaturedCar/FeaturedCarCard";
 import FilterCard from "./FilterCard";
 
 const CarList = () => {
@@ -35,8 +35,7 @@ const CarList = () => {
       <div className="relative h-[300px] md:h-[500px] w-full">
         <div
           style={{
-            backgroundImage:
-              "url('https://i.ibb.co/4KG2J3n/Car-Banner-List.png')",
+            backgroundImage: "url('https://i.ibb.co/9v9k4gQ/carlist.jpg')",
             backgroundAttachment: "fixed",
             backgroundSize: "cover",
             backgroundPosition: "center",
@@ -79,7 +78,7 @@ const CarList = () => {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4">
             {cars.map((car) => (
-              <CarCard key={car.id} car={car} />
+              <FeaturedCarCard key={car.id} carData={carData} />
             ))}
           </div>
         </div>

@@ -157,7 +157,7 @@ const Register = () => {
                 </div>
 
                 {/* Upload Image Field */}
-                <div className="mb-4">
+                {/* <div className="mb-4">
                   <label htmlFor="image" className="block text-white mb-2">
                     Upload Image
                   </label>
@@ -165,10 +165,27 @@ const Register = () => {
                     type="file"
                     id="image"
                     className="w-full px-3 py-2 bg-white border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    {...register("image", { required: true })}
+                    {...register("image")}
                   />
                   {errors.image && (
                     <span className="text-red-500">Image is required</span>
+                  )}
+                </div> */}
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="imageUrl" className="text-left">
+                    Image URL
+                  </label>
+                  <input
+                    id="imageUrl"
+                    placeholder="Enter image URL"
+                    {...register("image", {
+                      required: "Image URL is required",
+                    })}
+                  />
+                  {errors.image && (
+                    <span className="text-red-500 text-sm block text-center">
+                      {errors.image.message}
+                    </span>
                   )}
                 </div>
 

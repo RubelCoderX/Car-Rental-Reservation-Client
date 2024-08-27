@@ -2,6 +2,7 @@ import Slider from "react-slick";
 import FeaturedCarCard from "./FeaturedCarCard";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { carApi } from "../../redux/features/Car/carApi";
 
 const FeaturedCart = () => {
   const settings = {
@@ -57,57 +58,10 @@ const FeaturedCart = () => {
     ],
   };
 
-  const cars = [
-    {
-      image: "car1.jpg",
-      title: "Delux",
-      price: "$68",
-      description:
-        "Great explorer of the truth, the master-builder of human happiness.",
-    },
-    {
-      image: "car2.jpg", // Replace with actual image path
-      title: "Economy",
-      price: "$58",
-      description:
-        "Great explorer of the truth, the master-builder of human happiness.",
-    },
-    {
-      image: "car3.jpg", // Replace with actual image path
-      title: "Economy",
-      price: "$20",
-      description:
-        "Great explorer of the truth, the master-builder of human happiness.",
-    },
-    {
-      image: "car3.jpg", // Replace with actual image path
-      title: "Economy",
-      price: "$20",
-      description:
-        "Great explorer of the truth, the master-builder of human happiness.",
-    },
-    {
-      image: "car3.jpg", // Replace with actual image path
-      title: "Economy",
-      price: "$20",
-      description:
-        "Great explorer of the truth, the master-builder of human happiness.",
-    },
-    {
-      image: "car3.jpg", // Replace with actual image path
-      title: "Economy",
-      price: "$20",
-      description:
-        "Great explorer of the truth, the master-builder of human happiness.",
-    },
-    {
-      image: "car3.jpg", // Replace with actual image path
-      title: "Economy",
-      price: "$20",
-      description:
-        "Great explorer of the truth, the master-builder of human happiness.",
-    },
-  ];
+  const { data: getCars } = carApi.useGetAllCarsQuery(undefined);
+
+  const carData = getCars?.data;
+  console.log(carData);
 
   return (
     <div className="text-center py-16">
@@ -120,7 +74,7 @@ const FeaturedCart = () => {
         exceptional fuel efficiency.
       </p>
       <Slider {...settings}>
-        {cars.map((car, index) => (
+        {carData?.map((car, index) => (
           <FeaturedCarCard car={car} key={index} />
         ))}
       </Slider>

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from "../../assets/logo.png";
+
 const Logo = () => {
   return (
     <div>
@@ -8,7 +8,7 @@ const Logo = () => {
           className="hidden md:block"
           width="100"
           height="100"
-          src={logo}
+          src="https://i.ibb.co/fDwcFwj/logo.png"
           alt=""
         />
         {/* <h2 className="text-xl font-semibold hidden md:block">

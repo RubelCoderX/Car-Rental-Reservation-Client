@@ -7,8 +7,7 @@ const ContactUs = () => {
       <div className="relative h-[300px] md:h-[500px] w-full">
         <div
           style={{
-            backgroundImage:
-              "url('https://i.ibb.co/Lkt8rMc/Blue-Modern-Car-Sale-Banner1.png')",
+            backgroundImage: "url('https://i.ibb.co/vjFfCzg/contactus.jpg')",
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundAttachment: "fixed",

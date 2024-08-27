@@ -1,0 +1,297 @@
+[
+  {
+    "name": "Tesla Model S",
+    "description": "Luxury electric sedan with cutting-edge technology.",
+    "color": "Red",
+    "isElectric": true,
+    "features": [
+      "Autopilot",
+      "Panoramic Sunroof",
+      "Premium Audio",
+      "Navigation",
+      "Heated Seats"
+    ],
+    "isDelete": false,
+    "pricePerHour": 35,
+    "status": "Available",
+    "carImgUrl": [
+      "https://i.ibb.co/c8TJGKv/tesla1.jpg",
+      "https://i.ibb.co/XJnk2bc/tesla2.jpg",
+      "https://i.ibb.co/ThCmfhW/tesla3.jpg",
+      "https://i.ibb.co/ThCmfhW/tesla3.jpg"
+    ],
+    "vehicleSpecification": [
+      "Dual Motor",
+      "402 miles range",
+      "Top Speed 155 mph",
+      "0-60 mph in 3.1 seconds",
+      "All-Wheel Drive"
+    ],
+    "maxSeats": 5
+  },
+  {
+    "name": "BMW i8",
+    "description": "Hybrid sports car with futuristic design and performance.",
+    "color": "Blue",
+    "isElectric": false,
+    "features": [
+      "Hybrid Engine",
+      "Butterfly Doors",
+      "Head-Up Display",
+      "ConnectedDrive",
+      "Leather Interior"
+    ],
+    "isDelete": false,
+    "pricePerHour": 50,
+    "status": "Available",
+    "carImgUrl": [
+      "https://i.ibb.co/4Kp89g3/bmw1.jpg",
+      "https://example.com/bmw-i8-2.jpg",
+      "https://i.ibb.co/Z26gwGt/bmw2.jpg",
+      "https://i.ibb.co/J2mdgMN/bmw4.jpg"
+    ],
+    "vehicleSpecification": [
+      "1.5L 3-Cylinder Engine",
+      "369 HP",
+      "0-60 mph in 4.4 seconds",
+      "All-Wheel Drive",
+      "Top Speed 155 mph"
+    ],
+    "maxSeats": 4
+  },
+  {
+    "name": "Ford Mustang",
+    "description": "Iconic muscle car with powerful V8 engine.",
+    "color": "Black",
+    "isElectric": false,
+    "features": [
+      "V8 Engine",
+      "Manual Transmission",
+      "Rear-Wheel Drive",
+      "Performance Exhaust",
+      "Sports Seats"
+    ],
+    "isDelete": false,
+    "pricePerHour": 30,
+    "status": "Rented",
+    "carImgUrl": [
+      "https://i.ibb.co/pQgBCsk/ford1.jpg",
+      "https://i.ibb.co/YDD5Xxx/ford2.jpg",
+      "https://i.ibb.co/p6DBZ3r/ford3.jpg",
+      "https://i.ibb.co/FYvyLyF/black-interior-details-modern-luxury-car.jpg"
+    ],
+    "vehicleSpecification": [
+      "5.0L V8 Engine",
+      "450 HP",
+      "0-60 mph in 4.2 seconds",
+      "Rear-Wheel Drive",
+      "Top Speed 155 mph"
+    ],
+    "maxSeats": 4
+  },
+  {
+    "name": "Audi Q7",
+    "description": "Luxurious SUV with advanced features and spacious interior.",
+    "color": "White",
+    "isElectric": false,
+    "features": [
+      "Quattro All-Wheel Drive",
+      "3rd Row Seating",
+      "Virtual Cockpit",
+      "Matrix LED Headlights",
+      "Bang & Olufsen Sound System"
+    ],
+    "isDelete": false,
+    "pricePerHour": 45,
+    "status": "Available",
+    "carImgUrl": [
+      "https://i.ibb.co/h8Cxfyy/audi1.jpg",
+      "https://example.com/audi-q7-2.jpg",
+      "https://i.ibb.co/XpwdD5p/audi2.jpg",
+      "https://i.ibb.co/6H7S6Nh/aud4.jpg"
+    ],
+    "vehicleSpecification": [
+      "3.0L V6 Engine",
+      "335 HP",
+      "0-60 mph in 5.7 seconds",
+      "All-Wheel Drive",
+      "Top Speed 130 mph"
+    ],
+    "maxSeats": 7
+  },
+  {
+    "name": "Mercedes-Benz S-Class",
+    "description": "Executive luxury sedan with a smooth and powerful ride.",
+    "color": "Silver",
+    "isElectric": false,
+    "features": [
+      "Massage Seats",
+      "Air Suspension",
+      "Burmester Surround Sound",
+      "Wireless Charging",
+      "Adaptive Cruise Control"
+    ],
+    "isDelete": false,
+    "pricePerHour": 60,
+    "status": "Available",
+    "carImgUrl": [
+      "https://shorturl.at/F6j9e",
+      "https://i.ibb.co/BgxPdsG/merceds1.jpg",
+      "https://i.ibb.co/vxTGk3f/merceds2.jpg",
+      "https://shorturl.at/YDPB0"
+    ],
+    "vehicleSpecification": [
+      "3.0L Inline-6 Engine",
+      "429 HP",
+      "0-60 mph in 4.8 seconds",
+      "All-Wheel Drive",
+      "Top Speed 130 mph"
+    ],
+    "maxSeats": 5
+  },
+  {
+    "name": "Chevrolet Camaro",
+    "description": "American muscle car with aggressive styling and performance.",
+    "color": "Yellow",
+    "isElectric": false,
+    "features": [
+      "V8 Engine",
+      "Sport Exhaust",
+      "Brembo Brakes",
+      "Rear-Wheel Drive",
+      "Touchscreen Infotainment"
+    ],
+    "isDelete": false,
+    "pricePerHour": 40,
+    "status": "Available",
+    "carImgUrl": [
+      "https://shorturl.at/mXFw5",
+      "https://shorturl.at/aZkIc",
+      "https://shorturl.at/hbvWX",
+      "https://rb.gy/bwtbwl"
+    ],
+    "vehicleSpecification": [
+      "6.2L V8 Engine",
+      "455 HP",
+      "0-60 mph in 4.0 seconds",
+      "Rear-Wheel Drive",
+      "Top Speed 165 mph"
+    ],
+    "maxSeats": 4
+  },
+  {
+    "name": "Porsche 911",
+    "description": "Iconic sports car with exceptional handling and performance.",
+    "color": "Gray",
+    "isElectric": false,
+    "features": [
+      "Turbocharged Engine",
+      "Active Suspension",
+      "Sports Chrono Package",
+      "Rear-Wheel Drive",
+      "Leather Interior"
+    ],
+    "isDelete": false,
+    "pricePerHour": 70,
+    "status": "Available",
+    "carImgUrl": [
+      "https://rb.gy/x1n9oo",
+      "https://rb.gy/5hb1vs",
+      "https://rb.gy/h8hb24",
+      "https://rb.gy/35r5oz"
+    ],
+    "vehicleSpecification": [
+      "3.0L Twin-Turbo Flat-6 Engine",
+      "443 HP",
+      "0-60 mph in 3.5 seconds",
+      "Rear-Wheel Drive",
+      "Top Speed 190 mph"
+    ],
+    "maxSeats": 4
+  },
+  {
+    "name": "Toyota Prius",
+    "description": "Efficient hybrid car with excellent fuel economy.",
+    "color": "Green",
+    "isElectric": false,
+    "features": [
+      "Hybrid Engine",
+      "Automatic Climate Control",
+      "Touchscreen Display",
+      "Adaptive Cruise Control",
+      "Lane Keep Assist"
+    ],
+    "isDelete": false,
+    "pricePerHour": 20,
+    "status": "Available",
+    "carImgUrl": [
+      "https://i.ibb.co/9WN7JGC/toyta1.jpg",
+      "https://example.com/toyota-prius-2.jpg",
+      "https://ibb.co/DtXNJfy"
+    ],
+    "vehicleSpecification": [
+      "1.8L 4-Cylinder Engine",
+      "121 HP",
+      "E-CVT Transmission",
+      "Front-Wheel Drive",
+      "Top Speed 112 mph"
+    ],
+    "maxSeats": 5
+  },
+  {
+    "name": "Honda CR-V",
+    "description": "Compact SUV with reliable performance and spacious interior.",
+    "color": "Brown",
+    "isElectric": false,
+    "features": [
+      "All-Wheel Drive",
+      "Sunroof",
+      "Touchscreen Infotainment",
+      "Adaptive Cruise Control",
+      "Lane Departure Warning"
+    ],
+    "isDelete": false,
+    "pricePerHour": 25,
+    "status": "Available",
+    "carImgUrl": [
+      "https://example.com/honda-crv-1.jpg",
+      "https://example.com/honda-crv-2.jpg"
+    ],
+    "vehicleSpecification": [
+      "1.5L Turbocharged Engine",
+      "190 HP",
+      "CVT Transmission",
+      "All-Wheel Drive",
+      "Top Speed 130 mph"
+    ],
+    "maxSeats": 5
+  },
+  {
+    "name": "Jeep Wrangler",
+    "description": "Rugged off-road SUV with unmatched capability.",
+    "color": "Green",
+    "isElectric": false,
+    "features": [
+      "4x4 Capability",
+      "Removable Roof",
+      "Skid Plates",
+      "Off-Road Tires",
+      "Tow Hooks"
+    ],
+    "isDelete": false,
+    "pricePerHour": 50,
+    "status": "Available",
+    "carImgUrl": [
+      "https://example.com/jeep-wrangler-1.jpg",
+      "https://example.com/jeep-wrangler-2.jpg"
+    ],
+    "vehicleSpecification": [
+      "3.6L V6 Engine",
+      "285 HP",
+      "6-Speed Manual Transmission",
+      "4-Wheel Drive",
+      "Top Speed 112 mph"
+    ],
+    "maxSeats": 5
+  }
+]

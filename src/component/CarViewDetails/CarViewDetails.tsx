@@ -7,7 +7,8 @@ const CarViewDetails = () => {
       <div className="relative h-[300px] md:h-[500px] w-full">
         <div
           style={{
-            backgroundImage: "url('https://i.ibb.co/GCbYCyH/detailspage.png')",
+            backgroundImage:
+              "url('https://i.ibb.co/WPC9Tbk/detailsbanner.jpg')",
             backgroundAttachment: "fixed",
             backgroundSize: "cover",
             backgroundPosition: "center",

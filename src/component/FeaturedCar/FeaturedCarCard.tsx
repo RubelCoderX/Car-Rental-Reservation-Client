@@ -1,4 +1,4 @@
-const FeaturedCarCard = ({ car }) => {
+const FeaturedcarDatacarDatad = ({ car }) => {
   return (
     <div
       style={{ background: "#EFF2F4" }}
@@ -6,25 +6,25 @@ const FeaturedCarCard = ({ car }) => {
     >
       <div className="bg-white p-4 rounded-lg mb-4">
         <img
-          src={car.image}
-          alt={car.title}
+          src={car?.carImgUrl[0]}
+          alt={car?.title}
           className="w-full h-40 object-cover mb-4"
         />
       </div>
       <div className="bg-white p-4 rounded-lg">
         <div className=" flex items-center justify-between mb-8">
           <div>
-            <h3 className="text-lg font-bold">{car.title}</h3>
+            <h3 className="text-lg font-bold">{car?.title}</h3>
             <p className="text-gray-500 text-sm">PER DAY</p>
           </div>
           <div className="mt-4 md:mt-0">
             <span className="text-red-500 font-semibold text-xl">
-              {car.price}
+              {car?.price}
             </span>
             <p className="text-gray-500 text-sm">From</p>
           </div>
         </div>
-        <p className="text-gray-600 text-sm mb-4">{car.description}</p>
+        <p className="text-gray-600 text-sm mb-4">{car?.description}</p>
         <div className="flex flex-col md:flex-row justify-between">
           <button className="border px-6 py-1 text-black hover:bg-black hover:text-white transition mb-2 md:mb-0">
             VIEW
@@ -38,4 +38,4 @@ const FeaturedCarCard = ({ car }) => {
   );
 };
 
-export default FeaturedCarCard;
+export default FeaturedcarDatacarDatad;
