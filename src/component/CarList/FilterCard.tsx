@@ -1,6 +1,6 @@
 const FilterCard = () => {
   return (
-    <div className="p-2 rounded-lg w-full mx-auto ">
+    <div className="p-2 rounded-lg w-full h-[500px] mx-auto ">
       <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
         Filter For Car Type
       </label>

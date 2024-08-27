@@ -1,3 +1,4 @@
+import React from "react";
 import Slider from "react-slick";
 import FeaturedCarCard from "./FeaturedCarCard";
 import "slick-carousel/slick/slick.css";
@@ -20,7 +21,6 @@ const FeaturedCart = () => {
         settings: {
           slidesToShow: 3,
           slidesToScroll: 2,
-          afterChange: () => console.log("Breakpoint 1440 triggered"),
         },
       },
       {
@@ -28,7 +28,6 @@ const FeaturedCart = () => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
-          afterChange: () => console.log("Breakpoint 1024 triggered"),
         },
       },
       {
@@ -36,7 +35,6 @@ const FeaturedCart = () => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
-          afterChange: () => console.log("Breakpoint 768 triggered"),
         },
       },
       {
@@ -44,7 +42,6 @@ const FeaturedCart = () => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          afterChange: () => console.log("Breakpoint 600 triggered"),
         },
       },
       {
@@ -52,16 +49,13 @@ const FeaturedCart = () => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          afterChange: () => console.log("Breakpoint 480 triggered"),
         },
       },
     ],
   };
 
-  const { data: getCars } = carApi.useGetAllCarsQuery(undefined);
-
+  const { data: getCars, isFetching } = carApi.useGetAllCarsQuery(undefined);
   const carData = getCars?.data;
-  console.log(carData);
 
   return (
     <div className="text-center py-16">
@@ -73,11 +67,16 @@ const FeaturedCart = () => {
         top-rated vehicles, featuring advanced technology, sleek design, and
         exceptional fuel efficiency.
       </p>
-      <Slider {...settings}>
-        {carData?.map((car, index) => (
-          <FeaturedCarCard car={car} key={index} />
-        ))}
-      </Slider>
+
+      {isFetching ? (
+        <div className="spinner"></div>
+      ) : (
+        <Slider {...settings}>
+          {carData?.map((car, index) => (
+            <FeaturedCarCard car={car} key={index} />
+          ))}
+        </Slider>
+      )}
     </div>
   );
 };

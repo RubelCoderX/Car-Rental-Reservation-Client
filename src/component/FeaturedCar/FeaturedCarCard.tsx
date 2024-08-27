@@ -1,36 +1,50 @@
+import { Link } from "react-router-dom";
+import Starts from "../../shared/Starts/Starts";
+
 const FeaturedcarDatacarDatad = ({ car }) => {
+  const id = car?._id;
+  const star = car?.ratings;
+
   return (
     <div
       style={{ background: "#EFF2F4" }}
-      className="border  rounded-lg p-3 shadow-lg max-w-xs mx-auto"
+      className="border rounded-lg p-3 md:h-[500px] shadow-lg max-w-xs mx-auto"
     >
-      <div className="bg-white p-4 rounded-lg mb-4">
+      <div className="bg-white p-3 rounded-lg mb-4">
         <img
           src={car?.carImgUrl[0]}
-          alt={car?.title}
-          className="w-full h-40 object-cover mb-4"
+          alt={car?.name}
+          className="w-full h-48 rounded-md object-cover "
         />
       </div>
-      <div className="bg-white p-4 rounded-lg">
-        <div className=" flex items-center justify-between mb-8">
+
+      <div className="bg-white md:px-4 p-4 md:py-7 rounded-lg">
+        <div>
+          <Starts star={star}></Starts>
+        </div>
+        <div className="flex items-center justify-between mb-8">
           <div>
-            <h3 className="text-lg font-bold">{car?.title}</h3>
-            <p className="text-gray-500 text-sm">PER DAY</p>
+            <h3 className="text-xl font-bold">{car?.name}</h3>
           </div>
           <div className="mt-4 md:mt-0">
             <span className="text-red-500 font-semibold text-xl">
-              {car?.price}
+              ${car?.pricePerHour}
             </span>
-            <p className="text-gray-500 text-sm">From</p>
+            <p className="text-gray-500 text-sm">Per Hour</p>
           </div>
         </div>
-        <p className="text-gray-600 text-sm mb-4">{car?.description}</p>
+        <p className="text-gray-600 text-sm mb-4 text-justify line-clamp-2">
+          {car?.description}
+        </p>
         <div className="flex flex-col md:flex-row justify-between">
-          <button className="border px-6 py-1 text-black hover:bg-black hover:text-white transition mb-2 md:mb-0">
-            VIEW
-          </button>
-          <button className="bg-red-500 text-white px-6 py-1 hover:bg-red-600 transition">
-            BOOK
+          <Link to={`/view-details/${id}`}>
+            <button className="border px-4 py-1 text-black hover:bg-black hover:text-white transition mb-2 md:mb-0">
+              View Details
+            </button>
+          </Link>
+
+          <button className="bg-red-500 text-white px-4 py-1 hover:bg-red-600 transition">
+            Book Now
           </button>
         </div>
       </div>

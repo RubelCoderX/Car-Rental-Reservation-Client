@@ -1,52 +1,45 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import car1 from "../../assets/car-1.avif";
-import car2 from "../../assets/car-2.avif";
-import car3 from "../../assets/car-6.avif";
-import car4 from "../../assets/car-4.avif";
+import Stars from "../../shared/Starts/Starts";
 
-const CarDetailsCard = () => {
+const CarDetailsCard = ({ carDetails }) => {
+  const star = carDetails?.ratings;
   return (
     <div className="container mx-auto flex flex-col lg:flex-row justify-evenly items-center my-10 p-4">
       {/* Left side - Image/Slider */}
       <div className="lg:w-1/2 w-full flex justify-center">
         <Carousel
-          //   autoPlay={true}
-          interval={3000}
+          interval={2000}
+          // autoPlay={true}
           infiniteLoop={true}
-          showThumbs={true}
+          showThumbs={false}
           showStatus={false}
         >
-          <div>
-            <img src={car1} />
-            <p className="legend">Legend 1</p>
-          </div>
-          <div>
-            <img src={car2} />
-            <p className="legend">Legend 2</p>
-          </div>
-          <div>
-            <img src={car3} />
-            <p className="legend">Legend 3</p>
-          </div>
-          <div>
-            <img src={car4} />
-            <p className="legend">Legend 3</p>
-          </div>
+          {carDetails?.carImgUrl.map((imgUrl, index) => (
+            <div key={index}>
+              <img
+                className="rounded-md object-cover w-full h-64 sm:h-80 md:h-96"
+                src={imgUrl}
+                alt={`Car Image ${index + 1}`}
+              />
+            </div>
+          ))}
         </Carousel>
       </div>
 
       {/* Right side - Description */}
       <div className="lg:w-1/2 w-full lg:pl-10 mt-8 lg:mt-0">
-        <div className="text-green-600 text-3xl font-bold mb-4">
-          $5.00 / Hour
+        <div>
+          <Stars star={star} />
         </div>
-        <p className="text-gray-600 mb-6">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s.
+        <div className="text-black text-3xl font-bold mb-4">
+          {carDetails?.pricePerHour}$
+          <span className="text-red-500"> / Per Hour</span>
+        </div>
+        <p className="text-gray-600 mb-6 text-justify">
+          {carDetails?.description}
         </p>
-        <ul className="text-gray-800 space-y-2">
+        {/* <ul className="text-gray-800 space-y-2">
           <li>
             <strong>Motor year:</strong> 2015
           </li>
@@ -65,7 +58,7 @@ const CarDetailsCard = () => {
           <li>
             <strong>Torque:</strong> 5,000 rpm
           </li>
-        </ul>
+        </ul> */}
       </div>
     </div>
   );

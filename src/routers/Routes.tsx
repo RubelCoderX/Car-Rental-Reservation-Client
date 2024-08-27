@@ -28,14 +28,10 @@ export const router = createBrowserRouter([
       },
       {
         path: "car",
-        element: (
-          <ProtectedRoutes>
-            <CarList></CarList>
-          </ProtectedRoutes>
-        ),
+        element: <CarList></CarList>,
       },
       {
-        path: "/view-details",
+        path: "/view-details/:id",
         element: <CarViewDetails></CarViewDetails>,
       },
       {
