@@ -9,11 +9,11 @@ const Stars = ({ star = 0 }) => {
     return (
       <span key={index}>
         {star >= number ? (
-          <FaStar />
+          <FaStar className="text-[16px]" />
         ) : star >= number - 0.5 ? (
-          <FaStarHalfAlt />
+          <FaStarHalfAlt className="text-[16px]" />
         ) : (
-          <AiOutlineStar />
+          <AiOutlineStar className="text-[16px]" />
         )}
       </span>
     );
@@ -22,7 +22,9 @@ const Stars = ({ star = 0 }) => {
   return (
     <div className="text-orange-400 flex items-center">
       {ratings}
-      <span className="text-sm ml-2">{star.toFixed(1)} out of 5</span>
+      <span className="text-sm ml-2 hidden md:block">
+        {star.toFixed(1)} out of 5
+      </span>
     </div>
   );
 };

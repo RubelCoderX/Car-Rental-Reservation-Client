@@ -1,11 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../layout/Main";
 import Home from "../component/Home/Home";
-import CarList from "../component/CarList/CarList";
-import CarViewDetails from "../component/CarViewDetails/CarViewDetails";
-import AboutUs from "../component/AboutUs/AboutUs";
+import CarList from "../pages/CarList/CarList";
+import CarViewDetails from "../pages/CarViewDetails/CarViewDetails";
+import AboutUs from "../pages/AboutUs/AboutUs";
 import PageError from "../component/PageError/PageError";
-import ContactUs from "../component/ContactUs/ContactUs";
+import ContactUs from "../pages/ContactUs/ContactUs";
 import Register from "../component/AuthentiCation/Register/Register";
 import Login from "../component/AuthentiCation/Login/Login";
 import ProtectedRoutes from "./ProtectedRoutes";
@@ -15,7 +15,7 @@ import BookingManagement from "../component/Dashboard/User/BookingManagement/Boo
 import AdminDashboard from "../component/Dashboard/Admin/AdminDashboard/AdminDashboard";
 import AdminManageBooking from "../component/Dashboard/Admin/AdminManageBooking/AdminManageBooking";
 import UserManagement from "../component/Dashboard/Admin/UserManagement/UserManagement";
-import CarBooking from "../component/CarBooking/CarBooking";
+import CarBooking from "../pages/CarBooking/CarBooking";
 
 export const router = createBrowserRouter([
   {

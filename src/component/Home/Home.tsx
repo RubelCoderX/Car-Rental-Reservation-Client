@@ -1,8 +1,8 @@
 import Banner from "../Banner/Banner";
-import CarPromoVideo from "../CarPromoVideo/CarPromoVideo";
-import FeaturedCart from "../FeaturedCar/FeaturedCart";
-import Testimonial from "../Testimonial/Testimonial";
-import WhyChoose from "../WhyChoose/WhyChoose";
+import CarPromoVideo from "../../pages/CarPromoVideo/CarPromoVideo";
+import FeaturedCart from "../../pages/FeaturedCar/FeaturedCart";
+import Testimonial from "../../pages/Testimonial/Testimonial";
+import WhyChoose from "../../pages/WhyChoose/WhyChoose";
 
 const Home = () => {
   return (

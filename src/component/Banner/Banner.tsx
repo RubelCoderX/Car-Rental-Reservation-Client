@@ -24,6 +24,7 @@ const Banner = () => {
             className="w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] xl:h-[800px] 2xl:h-[900px] object-cover"
             alt="Affordable car rentals"
           />
+          <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-70"></div>
           <div className="slide-content absolute inset-0 flex flex-col justify-center items-start text-left p-4 md:p-4 lg:p-16">
             <h1 className="text-lg sm:text-xl md:text-3xl  lg:text-5xl font-bold leading-tight mb-4 text-black">
               We offer the best prices{" "}
@@ -46,6 +47,7 @@ const Banner = () => {
             className="w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] xl:h-[800px] 2xl:h-[900px] object-cover"
             alt="Wide selection of cars"
           />
+          <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-70"></div>
           <div className="slide-content absolute inset-0 flex flex-col justify-center items-start text-left p-4 md:p-8 lg:p-16">
             <h1 className="text-lg sm:text-xl md:text-3xl lg:text-5xl font-bold leading-tight mb-4 text-white">
               Wide Range of <span className="text-red-500">Vehicles</span>
@@ -68,6 +70,7 @@ const Banner = () => {
             className="w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] xl:h-[800px] 2xl:h-[900px] object-cover"
             alt="Flexible rental options"
           />
+          <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-70"></div>
           <div className="slide-content absolute inset-0 flex flex-col justify-center items-start text-left p-4 md:p-8 lg:p-16">
             <h1 className="text-lg sm:text-xl md:text-3xl lg:text-5xl font-bold leading-tight mb-4 text-white">
               Flexible Rental <span className="text-red-500">Plans</span>
@@ -89,6 +92,7 @@ const Banner = () => {
             className="w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] xl:h-[800px] 2xl:h-[900px] object-cover"
             alt="24/7 customer support"
           />
+          <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-70"></div>
           <div className="slide-content absolute inset-0 flex flex-col justify-center items-start text-left -mt-4 md:-mt-0 md:p-8 lg:p-16">
             <h1 className="text-lg sm:text-xl md:text-3xl lg:text-5xl font-bold leading-tight text-white  md:mb-4">
               24/7 Customer <span className="text-red-500">Support</span>
