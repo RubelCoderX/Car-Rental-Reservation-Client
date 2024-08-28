@@ -4,6 +4,7 @@ import Stars from "../../shared/Starts/Starts";
 
 import { FaCarSide, FaDoorOpen, FaGasPump, FaUsers } from "react-icons/fa6";
 import { FaCalendarAlt, FaCogs, FaTachometerAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const CarDetailsCard = ({ carDetails }) => {
   const star = carDetails?.ratings;
@@ -21,7 +22,7 @@ const CarDetailsCard = ({ carDetails }) => {
           {carDetails?.carImgUrl.map((imgUrl, index) => (
             <div key={index}>
               <img
-                className="rounded-md object-cover w-full h-64 sm:h-80 md:h-96"
+                className="rounded-md object-cover w-full h-64 sm:h-80 md:h-[400px]"
                 src={imgUrl}
                 alt={`Car Image ${index + 1}`}
               />
@@ -119,7 +120,15 @@ const CarDetailsCard = ({ carDetails }) => {
                 </div>
               </div>
             </div>
+
             <hr className="mt-6" />
+            <div className="mt-6">
+              <Link to="/booking" className="w-full">
+                <button className="border-2 font-semibold border-red-700 px-4 w-full py-1 text-red-600 hover:bg-black hover:text-white transition mb-2 md:mb-0">
+                  Book Now
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

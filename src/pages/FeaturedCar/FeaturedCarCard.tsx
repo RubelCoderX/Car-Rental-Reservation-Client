@@ -1,9 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Starts from "../../shared/Starts/Starts";
+import BookingFormModal from "../CarBooking/BookingFromModal";
 
 const FeaturedCarCard = ({ car }) => {
   const id = car?._id;
   const star = car?.ratings;
+  const { pathname } = useLocation();
+  console.log(pathname);
 
   return (
     <div
@@ -37,15 +40,15 @@ const FeaturedCarCard = ({ car }) => {
           {car?.description}
         </p>
         <div className="flex flex-col md:flex-row justify-between">
-          <Link to={`/view-details/${id}`}>
-            <button className="border px-4 py-1 text-black hover:bg-black hover:text-white transition mb-2 md:mb-0">
-              View Details
-            </button>
-          </Link>
-
-          <button className="bg-red-500 text-white px-4 py-1 hover:bg-red-600 transition">
-            Book Now
-          </button>
+          {pathname === "/booking" ? (
+            <BookingFormModal car={car} />
+          ) : (
+            <Link to={`/view-details/${id}`} className="w-full">
+              <button className="border px-4 w-full py-1 text-black hover:bg-black hover:text-white transition mb-2 md:mb-0">
+                View Details
+              </button>
+            </Link>
+          )}
         </div>
       </div>
     </div>
