@@ -10,12 +10,13 @@ import Register from "../component/AuthentiCation/Register/Register";
 import Login from "../component/AuthentiCation/Login/Login";
 import ProtectedRoutes from "./ProtectedRoutes";
 import DashboadLayout from "../layout/DashboardLayout/DashboadLayout";
-import UserDashboard from "../component/Dashboard/User/UserDashboard/UserDashboard";
-import BookingManagement from "../component/Dashboard/User/BookingManagement/BookingManagement";
-import AdminDashboard from "../component/Dashboard/Admin/AdminDashboard/AdminDashboard";
 import AdminManageBooking from "../component/Dashboard/Admin/AdminManageBooking/AdminManageBooking";
-import UserManagement from "../component/Dashboard/Admin/UserManagement/UserManagement";
 import CarBooking from "../pages/CarBooking/CarBooking";
+import UserVeiwProfile from "../component/Dashboard/User/UserProfile/UserVeiwProfile";
+import UpdateProfile from "../component/Dashboard/User/UserProfile/UpdateProfile";
+import AllBookings from "../component/Dashboard/User/BookingManagement/AllBookings";
+import AdminViewProfiile from "../component/Dashboard/Admin/AdminProfile/AdminViewProfiile";
+import AdminAllUser from "../component/Dashboard/Admin/UserManagement/adminAllUser";
 
 export const router = createBrowserRouter([
   {
@@ -69,24 +70,31 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "user-dashboard",
-        element: <UserDashboard></UserDashboard>,
+        path: "profile-view",
+        element: <UserVeiwProfile></UserVeiwProfile>,
       },
       {
-        path: "user-bookings",
-        element: <BookingManagement></BookingManagement>,
+        path: "profile-update",
+        element: <UpdateProfile></UpdateProfile>,
       },
       {
-        path: "admin-dashboard",
-        element: <AdminDashboard></AdminDashboard>,
+        path: "all-bookings",
+        element: <AllBookings></AllBookings>,
+      },
+      {
+        /* admin Profile Dropdown */
+      },
+      {
+        path: "admin-profile-view",
+        element: <AdminViewProfiile></AdminViewProfiile>,
       },
       {
         path: "admin-bookings",
         element: <AdminManageBooking></AdminManageBooking>,
       },
       {
-        path: "admin-user-mangements",
-        element: <UserManagement></UserManagement>,
+        path: "all-users",
+        element: <AdminAllUser></AdminAllUser>,
       },
     ],
   },

@@ -9,5 +9,17 @@ export const bookingApi = baseApi.injectEndpoints({
         body: bookingInfo,
       }),
     }),
+    getMyBookings: builder.query({
+      query: () => ({
+        url: "/bookings/my-bookings",
+        method: "GET",
+      }),
+    }),
+    getAllBookings: builder.query({
+      query: () => ({
+        url: "/bookings",
+        method: "GET",
+      }),
+    }),
   }),
 });

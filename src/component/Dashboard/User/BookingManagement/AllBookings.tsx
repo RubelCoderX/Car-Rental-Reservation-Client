@@ -1,14 +1,13 @@
 import { Button, Space, Table, Tag } from "antd";
+import { MdDeleteForever } from "react-icons/md";
 import { bookingApi } from "../../../../redux/features/Booking/bookingApi";
+import { FaEdit } from "react-icons/fa";
 
-const AdminManageBooking = () => {
-  const { data: allBookings } = bookingApi.useGetAllBookingsQuery(undefined);
-  const allBookingData = allBookings?.data;
-
-  const tableData = allBookingData?.map((item) => ({
+const AllBookings = () => {
+  const { data: myBookings } = bookingApi.useGetMyBookingsQuery(undefined);
+  const bookingData = myBookings?.data;
+  const tableData = bookingData?.map((item) => ({
     key: item._id,
-    userName: item?.user?.name,
-    userEmail: item?.user?.email,
     name: item?.car.name,
     price: item?.car.pricePerHour,
     pickUpDate: item?.pickUpDate,
@@ -20,20 +19,15 @@ const AdminManageBooking = () => {
 
   const columns = [
     {
-      title: "User Name",
-      dataIndex: "userName",
-      key: "userName",
-    },
-    {
       title: "Car Name",
       dataIndex: "name",
       key: "name",
     },
-
     {
-      title: "Email",
-      dataIndex: "userEmail",
-      key: "userEmail",
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
+      render: (price) => `$${price.toFixed(2)}/hour`,
     },
     {
       title: "Pick-Up Date",
@@ -74,17 +68,18 @@ const AdminManageBooking = () => {
       key: "action",
       render: (item) => (
         <Space size="middle">
-          <Button>Approve</Button>
-          <Button>Delete</Button>
+          <Button type="primary" icon={<FaEdit />} />
+          <Button type="primary" danger icon={<MdDeleteForever />} />
         </Space>
       ),
     },
   ];
+
   return (
     <div>
-      <div className="bg-gradient-to-r from-slate-500  p-8 mb-10 rounded-lg shadow-md">
-        <h2 className="text-4xl font-bold text-center text-white">
-          Manage All <span className="text-yellow-300">User Bookings</span>
+      <div className="bg-slate-300 p-4 mb-10 rounded-lg shadow-md">
+        <h2 className="text-4xl font-serif font-bold text-center text-black mb-8">
+          Total Bookings <span className="text-red-600">List</span>
         </h2>
       </div>
       <Table
@@ -97,4 +92,4 @@ const AdminManageBooking = () => {
   );
 };
 
-export default AdminManageBooking;
+export default AllBookings;

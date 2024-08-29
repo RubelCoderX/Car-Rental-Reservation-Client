@@ -65,7 +65,11 @@ const MenuDropDown = () => {
             {user ? (
               <>
                 <Link
-                  to="/dashboard"
+                  to={
+                    user.role === "admin"
+                      ? "/dashboard/admin-profile-view"
+                      : "/dashboard/profile-view"
+                  }
                   className="px-4 py-3 hover:bg-neutral-100 transition font-semibold"
                 >
                   Dashboard
