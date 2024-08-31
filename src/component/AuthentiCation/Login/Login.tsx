@@ -5,6 +5,8 @@ import { useAppDispatch } from "../../../redux/hooks";
 import { verifyToken } from "../../../utils/verifyToken";
 import { setUser } from "../../../redux/features/Auth/authSlice";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../../shared/Loader/Loader";
+// Adjust the path as necessary
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
@@ -16,7 +18,6 @@ const Login = () => {
     const toastId = toast.loading("Logging in");
     try {
       const res = await addLogin(data).unwrap();
-
       const user = verifyToken(res.token);
 
       dispatch(setUser({ user: res.data, token: res.token }));
@@ -37,6 +38,10 @@ const Login = () => {
       });
     }
   };
+
+  // if (isLoading) {
+  //   return <Loader />; // Show loader while logging in
+  // }
 
   return (
     <div>
@@ -96,9 +101,23 @@ const Login = () => {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="w-full mt-4 bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200"
+                  className={`w-full mt-4 py-2 rounded-md transition duration-200 
+                    ${
+                      isLoading
+                        ? "bg-blue-300"
+                        : "bg-blue-500 hover:bg-blue-600"
+                    } 
+                    text-white flex items-center justify-center`}
+                  disabled={isLoading}
                 >
-                  Login
+                  {isLoading ? (
+                    <>
+                      <span className="loader-icon"></span>
+                      <span className="ml-2">Logging in...</span>
+                    </>
+                  ) : (
+                    "Login"
+                  )}
                 </button>
               </form>
 
@@ -115,7 +134,7 @@ const Login = () => {
             </div>
 
             {/* Image Section */}
-            <div className="w-full md:w-1/2  border-4 border-red-600 md:h-[570px] mt-8 md:mt-0">
+            <div className="w-full md:w-1/2 border-4 border-red-600 md:h-[570px] mt-8 md:mt-0">
               <img
                 src="https://i.postimg.cc/ydvB5j8z/vecteezy-free-vector-login-concept-illustration-23261974.jpg"
                 alt="Login Illustration"

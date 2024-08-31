@@ -1,16 +1,26 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Space, Table, Tag } from "antd";
 import { userManagementApi } from "../../../../redux/features/Admin/userManagementApi";
 import { toast } from "sonner";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { TUser } from "../../../../type/global.type";
 import { userApi } from "../../../../redux/features/user/userApi";
+import Loader from "../../../../shared/Loader/Loader";
+import { useState } from "react";
 
-const adminAllUser = () => {
-  const { data: allUser } = userManagementApi.useGetAllUserQuery(undefined);
+const AdminAllUser = () => {
+  const { data: allUser, isLoading: isLoadingAllUsers } =
+    userManagementApi.useGetAllUserQuery(undefined);
   const userData = allUser?.data;
-  const [updateRole] = userManagementApi.useMakeAdminMutation();
 
-  const [deleteUser] = userApi.useDeleteUserMutation();
+  const [updateRole, { isLoading: isUpdatingRole }] =
+    userManagementApi.useMakeAdminMutation();
+  const [deleteUser, { isLoading: isDeletingUser }] =
+    userApi.useDeleteUserMutation();
+
+  const [loadingId, setLoadingId] = useState<string | null>(null);
+
   const tableData = userData?.map((item: TUser) => ({
     key: item._id,
     userName: item?.name,
@@ -19,24 +29,30 @@ const adminAllUser = () => {
     phone: item?.phone,
     status: item?.isDeleted ? "Blocked" : "Active",
   }));
+
   // delete user
   const handleDeleteUser: SubmitHandler<FieldValues> = async (id) => {
     try {
+      setLoadingId(id);
       await deleteUser(id).unwrap();
       toast.success("User Deleted Successfully");
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.message);
+    } finally {
+      setLoadingId(null);
     }
   };
+
   // update role
   const updateRoleHandler = async (userId: string) => {
     try {
+      setLoadingId(userId);
       await updateRole(userId).unwrap();
       toast.success("User Role Updated Successfully");
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.message);
+    } finally {
+      setLoadingId(null);
     }
   };
 
@@ -46,7 +62,6 @@ const adminAllUser = () => {
       dataIndex: "userName",
       key: "userName",
     },
-
     {
       title: "Email",
       dataIndex: "userEmail",
@@ -60,7 +75,6 @@ const adminAllUser = () => {
         <Tag color={status === "Blocked" ? "red" : "green"}>{status}</Tag>
       ),
     },
-
     {
       title: "Role",
       dataIndex: "role",
@@ -74,35 +88,50 @@ const adminAllUser = () => {
       dataIndex: "phone",
       key: "phone",
     },
-
     {
       title: "Action",
       key: "action",
       render: (item) => (
         <Space size="middle">
-          <Button onClick={() => updateRoleHandler(item.key)}>
+          <Button
+            onClick={() => updateRoleHandler(item.key)}
+            loading={isUpdatingRole && loadingId === item.key}
+          >
             Update Role
           </Button>
-          <Button onClick={() => handleDeleteUser(item.key)}>Delete</Button>
+          <Button
+            onClick={() => handleDeleteUser(item.key)}
+            loading={isDeletingUser && loadingId === item.key}
+            disabled={item.status === "Blocked"}
+          >
+            Delete
+          </Button>
         </Space>
       ),
     },
   ];
+
   return (
-    <div className="bg-gray-50  min-h-screen p-4">
+    <div className="bg-gray-50 min-h-screen p-4">
       <div className="bg-gradient-to-r from-slate-500 p-8 mb-10 rounded-lg shadow-md">
         <h2 className="text-4xl font-bold text-center text-white">
-          Manage All <span className="text-yellow-300">User</span>
+          Manage All <span className="text-yellow-300">Users</span>
         </h2>
       </div>
-      <Table
-        columns={columns}
-        dataSource={tableData || []}
-        pagination={false}
-        className="overflow-x-auto"
-      />
+      {isLoadingAllUsers ? (
+        <div className="flex justify-center items-center h-full">
+          <Loader />
+        </div>
+      ) : (
+        <Table
+          columns={columns}
+          dataSource={tableData || []}
+          pagination={false}
+          className="overflow-x-auto"
+        />
+      )}
     </div>
   );
 };
 
-export default adminAllUser;
+export default AdminAllUser;

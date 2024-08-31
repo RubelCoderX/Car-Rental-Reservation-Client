@@ -1,16 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Button, Space, Table, Tag } from "antd";
+import { Button, Space, Table, Tag, Spin } from "antd";
 import { bookingApi } from "../../../../redux/features/Booking/bookingApi";
 import { toast } from "sonner";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { GetStatusTag } from "../../../../utils/getStatusTag";
+import Loader from "../../../../shared/Loader/Loader";
+import { TCarBooking } from "../../../../type/global.type";
 
 const AdminManageBooking = () => {
-  const { data: allBookings } = bookingApi.useGetAllBookingsQuery(undefined);
+  const { data: allBookings, isLoading } =
+    bookingApi.useGetAllBookingsQuery(undefined);
   const allBookingData = allBookings?.data;
   const [updateStatus] = bookingApi.useUpdateBookingStatusMutation();
   const [deleteBooking] = bookingApi.useDeleteBookingMutation();
+
   // handle approve
   const handleApprove: SubmitHandler<FieldValues> = async (bookingId) => {
     try {
@@ -20,17 +24,18 @@ const AdminManageBooking = () => {
       toast.error("Failed to approve booking");
     }
   };
+
   // handle delete booking
   const handleDeleteBooking: SubmitHandler<FieldValues> = async (bookingId) => {
     try {
       await deleteBooking(bookingId).unwrap();
-
       toast.success("Booking Deleted Successfully");
     } catch (error: any) {
       toast.error(error.message);
     }
   };
-  const tableData = allBookingData?.map((item) => ({
+
+  const tableData = allBookingData?.map((item: TCarBooking) => ({
     key: item._id,
     userName: item?.user?.name,
     userEmail: item?.user?.email,
@@ -54,7 +59,6 @@ const AdminManageBooking = () => {
       dataIndex: "name",
       key: "name",
     },
-
     {
       title: "User Email",
       dataIndex: "userEmail",
@@ -71,7 +75,6 @@ const AdminManageBooking = () => {
       key: "dropOffDate",
       render: (text, record) => (record.status === "completed" ? text : "N/A"),
     },
-
     {
       title: "Status",
       dataIndex: "status",
@@ -99,6 +102,7 @@ const AdminManageBooking = () => {
       },
     },
   ];
+
   return (
     <div className="bg-gray-50  min-h-screen p-4">
       <div className="bg-gradient-to-r from-slate-500  p-8 mb-10 rounded-lg shadow-md">
@@ -106,12 +110,19 @@ const AdminManageBooking = () => {
           Manage All <span className="text-yellow-300">User Bookings</span>
         </h2>
       </div>
-      <Table
-        columns={columns}
-        dataSource={tableData || []}
-        pagination={false}
-        className="overflow-x-auto"
-      />
+      {/* Show loading spinner while data is loading */}
+      {isLoading ? (
+        <div className="flex justify-center items-center h-full">
+          <Loader />
+        </div>
+      ) : (
+        <Table
+          columns={columns}
+          dataSource={tableData || []}
+          pagination={false}
+          className="overflow-x-auto"
+        />
+      )}
     </div>
   );
 };

@@ -29,11 +29,11 @@ const Register = () => {
       toast.success("Registration successful!");
       reset();
       navigate("/login");
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast(error.message);
+      toast.error(error.message);
     }
   };
+
   return (
     <div>
       <div className="relative h-[300px] md:h-[400px] w-full">
@@ -85,6 +85,7 @@ const Register = () => {
                       placeholder="Email"
                       className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       {...register("email", {
+                        required: true,
                         pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i,
                       })}
                     />
@@ -213,9 +214,23 @@ const Register = () => {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="w-full mt-4 bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200"
+                  className={`w-full mt-4 py-2 rounded-md transition duration-200 
+                    ${
+                      isLoading
+                        ? "bg-blue-300"
+                        : "bg-blue-500 hover:bg-blue-600"
+                    } 
+                    text-white flex items-center justify-center`}
+                  disabled={isLoading}
                 >
-                  Sign Up
+                  {isLoading ? (
+                    <>
+                      <span className="loader-icon"></span>
+                      <span className="ml-2">Registering...</span>
+                    </>
+                  ) : (
+                    "Sign Up"
+                  )}
                 </button>
               </form>
 
@@ -229,7 +244,7 @@ const Register = () => {
             </div>
 
             {/* Image Section */}
-            <div className="w-full md:w-1/2 md:h-[662px]  mt-8 md:mt-0">
+            <div className="w-full md:w-1/2 md:h-[662px] mt-8 md:mt-0">
               <img
                 src="https://i.postimg.cc/KY7m7xXj/singin.jpg"
                 alt="Registration"

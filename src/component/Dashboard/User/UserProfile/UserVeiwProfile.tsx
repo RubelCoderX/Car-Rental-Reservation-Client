@@ -1,17 +1,32 @@
-import { Tag } from "antd";
-import { authApi } from "../../../../redux/features/Auth/authApi";
+import { Tag, Spin } from "antd";
 import { bookingApi } from "../../../../redux/features/Booking/bookingApi";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import { userApi } from "../../../../redux/features/user/userApi";
+import Loader from "../../../../shared/Loader/Loader";
 
 const UserViewProfile = () => {
-  const { data: getMe } = userApi.useGetMeQuery(undefined);
+  // Fetch user data
+  const { data: getMe, isLoading: isLoadingUser } =
+    userApi.useGetMeQuery(undefined);
   const userData = getMe?.data;
-  const { data: myBookings } = bookingApi.useGetMyBookingsQuery(undefined);
+
+  // Fetch booking data
+  const { data: myBookings, isLoading: isLoadingBookings } =
+    bookingApi.useGetMyBookingsQuery(undefined);
   const bookingData = myBookings?.data;
 
+  // Calculate total bookings
   const totalBooking = bookingData?.length;
+
+  // Show loading spinner while data is being fetched
+  if (isLoadingUser || isLoadingBookings) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -77,7 +92,7 @@ const UserViewProfile = () => {
               ) : (
                 <p className="text-xl text-gray-700">
                   You currently have{" "}
-                  <span className="text-red-600">no bookings</span> . Start
+                  <span className="text-red-600">no bookings</span>. Start
                   exploring and book a car!
                 </p>
               )}

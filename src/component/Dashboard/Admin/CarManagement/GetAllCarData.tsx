@@ -1,13 +1,19 @@
+import { useState } from "react";
 import { Button, Space, Table, Tag } from "antd";
 import { carApi } from "../../../../redux/features/Car/carApi";
 import { toast } from "sonner";
+import Loader from "../../../../shared/Loader/Loader";
+import { TCar } from "../../../../type/global.type";
 
 const GetAllCarData = () => {
-  const { data: allCars } = carApi.useGetAllCarsQuery({});
+  const { data: allCars, isLoading: isFetching } = carApi.useGetAllCarsQuery(
+    {}
+  );
   const carData = allCars?.data;
-  const [deleteCar] = carApi.useDeleteCarMutation();
+  const [deleteCar, { isLoading: isDeleting }] = carApi.useDeleteCarMutation();
+  const [loadingId, setLoadingId] = useState<string | null>(null);
 
-  const tableData = carData?.map((item) => ({
+  const tableData = carData?.map((item: TCar) => ({
     key: item._id,
     isDelete: item?.isDelete,
     carImage: item?.carImgUrl ? item.carImgUrl[0] : null,
@@ -15,13 +21,17 @@ const GetAllCarData = () => {
     status: item?.status,
     carType: item?.carType,
   }));
+
   // delete car
-  const handleDeleteCar = async (id) => {
+  const handleDeleteCar = async (id: string) => {
     try {
+      setLoadingId(id);
       await deleteCar(id).unwrap();
       toast.success("Car Deleted Successfully");
     } catch (error: any) {
       toast.error(error.message);
+    } finally {
+      setLoadingId(null);
     }
   };
 
@@ -30,7 +40,7 @@ const GetAllCarData = () => {
       title: "Image",
       dataIndex: "carImage",
       key: "carImage",
-      render: (carImage) => (
+      render: (carImage: string) => (
         <img
           src={carImage}
           alt="Car"
@@ -48,7 +58,6 @@ const GetAllCarData = () => {
       dataIndex: "carName",
       key: "carName",
     },
-
     {
       title: "Car Type",
       dataIndex: "carType",
@@ -58,7 +67,7 @@ const GetAllCarData = () => {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (status) => (
+      render: (status: string) => (
         <Tag
           className={`status ${
             status === "completed" ? "text-green-500" : "text-red-500"
@@ -71,13 +80,25 @@ const GetAllCarData = () => {
     {
       title: "Action",
       key: "action",
-      render: (item) => (
+      render: (item: any) => (
         <Space size="middle">
-          <Button onClick={() => handleDeleteCar(item.key)}>Delete</Button>
+          <Button
+            onClick={() => handleDeleteCar(item.key)}
+            loading={isDeleting && loadingId === item.key}
+            disabled={isFetching || (isDeleting && loadingId === item.key)}
+          >
+            Delete
+          </Button>
         </Space>
       ),
     },
   ];
+  if (isFetching)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader />
+      </div>
+    );
 
   return (
     <div className="bg-gray-50 min-h-screen p-4">

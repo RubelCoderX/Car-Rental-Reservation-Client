@@ -18,7 +18,6 @@ const Profile = () => {
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
     const { image, ...rest } = data;
     const userImage = await uploadImageToCloudinary(image);
 
@@ -26,7 +25,7 @@ const Profile = () => {
       ...rest,
       image: userImage,
     };
-    console.log("modified data", modifiedUserData);
+
     try {
       const res = await updateUser(modifiedUserData);
       if (res.data.success) {

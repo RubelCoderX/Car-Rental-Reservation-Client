@@ -1,27 +1,43 @@
-import { Table, Tag } from "antd";
+import { Table, Tag, Spin } from "antd";
 import { userManagementApi } from "../../../../redux/features/Admin/userManagementApi";
 import { authApi } from "../../../../redux/features/Auth/authApi";
 import { bookingApi } from "../../../../redux/features/Booking/bookingApi";
 import { carApi } from "../../../../redux/features/Car/carApi";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
+import { TCar } from "../../../../type/global.type";
+import Loader from "../../../../shared/Loader/Loader";
 
 const AdminViewProfile = () => {
-  const { data: allCars } = carApi.useGetAllCarsQuery({});
+  // Fetch all cars
+  const { data: allCars, isLoading: isLoadingCars } = carApi.useGetAllCarsQuery(
+    {}
+  );
   const carData = allCars?.data;
-  const { data: getMe } = authApi.useGetMeQuery(undefined);
+
+  // Fetch user data
+  const { data: getMe, isLoading: isLoadingUser } =
+    authApi.useGetMeQuery(undefined);
   const userData = getMe?.data;
-  const { data: myBookings } = bookingApi.useGetAllBookingsQuery(undefined);
+
+  // Fetch all bookings
+  const { data: myBookings, isLoading: isLoadingBookings } =
+    bookingApi.useGetAllBookingsQuery(undefined);
   const bookingData = myBookings?.data;
-  const { data: allUser } = userManagementApi.useGetAllUserQuery(undefined);
+
+  // Fetch all users
+  const { data: allUser, isLoading: isLoadingUsers } =
+    userManagementApi.useGetAllUserQuery(undefined);
   const allUserData = allUser?.data;
+
+  // Calculate totals
   const totalUser = allUserData?.length;
   const totalBookings = bookingData?.length;
 
-  // available car list
+  // Available car list
   const tableData = carData
-    ?.filter((item) => item.status === "available")
-    .map((item) => ({
+    ?.filter((item: TCar) => item.status === "available")
+    .map((item: TCar) => ({
       key: item._id,
       isDelete: item?.isDelete,
       carImage: item?.carImgUrl ? item.carImgUrl[0] : null,
@@ -80,6 +96,15 @@ const AdminViewProfile = () => {
       ),
     },
   ];
+
+  // Show loading spinner while data is being fetched
+  if (isLoadingCars || isLoadingUser || isLoadingBookings || isLoadingUsers) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -141,7 +166,7 @@ const AdminViewProfile = () => {
           </div>
 
           {/* User Summary Card */}
-          <div className="bg-white shadow-md  rounded-lg p-6 transition-transform duration-300 hover:shadow-xl col-span-1 sm:col-span-2 lg:col-span-1 transform hover:-translate-y-1">
+          <div className="bg-white shadow-md rounded-lg p-6 transition-transform duration-300 hover:shadow-xl col-span-1 sm:col-span-2 lg:col-span-1 transform hover:-translate-y-1">
             <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">
               User <span className="text-yellow-500">Summary</span>
             </h2>
