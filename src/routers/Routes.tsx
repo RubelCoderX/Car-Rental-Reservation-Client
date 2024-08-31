@@ -17,6 +17,9 @@ import UpdateProfile from "../component/Dashboard/User/UserProfile/UpdateProfile
 import AllBookings from "../component/Dashboard/User/BookingManagement/AllBookings";
 import AdminViewProfiile from "../component/Dashboard/Admin/AdminProfile/AdminViewProfiile";
 import AdminAllUser from "../component/Dashboard/Admin/UserManagement/adminAllUser";
+import GetAllCarData from "../component/Dashboard/Admin/CarManagement/GetAllCarData";
+import AddCarData from "../component/Dashboard/Admin/CarManagement/AddCarData";
+import UpdateCar from "../component/Dashboard/Admin/CarManagement/UpdateCar";
 
 export const router = createBrowserRouter([
   {
@@ -92,9 +95,23 @@ export const router = createBrowserRouter([
         path: "admin-bookings",
         element: <AdminManageBooking></AdminManageBooking>,
       },
+      /* Admin User Management */
       {
         path: "all-users",
         element: <AdminAllUser></AdminAllUser>,
+      },
+      /* Admin Car Management */
+      {
+        path: "all-cars",
+        element: <GetAllCarData></GetAllCarData>,
+      },
+      {
+        path: "add-car",
+        element: <AddCarData />,
+      },
+      {
+        path: "update-car/:id",
+        element: <UpdateCar />,
       },
     ],
   },

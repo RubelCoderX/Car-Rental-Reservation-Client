@@ -1,7 +1,7 @@
 import { FaUser } from "react-icons/fa6";
+import { verifyToken } from "../../utils/verifyToken";
 import { useAppSelector } from "../../redux/hooks";
 import { useCurrentToken } from "../../redux/features/Auth/authSlice";
-import { verifyToken } from "../../utils/verifyToken";
 
 const Avatar = () => {
   const token = useAppSelector(useCurrentToken);
@@ -15,7 +15,7 @@ const Avatar = () => {
 
   return (
     <div className="flex items-center">
-      {profile ? (
+      {user ? (
         <img
           src={profile}
           alt={user?.name}

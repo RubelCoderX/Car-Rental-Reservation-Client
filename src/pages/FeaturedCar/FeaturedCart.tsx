@@ -1,10 +1,11 @@
-import React from "react";
 import Slider from "react-slick";
 import FeaturedCarCard from "./FeaturedCarCard";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { carApi } from "../../redux/features/Car/carApi";
 import Loader from "../../shared/Loader/Loader";
+import { FaArrowRight } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 const FeaturedCart = () => {
   const settings = {
@@ -59,25 +60,34 @@ const FeaturedCart = () => {
   const carData = getCars?.data;
 
   return (
-    <div className="text-center py-16">
-      <h2 className="text-3xl md:text-4xl font-semibold mb-4">
-        Recommended <span className="text-red-500">Cars</span>
-      </h2>
-      <p className="text-gray-600 max-w-2xl mx-auto mb-8">
-        Experience the perfect blend of performance and comfort with our
-        top-rated vehicles, featuring advanced technology, sleek design, and
-        exceptional fuel efficiency.
-      </p>
+    <div>
+      <div className="text-center py-16">
+        <h2 className="text-3xl md:text-4xl font-semibold mb-4">
+          Recommended <span className="text-red-500">Cars</span>
+        </h2>
+        <div className="flex justify-between items-center mb-8">
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Experience the perfect blend of performance and comfort with our
+            top-rated vehicles, featuring advanced technology, sleek design, and
+            exceptional fuel efficiency.
+          </p>
+          <div className="flex items-center justify-center bg-gray-200 rounded-full w-12 h-12 cursor-pointer">
+            <Link to="/car">
+              <FaArrowRight className="text-gray-600 text-xl" />
+            </Link>
+          </div>
+        </div>
 
-      {isFetching ? (
-        <Loader />
-      ) : (
-        <Slider {...settings}>
-          {carData?.map((car, index) => (
-            <FeaturedCarCard car={car} key={index} />
-          ))}
-        </Slider>
-      )}
+        {isFetching ? (
+          <Loader />
+        ) : (
+          <Slider {...settings}>
+            {carData?.map((car, index) => (
+              <FeaturedCarCard car={car} key={index} />
+            ))}
+          </Slider>
+        )}
+      </div>
     </div>
   );
 };

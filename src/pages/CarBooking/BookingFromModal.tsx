@@ -1,56 +1,41 @@
-import moment from "moment";
 import { useState } from "react";
-
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useAppSelector } from "../../redux/hooks";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "antd";
-import { useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { bookingApi } from "../../redux/features/Booking/bookingApi";
 import { toast } from "sonner";
 
 const BookingFormModal = ({ car }) => {
   const [card, setCard] = useState(true);
   const [createBooking, { isFetching }] = bookingApi.useAddBookMutation();
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
   const { user, token } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
   const { register, handleSubmit, reset } = useForm();
 
-  const pickUpDate = moment(startDate).format("DD/MM/YYYY");
-  const pickUpTime = moment(startDate).format("HH:mm");
-  const dropOffDate = moment(endDate).format("DD/MM/YYYY");
-  const dropOffTime = moment(endDate).format("HH:mm");
   const [open, setOpen] = useState(false);
-  const minTime = moment().toDate();
-  const maxTime = moment().endOf("day").toDate();
 
   //submit data
-  const onSubmit = async (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const bookingData = {
       identity: data?.identity,
       identityNo: data?.identityNo,
       drivingLicenseNo: data?.drivingLicenseNo,
-      pickUpDate: pickUpDate,
-      pickUpTime: pickUpTime,
-      dropOffDate: dropOffDate,
-      dropOffTime: dropOffTime,
       user: user?._id,
       car: car?._id,
-      location: car?.location,
     };
     try {
       const res = await createBooking(bookingData).unwrap();
       if (res.success) {
         toast.success("Car Booked Successfully", { position: "top-center" });
+        reset();
         setOpen(false);
       } else {
         toast.error(res.message, { position: "top-center" });
       }
     } catch (error) {
-      toast.error(error.data?.message || "Something went wrong");
+      toast.error(error?.data?.message || "Something went wrong");
     }
   };
   //show model
@@ -85,59 +70,7 @@ const BookingFormModal = ({ car }) => {
 
               {/* Form */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Pickup Date & Time */}
-                <div className="lg:col-span-2 flex flex-col">
-                  <label className="font-semibold mb-2">
-                    Pick-up Date & Time
-                  </label>
-                  <DatePicker
-                    className="bg-white border text-gray-900 text-sm rounded-md w-full p-2.5 shadow-lg"
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date as Date)}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={30}
-                    dateFormat="dd/MM/yyyy HH:mm"
-                    minDate={new Date()}
-                    minTime={
-                      startDate && moment().isSame(startDate, "day")
-                        ? minTime
-                        : undefined
-                    }
-                    maxTime={
-                      startDate && moment().isSame(startDate, "day")
-                        ? maxTime
-                        : undefined
-                    }
-                  />
-                </div>
-
                 {/* Return Date & Time */}
-                <div className="lg:col-span-2 flex flex-col">
-                  <label className="font-semibold mb-2">
-                    Drop-off Date & Time
-                  </label>
-                  <DatePicker
-                    className="bg-white border text-gray-900 text-sm rounded-md w-full p-2.5 shadow-lg"
-                    selected={endDate}
-                    onChange={(date) => setEndDate(date as Date)}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={30}
-                    dateFormat="dd/MM/yyyy HH:mm"
-                    minDate={new Date()}
-                    minTime={
-                      startDate && moment().isSame(startDate, "day")
-                        ? moment().toDate()
-                        : undefined
-                    }
-                    maxTime={
-                      startDate && moment().isSame(startDate, "day")
-                        ? moment().endOf("day").toDate()
-                        : undefined
-                    }
-                  />
-                </div>
 
                 {/* Quantity */}
                 <div>

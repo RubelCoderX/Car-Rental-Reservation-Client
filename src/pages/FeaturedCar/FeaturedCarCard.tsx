@@ -1,12 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link, useLocation } from "react-router-dom";
 import Starts from "../../shared/Starts/Starts";
 import BookingFormModal from "../CarBooking/BookingFromModal";
 
-const FeaturedCarCard = ({ car }) => {
+const FeaturedCarCard = ({ car }: any) => {
   const id = car?._id;
   const star = car?.ratings;
   const { pathname } = useLocation();
-  console.log(pathname);
 
   return (
     <div

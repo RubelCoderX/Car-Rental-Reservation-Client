@@ -7,6 +7,14 @@ export const userManagementApi = baseApi.injectEndpoints({
         url: "/auth/all-user",
         method: "GET",
       }),
+      providesTags: ["user"],
+    }),
+    makeAdmin: builder.mutation({
+      query: (userId: string) => ({
+        url: `/auth/update-role/${userId}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["user"],
     }),
   }),
 });

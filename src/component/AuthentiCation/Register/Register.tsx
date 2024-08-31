@@ -1,9 +1,12 @@
-import { useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { authApi } from "../../../redux/features/Auth/authApi";
 import { toast } from "sonner";
+import uploadImageToCloudinary from "../../../utils/uploadImage";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [addSignUp, { isLoading }] = authApi.useSignUpMutation();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -12,12 +15,22 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const { image, ...rest } = data;
+    const userImage = await uploadImageToCloudinary(image);
+
+    const modifiedUserData = {
+      ...rest,
+      image: userImage,
+    };
+
     try {
-      await addSignUp(data).unwrap();
+      await addSignUp(modifiedUserData).unwrap();
       toast.success("Registration successful!");
       reset();
-    } catch (error) {
+      navigate("/login");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       toast(error.message);
     }
   };
@@ -40,7 +53,7 @@ const Register = () => {
         <div className="container mx-auto pb-10 pt-20 px-4">
           <div className="flex flex-col md:flex-row items-center md:items-start md:space-x-8">
             {/* Form Section */}
-            <div className="w-full md:w-1/2 bg-[#4252B1] p-8 border-4 border-red-600 rounded-lg">
+            <div className="w-full md:w-1/2 bg-[#4252B1] p-8 rounded-lg">
               <h2 className="text-4xl font-serif font-bold text-center text-white mb-8">
                 Create New Account
               </h2>
@@ -72,7 +85,6 @@ const Register = () => {
                       placeholder="Email"
                       className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       {...register("email", {
-                        required: true,
                         pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i,
                       })}
                     />
@@ -131,7 +143,7 @@ const Register = () => {
                     />
                     {errors.confirmPassword && (
                       <span className="text-red-500">
-                        {errors.confirmPassword.message}
+                        {String(errors.confirmPassword.message)}
                       </span>
                     )}
                   </div>
@@ -157,7 +169,7 @@ const Register = () => {
                 </div>
 
                 {/* Upload Image Field */}
-                {/* <div className="mb-4">
+                <div className="mb-4">
                   <label htmlFor="image" className="block text-white mb-2">
                     Upload Image
                   </label>
@@ -169,23 +181,6 @@ const Register = () => {
                   />
                   {errors.image && (
                     <span className="text-red-500">Image is required</span>
-                  )}
-                </div> */}
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="imageUrl" className="text-left">
-                    Image URL
-                  </label>
-                  <input
-                    id="imageUrl"
-                    placeholder="Enter image URL"
-                    {...register("image", {
-                      required: "Image URL is required",
-                    })}
-                  />
-                  {errors.image && (
-                    <span className="text-red-500 text-sm block text-center">
-                      {errors.image.message}
-                    </span>
                   )}
                 </div>
 
@@ -234,7 +229,7 @@ const Register = () => {
             </div>
 
             {/* Image Section */}
-            <div className="w-full md:w-1/2 md:h-[662px] border-4 border-red-600 mt-8 md:mt-0">
+            <div className="w-full md:w-1/2 md:h-[662px]  mt-8 md:mt-0">
               <img
                 src="https://i.postimg.cc/KY7m7xXj/singin.jpg"
                 alt="Registration"

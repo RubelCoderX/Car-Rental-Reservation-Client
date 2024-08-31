@@ -1,162 +1,165 @@
-import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { authApi } from "../../../../redux/features/Auth/authApi";
+import uploadImageToCloudinary from "../../../../utils/uploadImage";
+import { toast } from "sonner";
+import { RxCross2 } from "react-icons/rx";
+import { FaEdit } from "react-icons/fa";
+import { userApi } from "../../../../redux/features/user/userApi";
+// import uploadImage from "../../utils/uploadImage";
 
-const UpdateProfile = () => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
+const Profile = () => {
+  const { register, handleSubmit } = useForm();
+  const { data: user } = authApi.useGetMeQuery(undefined);
+  const [edit, setEdit] = useState(false);
+  const [updateUser] = userApi.useUpdateUserMutation();
+  const handleEditIcon = () => {
+    setEdit(!edit);
   };
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log(data);
+    const { image, ...rest } = data;
+    const userImage = await uploadImageToCloudinary(image);
+
+    const modifiedUserData = {
+      ...rest,
+      image: userImage,
+    };
+    console.log("modified data", modifiedUserData);
+    try {
+      const res = await updateUser(modifiedUserData);
+      if (res.data.success) {
+        toast.success("Profile updated successfully");
+        setEdit(!edit);
+      }
+    } catch (error) {
+      if (error) {
+        toast.error("Something went wrong");
+      }
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="bg-slate-300 p-4 mb-10 rounded-lg shadow-md">
-        <h2 className="text-4xl font-serif font-bold text-center text-black mb-8">
-          Update Your <span className="text-red-600">Profile</span>
-        </h2>
+    <div>
+      <div className=" mb-5 pb-5 border-b-2 border-dashed flex items-center justify-between">
+        <h1 className="capitalize font-semibold text-3xl">
+          Updat <span className="text-red-600">Profile</span>
+        </h1>
+        <div onClick={handleEditIcon} className="cursor-pointer">
+          {edit ? (
+            <RxCross2 className="w-6 h-6 text-accent"></RxCross2>
+          ) : (
+            <FaEdit className="w-6 h-6 text-accent"></FaEdit>
+          )}
+        </div>
       </div>
-      <div>
-        <div>
-          <div className="max-w-4xl mx-auto pb-10 pt-20 px-4">
-            <div className="">
-              {/* Form Section */}
-              <div className="w-full  p-8  rounded-lg">
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  {/* Name and Email Fields */}
-                  <div className="grid md:grid-cols-2 gap-4 mb-8">
-                    <div>
-                      <label htmlFor="name" className="block text-black mb-2">
-                        Name
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        placeholder="Name"
-                        className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        {...register("name", { required: true })}
-                      />
-                      {errors.name && (
-                        <span className="text-red-500">Name is required</span>
-                      )}
-                    </div>
-                    <div>
-                      <label htmlFor="email" className="block text-black mb-2">
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        placeholder="Email"
-                        className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        {...register("email", {
-                          required: true,
-                          pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i,
-                        })}
-                      />
-                      {errors.email && (
-                        <span className="text-red-500">
-                          {errors.email.type === "required"
-                            ? "Email is required"
-                            : "Invalid email address"}
-                        </span>
-                      )}
-                    </div>
-                  </div>
 
-                  {/* Phone Number Field */}
-
-                  <div className="grid md:grid-cols-2 gap-4 mb-8">
-                    <div className="mb-4">
-                      <label htmlFor="phone" className="block text-black mb-2">
-                        Phone Number
-                      </label>
-                      <input
-                        type="tel"
-                        id="phone"
-                        placeholder="Your phone number"
-                        className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        {...register("phone", { required: true })}
-                      />
-                      {errors.phone && (
-                        <span className="text-red-500">
-                          Phone number is required
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <label
-                        htmlFor="imageUrl"
-                        className="text-left text-black"
-                      >
-                        Image URL
-                      </label>
-                      <input
-                        id="imageUrl"
-                        type=""
-                        placeholder="Enter image URL"
-                        className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        {...register("image", {
-                          required: "Image URL is required",
-                        })}
-                      />
-                      {errors.image && (
-                        <span className="text-red-500 text-sm block text-center">
-                          {errors.image.message}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Upload Image Field */}
-                  {/* <div className="mb-4">
-                  <label htmlFor="image" className="block text-white mb-2">
-                    Upload Image
-                  </label>
-                  <input
-                    type="file"
-                    id="image"
-                    className="w-full px-3 py-2 bg-white border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    {...register("image")}
-                  />
-                  {errors.image && (
-                    <span className="text-red-500">Image is required</span>
-                  )}
-                </div> */}
-                  {/* <div className="flex flex-col gap-2">
-                  <label htmlFor="imageUrl" className="text-left">
-                    Image URL
-                  </label>
-                  <input
-                    id="imageUrl"
-                    placeholder="Enter image URL"
-                    {...register("image", {
-                      required: "Image URL is required",
-                    })}
-                  />
-                  {errors.image && (
-                    <span className="text-red-500 text-sm block text-center">
-                      {errors.image.message}
-                    </span>
-                  )}
-                </div> */}
-
-                  {/* Submit Button */}
-                  <button
-                    type="submit"
-                    className="w-full mt-4 bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200"
-                  >
-                    Update
-                  </button>
-                </form>
-              </div>
+      <div className="p-6 max-w-6xl mx-auto rounded shadow-md">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex flex-col md:flex-row items-center justify-between gap-5">
+            <div className="w-full md:w-1/2">
+              <label className="form-control w-full">
+                <div className="label">
+                  <span className="label-text text-lg font-semibold">Name</span>
+                </div>
+                <input
+                  {...register("name")}
+                  type="text"
+                  className="input w-full  focus:outline-none text-lg border border-gray-700  rounded px-4 py-2"
+                  defaultValue={user?.data?.name}
+                  disabled={edit ? false : true}
+                />
+              </label>
+            </div>
+            <div className="w-full md:w-1/2">
+              <label className="form-control w-full">
+                <div className="label">
+                  <span className="label-text text-lg font-semibold">
+                    Email
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  defaultValue={user?.data?.email}
+                  className="input w-full focus:outline-none text-lg border border-gray-700 rounded px-4 py-2 hover:cursor-not-allowed"
+                  readOnly
+                />
+              </label>
             </div>
           </div>
-        </div>
+
+          <div className="flex flex-col md:flex-row items-center justify-between gap-5 mt-4">
+            <div className="w-full md:w-1/2">
+              <label className="form-control w-full">
+                <div className="label">
+                  <span className="label-text text-lg font-semibold">
+                    Phone Number
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  defaultValue={user?.data?.phone}
+                  className="input w-full focus:outline-none text-lg border border-gray-700 rounded px-4 py-2 "
+                  disabled={edit ? false : true}
+                  {...register("phone", {
+                    pattern: {
+                      value: /^[0-9]+$/,
+                      message: "Only number required",
+                    },
+                    minLength: {
+                      value: 11,
+                      message: "11 digit number need",
+                    },
+                  })}
+                />
+              </label>
+            </div>
+            <div className="w-full md:w-1/2">
+              <label className="form-control w-full">
+                <div className="label">
+                  <span className="label-text text-lg font-semibold">
+                    Address
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  placeholder="street, city, state"
+                  defaultValue={user?.data?.address}
+                  className="input w-full focus:outline-none text-lg border border-gray-700 rounded px-4 py-2 "
+                  disabled={edit ? false : true}
+                  {...register("address")}
+                />
+              </label>
+            </div>
+          </div>
+
+          <div className="mt-5">
+            <label className="form-control w-full">
+              <div className="label">
+                <span className="label-text text-lg font-semibold">Image</span>
+              </div>
+              <input
+                {...register("image")}
+                type="file"
+                className="file-input file-input-bordered w-full  border border-gray-700 rounded px-4 py-2"
+                disabled={edit ? false : true}
+              />
+            </label>
+          </div>
+
+          <div className="mt-5">
+            <input
+              type="submit"
+              value="Update"
+              className="file-input file-input-bordered w-full font-bold rounded px-4 py-2 cursor-pointer disabled:cursor-not-allowed bg-red-400 hover:bg-red-600 transition-all duration-300"
+              disabled={edit ? false : true}
+            />
+          </div>
+        </form>
       </div>
     </div>
   );
 };
 
-export default UpdateProfile;
+export default Profile;

@@ -1,10 +1,6 @@
-import React, { useContext, useState } from "react";
-
+import { useState } from "react";
 import { AiOutlineBars } from "react-icons/ai";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-
-import { BsFillHouseAddFill } from "react-icons/bs";
-import { FcSettings } from "react-icons/fc";
 import { GrLogout } from "react-icons/gr";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import {
@@ -16,22 +12,26 @@ import Avatar from "../../../shared/Navbar/Avater";
 import UserMenu from "./UserMenu/UserMenu";
 import Logo from "../../../shared/Navbar/Logo";
 import AdminMenu from "./AdimMenu/AdminMenu";
+import { FaHome } from "react-icons/fa";
+import { authApi } from "../../../redux/features/Auth/authApi";
 
 const SideBar = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [isActive, setActive] = useState("false");
-  const token = useAppSelector(useCurrentToken);
-  let user;
+  const [isActive, setActive] = useState<boolean>(false);
+  // const token = useAppSelector(useCurrentToken);
+  // let user;
 
-  if (token) {
-    user = verifyToken(token);
-  }
+  // if (token) {
+  //   user = verifyToken(token);
+  // }
 
-  const profile = user?.image;
+  // const profile = user?.image;
+  const { data: profileData } = authApi.useGetMeQuery(undefined);
+  const user = profileData?.data;
 
   //   sidebar responsive handler
-  const handleToggle = (event) => {
+  const handleToggle = () => {
     setActive(!isActive);
   };
 
@@ -73,7 +73,7 @@ const SideBar = () => {
               <Link to="/">
                 <img
                   className="object-cover w-24 h-24 mx-2 rounded-full"
-                  src={profile}
+                  src={user?.image}
                   alt="avatar"
                   referrerPolicy="no-referrer"
                 />
@@ -85,7 +85,7 @@ const SideBar = () => {
               </Link>
               <Link to="/dashboard">
                 <p className="mx-2 mt-1 text-sm font-medium text-gray-600  hover:underline">
-                  {user?.email}
+                  {user?.userEmail}
                 </p>
               </Link>
             </div>
@@ -99,16 +99,16 @@ const SideBar = () => {
         <div>
           <hr />
           <NavLink
-            to="/dashboard/profile"
+            to="/"
             className={({ isActive }) =>
               `flex items-center px-4 py-2 mt-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
                 isActive ? "bg-gray-300  text-gray-700" : "text-gray-600"
               }`
             }
           >
-            <FcSettings className="w-5 h-5" />
+            <FaHome className="w-5 h-5" />
 
-            <span className="mx-4 font-medium">Profile</span>
+            <span className="mx-4 font-medium">Home</span>
           </NavLink>
           <button
             onClick={handleLogOut}

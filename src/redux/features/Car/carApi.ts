@@ -8,10 +8,10 @@ export const carApi = baseApi.injectEndpoints({
         method: "POST",
         body: carData,
       }),
+      invalidatesTags: ["car"],
     }),
     getAllCars: builder.query({
       query: ({ name, carType, price, location }) => {
-        console.log(price);
         const params = new URLSearchParams();
         if (name) {
           params.append("name", name);
@@ -31,21 +31,51 @@ export const carApi = baseApi.injectEndpoints({
           params,
         };
       },
+      providesTags: ["car"],
     }),
     getSingleCars: builder.query({
       query: (id: string) => ({
         url: `/cars/${id}`,
         method: "GET",
       }),
+      providesTags: ["car"],
     }),
-    searchCars: builder.mutation({
-      query: (searchData) => {
+    searchCarsForBooking: builder.query({
+      query: (args) => {
+        const params = new URLSearchParams();
+
+        if (args?.carType) {
+          params.append("carType", args.carType);
+        }
+        if (args?.features) {
+          params.append("features", args.features);
+        }
+        if (args?.seats) {
+          params.append("seats", args.seats);
+        }
+        console.log(params);
         return {
           url: "/cars/search-cars",
-          method: "POST",
-          body: searchData,
+          method: "GET",
+          params,
         };
       },
+      providesTags: ["car"],
+    }),
+    updateCar: builder.mutation({
+      query: (carData) => ({
+        url: `/cars/${carData.id}`,
+        method: "PUT",
+        body: carData,
+      }),
+      invalidatesTags: ["car"],
+    }),
+    deleteCar: builder.mutation({
+      query: (id: string) => ({
+        url: `/cars/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["car"],
     }),
   }),
 });

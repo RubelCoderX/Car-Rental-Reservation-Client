@@ -4,6 +4,7 @@ import { MdOutlineManageHistory } from "react-icons/md";
 import { AiOutlineDown } from "react-icons/ai";
 
 import { Link, NavLink } from "react-router-dom";
+import { FaPersonRifle } from "react-icons/fa6";
 
 const UserMenu = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -15,38 +16,20 @@ const UserMenu = () => {
   return (
     <div className="space-y-5 mt-10">
       {/* User Profile Dropdown */}
-      <div className="relative">
-        <Link to="/dashboard/profile-view">
-          <button
-            onClick={() => toggleDropdown("userProfile")}
-            className="flex items-center px-4 py-2 w-full text-left transition-colors duration-300 transform rounded-lg text-gray-600 hover:bg-gray-300 hover:text-gray-700"
-          >
-            <BsFillHouseAddFill className="w-5 h-5" />
-            <span className="mx-4 font-medium">User Profile</span>
-            <AiOutlineDown
-              className={`ml-auto transform transition-transform ${
-                activeDropdown === "userProfile" ? "rotate-180" : ""
-              }`}
-            />
-          </button>
-        </Link>
 
-        {activeDropdown === "userProfile" && (
-          <div className="absolute left-0 mt-2 w-full bg-white border rounded shadow-lg z-10">
-            <NavLink
-              to="/dashboard/profile-update"
-              className={({ isActive }) =>
-                `block px-4 py-2 transition-colors duration-300 transform ${
-                  isActive
-                    ? "bg-gray-300 text-gray-700"
-                    : "text-gray-600 hover:bg-gray-300 hover:text-gray-700"
-                }`
-              }
-            >
-              Update Profile
-            </NavLink>
-          </div>
-        )}
+      <div>
+        <NavLink
+          to="/dashboard/profile-view"
+          className={({ isActive }) =>
+            `flex items-center px-4 py-2 mt-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+              isActive ? "bg-gray-300  text-gray-700" : "text-gray-600"
+            }`
+          }
+        >
+          <BsFillHouseAddFill className="w-5 h-5" />
+
+          <span className="mx-4 font-medium">User Profile</span>
+        </NavLink>
       </div>
 
       {/* Manage Bookings Dropdown */}
@@ -77,18 +60,6 @@ const UserMenu = () => {
               }
             >
               My Bookings
-            </NavLink>
-            <NavLink
-              to="manage-bookings/completed"
-              className={({ isActive }) =>
-                `block px-4 py-2 transition-colors duration-300 transform ${
-                  isActive
-                    ? "bg-gray-300 text-gray-700"
-                    : "text-gray-600 hover:bg-gray-300 hover:text-gray-700"
-                }`
-              }
-            >
-              Update Bookings
             </NavLink>
           </div>
         )}

@@ -1,18 +1,44 @@
 import { Button, Space, Table, Tag } from "antd";
 import { userManagementApi } from "../../../../redux/features/Admin/userManagementApi";
+import { toast } from "sonner";
+import { FieldValues, SubmitHandler } from "react-hook-form";
+import { TUser } from "../../../../type/global.type";
+import { userApi } from "../../../../redux/features/user/userApi";
 
 const adminAllUser = () => {
   const { data: allUser } = userManagementApi.useGetAllUserQuery(undefined);
   const userData = allUser?.data;
-  console.log(userData);
+  const [updateRole] = userManagementApi.useMakeAdminMutation();
 
-  const tableData = userData?.map((item) => ({
+  const [deleteUser] = userApi.useDeleteUserMutation();
+  const tableData = userData?.map((item: TUser) => ({
     key: item._id,
     userName: item?.name,
     userEmail: item?.email,
     role: item?.role,
     phone: item?.phone,
+    status: item?.isDeleted ? "Blocked" : "Active",
   }));
+  // delete user
+  const handleDeleteUser: SubmitHandler<FieldValues> = async (id) => {
+    try {
+      await deleteUser(id).unwrap();
+      toast.success("User Deleted Successfully");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+  // update role
+  const updateRoleHandler = async (userId: string) => {
+    try {
+      await updateRole(userId).unwrap();
+      toast.success("User Role Updated Successfully");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
 
   const columns = [
     {
@@ -27,9 +53,21 @@ const adminAllUser = () => {
       key: "userEmail",
     },
     {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status) => (
+        <Tag color={status === "Blocked" ? "red" : "green"}>{status}</Tag>
+      ),
+    },
+
+    {
       title: "Role",
       dataIndex: "role",
       key: "role",
+      render: (role) => (
+        <Tag color={role === "admin" ? "green" : "blue"}>{role}</Tag>
+      ),
     },
     {
       title: "Phone",
@@ -42,14 +80,16 @@ const adminAllUser = () => {
       key: "action",
       render: (item) => (
         <Space size="middle">
-          <Button>Update Role</Button>
-          <Button>Delete</Button>
+          <Button onClick={() => updateRoleHandler(item.key)}>
+            Update Role
+          </Button>
+          <Button onClick={() => handleDeleteUser(item.key)}>Delete</Button>
         </Space>
       ),
     },
   ];
   return (
-    <>
+    <div className="bg-gray-50  min-h-screen p-4">
       <div className="bg-gradient-to-r from-slate-500 p-8 mb-10 rounded-lg shadow-md">
         <h2 className="text-4xl font-bold text-center text-white">
           Manage All <span className="text-yellow-300">User</span>
@@ -61,7 +101,7 @@ const adminAllUser = () => {
         pagination={false}
         className="overflow-x-auto"
       />
-    </>
+    </div>
   );
 };
 

@@ -1,7 +1,16 @@
 import { IoLocationOutline, IoMailUnreadOutline } from "react-icons/io5";
 import { MdDialerSip } from "react-icons/md";
+import GoogleMapReact from "google-map-react";
 
 const ContactUs = () => {
+  const defaultProps = {
+    center: {
+      lat: 40.712776, // Replace with your desired latitude
+      lng: -74.005974, // Replace with your desired longitude
+    },
+    zoom: 11,
+  };
+
   return (
     <div>
       <div className="relative h-[300px] md:h-[500px] w-full">
@@ -50,7 +59,7 @@ const ContactUs = () => {
                   </label>
                   <input
                     id="email"
-                    className="shadow appearance-none border border-b-1 hover:border-b-red-600  rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-blue-500"
+                    className="shadow appearance-none border border-b-1 hover:border-b-red-600 rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-blue-500"
                     type="email"
                     placeholder="example@example.com"
                     required
@@ -102,22 +111,27 @@ const ContactUs = () => {
             </form>
           </div>
 
-          {/* Map Placeholder */}
+          {/* Map Section */}
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-2xl font-bold mb-4">Find Us Here</h2>
-            <hr className="w-24 border-red-700 border-b-2  mb-4" />
-            <div className="h-64 bg-gray-200 rounded-lg">
-              {/* Replace the div below with an actual map component or iframe */}
-              <p className="text-center text-gray-600 py-20">Map placeholder</p>
+            <hr className="w-24 border-red-700 border-b-2 mb-4" />
+            <div className="h-64 md:h-96 bg-gray-200 rounded-lg">
+              <GoogleMapReact
+                bootstrapURLKeys={{ key: "YOUR_GOOGLE_MAPS_API_KEY" }} // Add your API key here
+                defaultCenter={defaultProps.center}
+                defaultZoom={defaultProps.zoom}
+              >
+                {/* Add any markers or custom components here if needed */}
+              </GoogleMapReact>
             </div>
           </div>
         </div>
       </div>
       <div style={{ background: "#F5F5F5" }} className="px-4 mt-20 py-10">
-        <div className=" container mx-auto grid md:grid-cols-3 gap-6">
+        <div className="container mx-auto grid md:grid-cols-3 gap-6">
           {/* Location */}
           <div className="flex flex-col items-center p-6 shadow-md bg-white rounded-lg text-center">
-            <span className="flex items-center justify-center text-2xl  bg-red-500 text-white w-12 h-12 rounded-full mb-4">
+            <span className="flex items-center justify-center text-2xl bg-red-500 text-white w-12 h-12 rounded-full mb-4">
               <IoLocationOutline />
             </span>
             <span className="text-gray-700 font-semibold">
@@ -129,7 +143,7 @@ const ContactUs = () => {
           </div>
           {/* Phone */}
           <div className="flex flex-col items-center p-6 shadow-md bg-white rounded-lg text-center">
-            <span className="flex items-center justify-center text-2xl  bg-red-500 text-white w-12 h-12 rounded-full mb-4">
+            <span className="flex items-center justify-center text-2xl bg-red-500 text-white w-12 h-12 rounded-full mb-4">
               <MdDialerSip />
             </span>
             <span className="text-gray-700 font-semibold">
@@ -141,7 +155,7 @@ const ContactUs = () => {
           </div>
           {/* Email */}
           <div className="flex flex-col items-center p-6 shadow-md bg-white rounded-lg text-center">
-            <span className="flex items-center justify-center text-2xl  bg-red-500 text-white w-12 h-12 rounded-full mb-4">
+            <span className="flex items-center justify-center text-2xl bg-red-500 text-white w-12 h-12 rounded-full mb-4">
               <IoMailUnreadOutline />
             </span>
             <span className="text-gray-700 font-semibold">

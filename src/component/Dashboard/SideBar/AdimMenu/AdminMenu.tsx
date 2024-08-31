@@ -2,8 +2,8 @@ import { useState } from "react";
 import { AiOutlineDown } from "react-icons/ai";
 import { BsFillHouseAddFill } from "react-icons/bs";
 import { MdOutlineManageHistory } from "react-icons/md";
-import { FaUserCog, FaCar, FaClipboardList } from "react-icons/fa"; // New icons
-import { Link, NavLink } from "react-router-dom";
+import { FaCar, FaClipboardList } from "react-icons/fa"; // New icons
+import { NavLink } from "react-router-dom";
 
 const AdminMenu = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -15,38 +15,19 @@ const AdminMenu = () => {
   return (
     <div className="space-y-5 mt-10">
       {/* User Profile Dropdown */}
-      <div className="relative">
-        <Link to="/dashboard/admin-profile-view">
-          <button
-            onClick={() => toggleDropdown("userProfile")}
-            className="flex items-center px-4 py-2 w-full text-left transition-colors duration-300 transform rounded-lg text-gray-600 hover:bg-gray-300 hover:text-gray-700"
-          >
-            <FaUserCog className="w-5 h-5" /> {/* Updated icon */}
-            <span className="mx-4 font-medium">User Profile</span>
-            <AiOutlineDown
-              className={`ml-auto transform transition-transform ${
-                activeDropdown === "userProfile" ? "rotate-180" : ""
-              }`}
-            />
-          </button>
-        </Link>
+      <div>
+        <NavLink
+          to="/dashboard/admin-profile-view"
+          className={({ isActive }) =>
+            `flex items-center px-4 py-2 mt-5  transition-colors cursor-pointer duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+              isActive ? "bg-gray-300  text-gray-700" : "text-gray-600"
+            }`
+          }
+        >
+          <BsFillHouseAddFill className="w-5 h-5" />
 
-        {activeDropdown === "userProfile" && (
-          <div className="absolute left-0 mt-2 w-full bg-white border rounded shadow-lg z-10">
-            <NavLink
-              to="/dashboard/profile-update"
-              className={({ isActive }) =>
-                `block px-4 py-2 transition-colors duration-300 transform ${
-                  isActive
-                    ? "bg-gray-300 text-gray-700"
-                    : "text-gray-600 hover:bg-gray-300 hover:text-gray-700"
-                }`
-              }
-            >
-              Update Profile
-            </NavLink>
-          </div>
-        )}
+          <span className="mx-4 font-medium">User Profile</span>
+        </NavLink>
       </div>
 
       {/* Manage Bookings Dropdown */}
@@ -133,7 +114,7 @@ const AdminMenu = () => {
         {activeDropdown === "carManagement" && (
           <div className="absolute left-0 mt-2 w-full bg-white border rounded shadow-lg z-10">
             <NavLink
-              to="/dashboard/all-cars"
+              to="/dashboard/add-car"
               className={({ isActive }) =>
                 `block px-4 py-2 transition-colors duration-300 transform ${
                   isActive
@@ -157,7 +138,7 @@ const AdminMenu = () => {
               All Cars
             </NavLink>
             <NavLink
-              to="/dashboard/all-cars"
+              to="/dashboard/update-cars"
               className={({ isActive }) =>
                 `block px-4 py-2 transition-colors duration-300 transform ${
                   isActive

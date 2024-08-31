@@ -1,10 +1,35 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Space, Table, Tag } from "antd";
 import { bookingApi } from "../../../../redux/features/Booking/bookingApi";
+import { toast } from "sonner";
+import { FieldValues, SubmitHandler } from "react-hook-form";
+import { GetStatusTag } from "../../../../utils/getStatusTag";
 
 const AdminManageBooking = () => {
   const { data: allBookings } = bookingApi.useGetAllBookingsQuery(undefined);
   const allBookingData = allBookings?.data;
+  const [updateStatus] = bookingApi.useUpdateBookingStatusMutation();
+  const [deleteBooking] = bookingApi.useDeleteBookingMutation();
+  // handle approve
+  const handleApprove: SubmitHandler<FieldValues> = async (bookingId) => {
+    try {
+      await updateStatus(bookingId).unwrap();
+      toast.success("Booking Approved");
+    } catch (error: any) {
+      toast.error("Failed to approve booking");
+    }
+  };
+  // handle delete booking
+  const handleDeleteBooking: SubmitHandler<FieldValues> = async (bookingId) => {
+    try {
+      await deleteBooking(bookingId).unwrap();
 
+      toast.success("Booking Deleted Successfully");
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
   const tableData = allBookingData?.map((item) => ({
     key: item._id,
     userName: item?.user?.name,
@@ -31,7 +56,7 @@ const AdminManageBooking = () => {
     },
 
     {
-      title: "Email",
+      title: "User Email",
       dataIndex: "userEmail",
       key: "userEmail",
     },
@@ -41,47 +66,41 @@ const AdminManageBooking = () => {
       key: "pickUpDate",
     },
     {
-      title: "Pick-Up Time",
-      dataIndex: "pickUpTime",
-      key: "pickUpTime",
-    },
-    {
       title: "Drop-Off Date",
       dataIndex: "dropOffDate",
       key: "dropOffDate",
+      render: (text, record) => (record.status === "completed" ? text : "N/A"),
     },
-    {
-      title: "Drop-Off Time",
-      dataIndex: "dropOffTime",
-      key: "dropOffTime",
-    },
+
     {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (status) => (
-        <Tag
-          className={`status ${
-            status === "completed" ? "text-green-500" : "text-yellow-500"
-          }`}
-        >
-          {status}
-        </Tag>
-      ),
+      render: (status) => GetStatusTag(status),
     },
     {
       title: "Action",
       key: "action",
-      render: (item) => (
-        <Space size="middle">
-          <Button>Approve</Button>
-          <Button>Delete</Button>
-        </Space>
-      ),
+      render: (item) => {
+        const isOngoing = item.status === "ongoing";
+        return (
+          <Space size="middle">
+            <Button
+              onClick={() => handleApprove(item.key)}
+              disabled={isOngoing}
+            >
+              Approve
+            </Button>
+            <Button onClick={() => handleDeleteBooking(item.key)}>
+              Delete
+            </Button>
+          </Space>
+        );
+      },
     },
   ];
   return (
-    <div>
+    <div className="bg-gray-50  min-h-screen p-4">
       <div className="bg-gradient-to-r from-slate-500  p-8 mb-10 rounded-lg shadow-md">
         <h2 className="text-4xl font-bold text-center text-white">
           Manage All <span className="text-yellow-300">User Bookings</span>

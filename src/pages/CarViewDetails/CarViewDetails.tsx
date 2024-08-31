@@ -16,7 +16,7 @@ const CarViewDetails = () => {
         <div
           style={{
             backgroundImage:
-              "url('https://i.ibb.co/WPC9Tbk/detailsbanner.jpg')",
+              "url('https://i.postimg.cc/zBBwKh8p/car-details.jpg')",
             backgroundAttachment: "fixed",
             backgroundSize: "cover",
             backgroundPosition: "center",
