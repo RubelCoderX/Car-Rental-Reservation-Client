@@ -1,4 +1,5 @@
-import { Table, Tag, Spin } from "antd";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Table, Tag } from "antd";
 import { userManagementApi } from "../../../../redux/features/Admin/userManagementApi";
 import { authApi } from "../../../../redux/features/Auth/authApi";
 import { bookingApi } from "../../../../redux/features/Booking/bookingApi";
@@ -52,7 +53,7 @@ const AdminViewProfile = () => {
       title: "Image",
       dataIndex: "carImage",
       key: "carImage",
-      render: (carImage) => (
+      render: (carImage: any) => (
         <img
           src={carImage}
           alt="Car"
@@ -74,7 +75,7 @@ const AdminViewProfile = () => {
       title: "Car Price",
       dataIndex: "carPrice",
       key: "carPrice",
-      render: (carPrice) => `$${carPrice}`,
+      render: (last: number) => `Tk ${last.toFixed(2)}/ hour`,
     },
     {
       title: "Car Type",
@@ -85,7 +86,7 @@ const AdminViewProfile = () => {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (status) => (
+      render: (status: any) => (
         <Tag
           className={`status ${
             status === "available" ? "text-green-500" : "text-red-500"

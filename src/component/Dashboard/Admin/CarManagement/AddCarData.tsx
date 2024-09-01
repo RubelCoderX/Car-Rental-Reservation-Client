@@ -1,17 +1,93 @@
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import Select from "react-select";
+import {
+  carFeatures,
+  vehicleSpecifications,
+} from "../../../../type/global.type";
+import { useState } from "react";
+import { carApi } from "../../../../redux/features/Car/carApi";
+import Swal from "sweetalert2";
+import uploadImageToCloudinary from "../../../../utils/uploadImage";
+
+type OptionType = {
+  value: string;
+  label: string;
+};
 
 const AddCarData = () => {
+  const [selectOptions, setSelectOptions] = useState<OptionType[]>([]);
+  const [selectVehicleSpecifications, setSelectVehicleSpecifications] =
+    useState<OptionType[]>([]);
+  const [addCar] = carApi.useCreateCarMutation();
+
   const {
     register,
     handleSubmit,
+    setValue, // Add setValue for controlled components
     formState: { errors },
   } = useForm();
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    // Handle form submission logic here, e.g., send data to the API
-    console.log(data);
+  // Handle change for car features
+  const handleFeatureChange = (selectedOptions) => {
+    setSelectOptions(selectedOptions);
+    setValue(
+      "carFeatures",
+      selectedOptions.map((option) => option.value)
+    ); // Store selected feature values
   };
 
+  // Handle change for vehicle specifications
+  const handleSpecificationChange = (selectedOptions) => {
+    setSelectVehicleSpecifications(selectedOptions);
+    setValue(
+      "vehicleSpecifications",
+      selectedOptions.map((option) => option.value)
+    ); // Store selected specification values
+  };
+  // Handle onSubmit
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const {
+      rating,
+      pricePerHour,
+      maxSeats,
+      carImgUrl,
+      isElectric,
+      carFeatures,
+      vehicleSpecifications,
+      ...rest
+    } = data;
+    const userImage = await uploadImageToCloudinary(carImgUrl);
+
+    const modifiedData = {
+      ...rest,
+      rating: Number(rating),
+      pricePerHour: Number(pricePerHour),
+      maxSeats: Number(maxSeats),
+      carImgUrl: userImage,
+      isElectric: isElectric === "true" ? true : false,
+      features: carFeatures,
+      vehicleSpecification: vehicleSpecifications,
+    };
+
+    try {
+      const response = await addCar(modifiedData).unwrap();
+      Swal.fire({
+        title: "Success!",
+        text: "Car added successfully!",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
+      console.log(response);
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to add car. Please try again.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+      console.error(error);
+    }
+  };
   return (
     <div className="bg-gray-50 min-h-screen p-4">
       <div className="bg-gradient-to-r from-slate-500 p-6 mb-10 rounded-lg shadow-md">
@@ -43,19 +119,19 @@ const AddCarData = () => {
 
             <div>
               <label
-                htmlFor="color"
+                htmlFor="rating"
                 className="block text-sm font-medium text-gray-700"
               >
-                Color
+                Rating
               </label>
               <input
-                type="text"
-                {...register("color", { required: "Car color is required" })}
+                type="number"
+                {...register("ratings", { required: "Car rating is required" })}
                 className="mt-1 p-2 border border-gray-300 rounded w-full"
               />
-              {errors.color && (
+              {errors.rating && (
                 <p className="text-red-500 text-xs">
-                  {String(errors.color.message)}
+                  {String(errors.rating.message)}
                 </p>
               )}
             </div>
@@ -127,20 +203,20 @@ const AddCarData = () => {
             </div>
 
             <div>
-              <div>
-                <label
-                  htmlFor="carImgUrl"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Car Image
-                </label>
-                <input
-                  type="file"
-                  // onChange={handleImageChange}
-                  accept="image/*"
-                  className="mt-1 p-2 border border-gray-300 rounded w-full"
-                />
-              </div>
+              <label
+                htmlFor="carImgUrl"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Car Image
+              </label>
+              <input
+                type="file"
+                id="carImgUrl"
+                className="mt-1 p-2 border border-gray-300 rounded w-full"
+                {...register("carImgUrl", {
+                  required: "Car Image is required",
+                })}
+              />
               {errors.carImgUrl && (
                 <p className="text-red-500 text-xs">
                   {String(errors.carImgUrl.message)}
@@ -150,19 +226,19 @@ const AddCarData = () => {
 
             <div>
               <label
-                htmlFor="location"
+                htmlFor="color"
                 className="block text-sm font-medium text-gray-700"
               >
-                Location
+                Car Color
               </label>
               <input
                 type="text"
-                {...register("location", { required: "Location is required" })}
+                {...register("color", { required: "color is required" })}
                 className="mt-1 p-2 border border-gray-300 rounded w-full"
               />
-              {errors.location && (
+              {errors.color && (
                 <p className="text-red-500 text-xs">
-                  {String(errors.location.message)}
+                  {String(errors.color.message)}
                 </p>
               )}
             </div>
@@ -212,20 +288,68 @@ const AddCarData = () => {
               >
                 Car Type
               </label>
-              <input
-                type="text"
-                {...register("carType", { required: "Car Type is required" })}
+              <select
+                {...register("carType", {
+                  required: "Please select a car type",
+                })}
                 className="mt-1 p-2 border border-gray-300 rounded w-full"
-              />
+              >
+                <option value="">Select car type</option>
+                <option value="SUV">SUV</option>
+                <option value="Sedan">Sedan</option>
+                <option value="Hatchback">Hatchback</option>
+                <option value="Convertible">Convertible</option>
+                <option value="Truck">Truck</option>
+              </select>
               {errors.carType && (
                 <p className="text-red-500 text-xs">
                   {String(errors.carType.message)}
                 </p>
               )}
             </div>
+
+            <div>
+              <label
+                htmlFor="carFeatures"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Car Features
+              </label>
+              <Select
+                options={carFeatures}
+                value={selectOptions}
+                isMulti={true}
+                onChange={handleFeatureChange} // Set the onChange handler
+              />
+              {errors.carFeatures && (
+                <p className="text-red-500 text-xs">
+                  {String(errors.carFeatures.message)}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label
+                htmlFor="vehicleSpecifications"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Vehicle Specifications
+              </label>
+              <Select
+                options={vehicleSpecifications}
+                value={selectVehicleSpecifications}
+                isMulti={true}
+                onChange={handleSpecificationChange}
+              />
+              {errors.vehicleSpecifications && (
+                <p className="text-red-500 text-xs">
+                  {String(errors.vehicleSpecifications.message)}
+                </p>
+              )}
+            </div>
           </div>
 
-          <div>
+          <div className="mt-6">
             <label
               htmlFor="description"
               className="block text-sm font-medium text-gray-700"
@@ -245,10 +369,10 @@ const AddCarData = () => {
             )}
           </div>
 
-          <div className="flex justify-center col-span-full">
+          <div className="flex justify-center mt-10 col-span-full">
             <button
               type="submit"
-              className="bg-blue-500 text-white font-bold py-2 px-4 rounded"
+              className="bg-blue-500 text-white w-full font-bold py-2 px-4 rounded"
             >
               Add Car
             </button>

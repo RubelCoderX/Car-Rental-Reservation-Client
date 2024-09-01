@@ -9,16 +9,16 @@ import { verifyToken } from "../../utils/verifyToken";
 
 const MenuDropDown = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef(null);
-  const disptach = useDispatch();
+  const menuRef = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch();
   const token = useAppSelector(useCurrentToken);
 
   const toggleMenu = useCallback(() => {
     setMenuOpen((prev) => !prev);
   }, []);
 
-  const handleClickOutside = useCallback((event) => {
-    if (menuRef.current && !menuRef.current.contains(event.target)) {
+  const handleClickOutside = useCallback((event: MouseEvent) => {
+    if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
       setMenuOpen(false);
     }
   }, []);
@@ -29,12 +29,12 @@ const MenuDropDown = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [handleClickOutside]);
-  // logout
-  const handleLogOut = () => {
-    disptach(logOut());
-  };
-  let user;
 
+  const handleLogOut = () => {
+    dispatch(logOut());
+  };
+
+  let user;
   if (token) {
     user = verifyToken(token);
   }

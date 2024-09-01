@@ -5,7 +5,7 @@ import { useAppDispatch } from "../../../redux/hooks";
 import { verifyToken } from "../../../utils/verifyToken";
 import { setUser } from "../../../redux/features/Auth/authSlice";
 import { useNavigate } from "react-router-dom";
-import Loader from "../../../shared/Loader/Loader";
+
 // Adjust the path as necessary
 
 const Login = () => {
@@ -65,7 +65,7 @@ const Login = () => {
         <div className="container mx-auto pb-10 pt-20 px-4">
           <div className="flex flex-col md:flex-row items-center md:items-start md:space-x-8">
             {/* Form Section */}
-            <div className="w-full my-auto md:w-1/2 bg-[#4252B1]  border-4 border-red-600 p-8 rounded-lg">
+            <div className="w-full my-auto md:w-1/2 bg-[#4252B1] p-8 rounded-lg">
               <h2 className="text-4xl font-serif font-bold text-center text-white mb-8">
                 Welcome to Drive Lux
               </h2>
@@ -134,7 +134,7 @@ const Login = () => {
             </div>
 
             {/* Image Section */}
-            <div className="w-full md:w-1/2 border-4 border-red-600 md:h-[570px] mt-8 md:mt-0">
+            <div className="w-full md:w-1/2  md:h-[570px] mt-8 md:mt-0">
               <img
                 src="https://i.postimg.cc/ydvB5j8z/vecteezy-free-vector-login-concept-illustration-23261974.jpg"
                 alt="Login Illustration"
