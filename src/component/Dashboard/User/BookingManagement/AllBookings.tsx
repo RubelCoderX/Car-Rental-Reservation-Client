@@ -1,44 +1,99 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Modal, Space, Table, Spin } from "antd"; // Added Spin for loading indicator
+import { Button, Modal, Space, Table } from "antd";
 import { bookingApi } from "../../../../redux/features/Booking/bookingApi";
-import { toast } from "sonner";
-import { GetStatusTag } from "../../../../utils/getStatusTag";
+import { GetStatusTag, PaymentStatusTag } from "../../../../utils/getStatusTag";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useState } from "react";
 import { TCarBooking } from "../../../../type/global.type";
 import Loader from "../../../../shared/Loader/Loader";
+import Swal from "sweetalert2";
+import { carApi } from "../../../../redux/features/Car/carApi";
 
 const AllBookings = () => {
+  const [returnCarWithPayment] = carApi.useCompletePaymentMutation();
   const {
     data: myBookings,
     isFetching,
     isLoading,
   } = bookingApi.useGetMyBookingsQuery(undefined);
   const bookingData = myBookings?.data;
+
   const [deleteMyBooking, { isLoading: isDeleting }] =
-    bookingApi.useDeleteBookingMutation(); // Track delete loading state
+    bookingApi.useDeleteBookingMutation();
   const tableData = bookingData?.map((item: TCarBooking) => ({
     key: item._id,
-    name: item?.car.name,
+    name: item?.car?.name,
     price: item?.car.pricePerHour,
     pickUpDate: item?.pickUpDate,
+    pickOfTime: item?.pickTime,
     dropOffDate: item?.dropOffDate,
+    dropOfTime: item?.dropTime,
     status: item?.status,
+    paymentStatus: item?.paymentStatus,
     identity: item?.identity,
     identityNo: item?.identityNo,
     drivingLicenseNo: item?.drivingLicenseNo,
+    totalCost: item?.totalCost,
   }));
 
-  // Delete my booking
+  // Delete my booking with SweetAlert confirmation
   const handleDeleteMyBooking: SubmitHandler<FieldValues> = async (
     bookingId
   ) => {
-    try {
-      await deleteMyBooking(bookingId).unwrap();
-      toast.success("Booking Deleted Successfully", { position: "top-center" });
-    } catch (error: any) {
-      toast.error(error.message);
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await deleteMyBooking(bookingId).unwrap();
+          Swal.fire("Deleted!", "Your booking has been deleted.", "success");
+        } catch (error: any) {
+          Swal.fire(
+            "Error!",
+            error.message || "There was an error deleting your booking.",
+            "error"
+          );
+        }
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire("Cancelled", "Your booking is safe :)", "error");
+      }
+    });
+  };
+  // complete payment && return car
+  const handleReturnCarWithPayment: SubmitHandler<FieldValues> = async (
+    bookingId
+  ) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to return the car with payment?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, return it!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await returnCarWithPayment(bookingId).unwrap();
+          console.log(res);
+          window.location.href = res.data.payment_url;
+        } catch (error: any) {
+          Swal.fire(
+            "Error!",
+            error.message || "There was an error returning your booking.",
+            "error"
+          );
+        }
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire("Cancelled", "Your booking is safe :)", "error");
+      }
+    });
   };
 
   const columns = [
@@ -51,12 +106,18 @@ const AllBookings = () => {
       title: "Price",
       dataIndex: "price",
       key: "price",
-      render: (price: number) => `$${price.toFixed(2)}/hour`,
+      render: (last: number) => `Tk ${last.toFixed(2)}/ hour`,
     },
+
     {
       title: "Pick-Up Date",
       dataIndex: "pickUpDate",
       key: "pickUpDate",
+    },
+    {
+      title: "Pick-Up Time",
+      dataIndex: "pickOfTime",
+      key: "pickOfTime",
     },
     {
       title: "Drop-Off Date",
@@ -66,16 +127,36 @@ const AllBookings = () => {
         record.status === "completed" ? text : "N/A",
     },
     {
-      title: "Status",
+      title: "Drop-Off Time",
+      dataIndex: "dropOfTime",
+      key: "dropOfTime",
+      render: (text: any, record: { status: string }) =>
+        record.status === "completed" ? text : "N/A",
+    },
+    {
+      title: "Car Booking Status",
       dataIndex: "status",
       key: "status",
       render: (status: string) => GetStatusTag(status),
+    },
+    {
+      title: "Payment Status",
+      dataIndex: "paymentStatus",
+      key: "paymentStatus",
+      render: (paymentStatus: string) => PaymentStatusTag(paymentStatus),
+    },
+    {
+      title: "Total Cost",
+      dataIndex: "totalCost",
+      key: "totalCost",
     },
     {
       title: "Action",
       key: "action",
       render: (item: any) => {
         const onGoing = item.status === "ongoing";
+        const completed = item.status === "completed";
+        const payment = item.status === "pending";
 
         return (
           <Space size="middle">
@@ -84,7 +165,13 @@ const AllBookings = () => {
               onClick={() => handleDeleteMyBooking(item.key)}
               disabled={onGoing || isDeleting}
             >
-              {isDeleting ? <Spin size="small" /> : "Delete"}
+              Delete
+            </Button>
+            <Button
+              onClick={() => handleReturnCarWithPayment(item.key)}
+              disabled={payment || completed}
+            >
+              Payment
             </Button>
           </Space>
         );
@@ -105,7 +192,7 @@ const AllBookings = () => {
         <Table
           columns={columns}
           dataSource={tableData || []}
-          pagination={false}
+          // pagination={false}
           className="overflow-x-auto"
         />
       )}
@@ -116,8 +203,7 @@ const AllBookings = () => {
 export default AllBookings;
 
 const UpdateBookingModel = ({ data }: any) => {
-  const [updateBooking, { isLoading: isUpdating }] =
-    bookingApi.useUpdateBookingMutation(); // Track update loading state
+  const [updateBooking] = bookingApi.useUpdateBookingMutation();
   const { register, handleSubmit, reset } = useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -141,20 +227,27 @@ const UpdateBookingModel = ({ data }: any) => {
         bookingData,
       }).unwrap();
 
-      toast.success("Booking Updated Successfully", {
-        position: "top-center",
-      });
+      Swal.fire(
+        "Updated!",
+        "Your booking has been updated successfully.",
+        "success"
+      );
       handleCancel();
       reset();
     } catch (error: any) {
-      toast.error(error.message);
+      Swal.fire(
+        "Error!",
+        error.message || "There was an error updating your booking.",
+        "error"
+      );
     }
   };
 
   const onGoing = data.status === "ongoing";
+  const isCompleted = data.status === "completed";
   return (
     <div>
-      <Button onClick={showModal} disabled={onGoing}>
+      <Button onClick={showModal} disabled={onGoing || isCompleted}>
         Update
       </Button>
       <Modal
@@ -204,7 +297,6 @@ const UpdateBookingModel = ({ data }: any) => {
             <Button
               key="submit"
               type="primary"
-              loading={isUpdating}
               htmlType="submit"
               style={{ backgroundColor: "red" }}
             >

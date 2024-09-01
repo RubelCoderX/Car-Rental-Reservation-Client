@@ -22,6 +22,7 @@ export type TCarBooking = {
   user: TUser;
   car: TCar;
   dropOffDate: string;
+  paymentStatus: string;
   totalCost: number;
   status: string;
   identity: string;
@@ -31,6 +32,8 @@ export type TCarBooking = {
   pickUpDate: string;
   createdAt: string;
   updatedAt: string;
+  pickTime: string;
+  dropTime: string;
 };
 export type TUser = {
   _id: string;

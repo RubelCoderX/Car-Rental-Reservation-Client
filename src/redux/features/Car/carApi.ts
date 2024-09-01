@@ -25,6 +25,7 @@ export const carApi = baseApi.injectEndpoints({
         if (location) {
           params.append("location", location);
         }
+
         return {
           url: "/cars",
           method: "GET",
@@ -53,7 +54,7 @@ export const carApi = baseApi.injectEndpoints({
         if (args?.seats) {
           params.append("seats", args.seats);
         }
-        console.log(params);
+
         return {
           url: "/cars/search-cars",
           method: "GET",
@@ -74,6 +75,13 @@ export const carApi = baseApi.injectEndpoints({
       query: (id: string) => ({
         url: `/cars/${id}`,
         method: "DELETE",
+      }),
+      invalidatesTags: ["car"],
+    }),
+    completePayment: builder.mutation({
+      query: (bookingId) => ({
+        url: `/cars/return-car/${bookingId}`,
+        method: "PUT",
       }),
       invalidatesTags: ["car"],
     }),

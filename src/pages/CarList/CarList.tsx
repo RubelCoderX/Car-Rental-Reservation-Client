@@ -63,13 +63,13 @@ const CarList = () => {
                   htmlFor="minmax-range"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  ${price}
+                  Tk {price}
                 </label>
                 <label
                   htmlFor="minmax-range"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  $2000
+                  Tk 2000
                 </label>
               </div>
               <input

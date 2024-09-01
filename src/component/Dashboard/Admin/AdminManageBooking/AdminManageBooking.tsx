@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Button, Space, Table, Tag, Spin } from "antd";
+import { Button, Space, Table } from "antd";
 import { bookingApi } from "../../../../redux/features/Booking/bookingApi";
-import { toast } from "sonner";
-import { FieldValues, SubmitHandler } from "react-hook-form";
-import { GetStatusTag } from "../../../../utils/getStatusTag";
+import { GetStatusTag, PaymentStatusTag } from "../../../../utils/getStatusTag";
 import Loader from "../../../../shared/Loader/Loader";
 import { TCarBooking } from "../../../../type/global.type";
+import Swal from "sweetalert2";
+import { FieldValues, SubmitHandler } from "react-hook-form";
 
 const AdminManageBooking = () => {
   const { data: allBookings, isLoading } =
@@ -17,22 +16,54 @@ const AdminManageBooking = () => {
 
   // handle approve
   const handleApprove: SubmitHandler<FieldValues> = async (bookingId) => {
-    try {
-      await updateStatus(bookingId).unwrap();
-      toast.success("Booking Approved");
-    } catch (error: any) {
-      toast.error("Failed to approve booking");
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You are about to approve this booking.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, approve it!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await updateStatus(bookingId).unwrap();
+          Swal.fire("Approved!", "The booking has been approved.", "success");
+        } catch (error: any) {
+          Swal.fire("Error!", error.message, "error");
+        }
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          "Cancelled",
+          "The booking approval has been cancelled.",
+          "error"
+        );
+      }
+    });
   };
 
   // handle delete booking
   const handleDeleteBooking: SubmitHandler<FieldValues> = async (bookingId) => {
-    try {
-      await deleteBooking(bookingId).unwrap();
-      toast.success("Booking Deleted Successfully");
-    } catch (error: any) {
-      toast.error(error.message);
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await deleteBooking(bookingId).unwrap();
+          Swal.fire("Deleted!", "The booking has been deleted.", "success");
+        } catch (error: any) {
+          Swal.fire("Error!", error.message, "error");
+        }
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire("Cancelled", "The booking is safe.", "error");
+      }
+    });
   };
 
   const tableData = allBookingData?.map((item: TCarBooking) => ({
@@ -42,10 +73,12 @@ const AdminManageBooking = () => {
     name: item?.car.name,
     price: item?.car.pricePerHour,
     pickUpDate: item?.pickUpDate,
-    pickUpTime: item?.pickUpTime,
+    pickUpTime: item?.pickTime,
     dropOffDate: item?.dropOffDate,
-    dropOffTime: item?.dropOffTime,
+    dropOffTime: item?.dropTime,
     status: item?.status,
+    paymentStatus: item?.paymentStatus,
+    totalCost: item?.totalCost,
   }));
 
   const columns = [
@@ -70,31 +103,59 @@ const AdminManageBooking = () => {
       key: "pickUpDate",
     },
     {
+      title: "Pick-Up Time",
+      dataIndex: "pickUpTime",
+      key: "pickUpTime",
+    },
+    {
       title: "Drop-Off Date",
       dataIndex: "dropOffDate",
       key: "dropOffDate",
-      render: (text, record) => (record.status === "completed" ? text : "N/A"),
+      render: (text: any, record: any) =>
+        record.status === "completed" ? text : "N/A",
+    },
+    {
+      title: "Drop-Off Time",
+      dataIndex: "dropOffTime",
+      key: "dropOffTime",
+      render: (text: any, record: any) =>
+        record.status === "completed" ? text : "N/A",
     },
     {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (status) => GetStatusTag(status),
+      render: (status: string) => GetStatusTag(status),
+    },
+    {
+      title: "Payment Status",
+      dataIndex: "paymentStatus",
+      key: "paymentStatus",
+      render: (status: string) => PaymentStatusTag(status),
+    },
+    {
+      title: "Total Profite",
+      dataIndex: "totalCost",
+      key: "totalCost",
     },
     {
       title: "Action",
       key: "action",
-      render: (item) => {
+      render: (item: any) => {
         const isOngoing = item.status === "ongoing";
+        const isCompleted = item.status === "completed";
         return (
           <Space size="middle">
             <Button
               onClick={() => handleApprove(item.key)}
-              disabled={isOngoing}
+              disabled={isOngoing || isCompleted}
             >
               Approve
             </Button>
-            <Button onClick={() => handleDeleteBooking(item.key)}>
+            <Button
+              onClick={() => handleDeleteBooking(item.key)}
+              disabled={isOngoing}
+            >
               Delete
             </Button>
           </Space>
@@ -104,8 +165,8 @@ const AdminManageBooking = () => {
   ];
 
   return (
-    <div className="bg-gray-50  min-h-screen p-4">
-      <div className="bg-gradient-to-r from-slate-500  p-8 mb-10 rounded-lg shadow-md">
+    <div className="bg-gray-50 min-h-screen p-4">
+      <div className="bg-gradient-to-r from-slate-500 p-8 mb-10 rounded-lg shadow-md">
         <h2 className="text-4xl font-bold text-center text-white">
           Manage All <span className="text-yellow-300">User Bookings</span>
         </h2>

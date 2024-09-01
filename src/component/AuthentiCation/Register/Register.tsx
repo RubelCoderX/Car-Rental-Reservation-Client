@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { authApi } from "../../../redux/features/Auth/authApi";
 import { toast } from "sonner";

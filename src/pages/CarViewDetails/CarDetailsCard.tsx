@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import Stars from "../../shared/Starts/Starts";
@@ -6,8 +7,8 @@ import { FaCarSide, FaDoorOpen, FaGasPump, FaUsers } from "react-icons/fa6";
 import { FaCalendarAlt, FaCogs, FaTachometerAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const CarDetailsCard = ({ carDetails }) => {
-  const star = carDetails?.ratings;
+const CarDetailsCard = ({ carDetails }: any) => {
+  const star = carDetails?.rating;
   return (
     <div className="container mx-auto flex flex-col lg:flex-row justify-evenly items-center my-10 p-4">
       {/* Left side - Image/Slider */}
@@ -19,7 +20,7 @@ const CarDetailsCard = ({ carDetails }) => {
           showThumbs={false}
           showStatus={false}
         >
-          {carDetails?.carImgUrl.map((imgUrl, index) => (
+          {carDetails?.carImgUrl.map((imgUrl: any, index: any) => (
             <div key={index}>
               <img
                 className="rounded-md object-cover w-full h-64 sm:h-80 md:h-[400px]"

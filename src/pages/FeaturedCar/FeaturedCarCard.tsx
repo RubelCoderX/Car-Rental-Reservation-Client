@@ -5,7 +5,7 @@ import BookingFormModal from "../CarBooking/BookingFromModal";
 
 const FeaturedCarCard = ({ car }: any) => {
   const id = car?._id;
-  const star = car?.ratings;
+  const star = car?.rating;
   const { pathname } = useLocation();
 
   return (
@@ -31,7 +31,7 @@ const FeaturedCarCard = ({ car }: any) => {
           </div>
           <div className="mt-4 md:mt-0">
             <span className="text-red-500 font-semibold text-xl">
-              ${car?.pricePerHour}
+              {car?.pricePerHour} Tk
             </span>
             <p className="text-gray-500 text-sm">Per Hour</p>
           </div>

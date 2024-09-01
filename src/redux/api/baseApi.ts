@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // import {
 //   BaseQueryApi,
 //   BaseQueryFn,
@@ -98,19 +99,16 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 > = async (args, api, extraOptions): Promise<any> => {
   let result = await baseQuery(args, api, extraOptions);
 
-  // Log the initial result
-  console.log("API result:", result);
-
   if (result?.error?.status === 401) {
     // Attempt to refresh the token
     const res = await fetch("http://localhost:3000/api/auth/refresh-token", {
       method: "POST",
       credentials: "include",
     });
-
+    const user = (api.getState() as RootState).auth.user;
     const data = await res.json(); // Parse the JSON response
-    if (data?.data?.accessToken) {
-      const user = (api.getState() as RootState).auth.user; // Get the current user
+    if (data?.data?.accessToken && user !== null) {
+      // Get the current user
       api.dispatch(
         setUser({
           user,

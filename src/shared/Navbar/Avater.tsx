@@ -1,23 +1,19 @@
 import { FaUser } from "react-icons/fa6";
-import { verifyToken } from "../../utils/verifyToken";
+import { userApi } from "../../redux/features/user/userApi";
 import { useAppSelector } from "../../redux/hooks";
 import { useCurrentToken } from "../../redux/features/Auth/authSlice";
 
 const Avatar = () => {
   const token = useAppSelector(useCurrentToken);
-  let user;
 
-  if (token) {
-    user = verifyToken(token);
-  }
-
-  const profile = user?.image;
+  const { data: getMe } = userApi.useGetMeQuery(undefined, { skip: !token });
+  const user = getMe?.data;
 
   return (
     <div className="flex items-center">
       {user ? (
         <img
-          src={profile}
+          src={user?.image}
           alt={user?.name}
           className="h-8 w-8 rounded-full object-cover"
         />

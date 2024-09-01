@@ -7,19 +7,15 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import { TUser } from "../../../../type/global.type";
 import { userApi } from "../../../../redux/features/user/userApi";
 import Loader from "../../../../shared/Loader/Loader";
-import { useState } from "react";
+import Swal from "sweetalert2";
 
 const AdminAllUser = () => {
   const { data: allUser, isLoading: isLoadingAllUsers } =
     userManagementApi.useGetAllUserQuery(undefined);
   const userData = allUser?.data;
 
-  const [updateRole, { isLoading: isUpdatingRole }] =
-    userManagementApi.useMakeAdminMutation();
-  const [deleteUser, { isLoading: isDeletingUser }] =
-    userApi.useDeleteUserMutation();
-
-  const [loadingId, setLoadingId] = useState<string | null>(null);
+  const [updateRole] = userManagementApi.useMakeAdminMutation();
+  const [deleteUser] = userApi.useDeleteUserMutation();
 
   const tableData = userData?.map((item: TUser) => ({
     key: item._id,
@@ -30,30 +26,52 @@ const AdminAllUser = () => {
     status: item?.isDeleted ? "Blocked" : "Active",
   }));
 
-  // delete user
+  // delete user with SweetAlert confirmation
   const handleDeleteUser: SubmitHandler<FieldValues> = async (id) => {
-    try {
-      setLoadingId(id);
-      await deleteUser(id).unwrap();
-      toast.success("User Deleted Successfully");
-    } catch (error: any) {
-      toast.error(error.message);
-    } finally {
-      setLoadingId(null);
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await deleteUser(id).unwrap();
+          toast.success("User Deleted Successfully");
+        } catch (error: any) {
+          toast.error(error.message);
+        }
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        toast.info("Delete action cancelled");
+      }
+    });
   };
 
-  // update role
+  // update role with SweetAlert confirmation
   const updateRoleHandler = async (userId: string) => {
-    try {
-      setLoadingId(userId);
-      await updateRole(userId).unwrap();
-      toast.success("User Role Updated Successfully");
-    } catch (error: any) {
-      toast.error(error.message);
-    } finally {
-      setLoadingId(null);
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to update the user's role?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes, update it!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await updateRole(userId).unwrap();
+          toast.success("User Role Updated Successfully");
+        } catch (error: any) {
+          toast.error(error.message);
+        }
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        toast.info("Update action cancelled");
+      }
+    });
   };
 
   const columns = [
@@ -93,15 +111,11 @@ const AdminAllUser = () => {
       key: "action",
       render: (item) => (
         <Space size="middle">
-          <Button
-            onClick={() => updateRoleHandler(item.key)}
-            loading={isUpdatingRole && loadingId === item.key}
-          >
+          <Button onClick={() => updateRoleHandler(item.key)}>
             Update Role
           </Button>
           <Button
             onClick={() => handleDeleteUser(item.key)}
-            loading={isDeletingUser && loadingId === item.key}
             disabled={item.status === "Blocked"}
           >
             Delete
