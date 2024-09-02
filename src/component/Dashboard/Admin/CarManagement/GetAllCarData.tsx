@@ -4,7 +4,7 @@ import { carApi } from "../../../../redux/features/Car/carApi";
 import { toast } from "sonner";
 import Loader from "../../../../shared/Loader/Loader";
 import { TCar } from "../../../../type/global.type";
-import { Link } from "react-router-dom";
+
 import UpdateCar from "./UpdateCar";
 
 const GetAllCarData = () => {

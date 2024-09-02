@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Modal } from "antd";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import {
   carFeatures,
-  TCar,
   vehicleSpecifications,
 } from "../../../../type/global.type";
 import { MultiValue } from "react-select";
@@ -17,7 +17,7 @@ type OptionType = {
   label: string;
 };
 
-const UpdateCar = ({ data }: { data: TCar }) => {
+const UpdateCar = ({ data }: any) => {
   const [selectOptions, setSelectOptions] = useState<OptionType[]>([]);
   const [selectVehicleSpecifications, setSelectVehicleSpecifications] =
     useState<OptionType[]>([]);
@@ -66,7 +66,7 @@ const UpdateCar = ({ data }: { data: TCar }) => {
     const priceValue = Number(pricePerHour);
 
     // Handle image upload separately
-    const imageUploadResult = await uploadImageToCloudinary(carImgUrl); // Assuming the file input is handled correctly
+    const imageUploadResult = await uploadImageToCloudinary(carImgUrl);
 
     // Prepare data for submission
     const updatedData = {
@@ -300,7 +300,7 @@ const UpdateCar = ({ data }: { data: TCar }) => {
                   Vehicle Specifications
                 </label>
                 <Select
-                  defaultValue={data?.vehicleSpecifications}
+                  // defaultValue={data?.vehicleSpecifications}
                   options={vehicleSpecifications}
                   value={selectVehicleSpecifications}
                   isMulti={true}

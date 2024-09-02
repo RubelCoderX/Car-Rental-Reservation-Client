@@ -11,7 +11,7 @@ export type TCar = {
   pricePerHour: number;
   status: string;
   carImgUrl: string[];
-  vehicleSpecification: string[];
+  vehicleSpecification: string;
   maxSeats: number;
   rating: number;
   gearType: string;

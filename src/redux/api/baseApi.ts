@@ -9,11 +9,9 @@ import {
 import { RootState } from "../store";
 import { logOut, setUser } from "../features/Auth/authSlice";
 
-// https://car-rental-reservation-system-backend-sand.vercel.app
 // Base query configuration with the API base URL
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:3000/api", // Ensure this is your correct base URL
-  // baseUrl: "https://car-rental-reservation-system-backend-sand.vercel.app",
+  baseUrl: "https://car-rental-reservation-system-backend-sand.vercel.app/api",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState)?.auth?.token; // Access the token from state
@@ -36,17 +34,14 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 
   if (result?.error?.status === 401) {
     // Attempt to refresh the token
-    const res = await fetch("http://localhost:3000/api/auth/refresh-token", {
-      method: "POST",
-      credentials: "include",
-    });
-    // const res = await fetch(
-    //   "https://car-rental-reservation-system-backend-sand.vercel.app/api/auth/refresh-token",
-    //   {
-    //     method: "POST",
-    //     credentials: "include",
-    //   }
-    // );
+    const res = await fetch(
+      "https://car-rental-reservation-system-backend-sand.vercel.app/api/auth/refresh-token",
+      {
+        method: "POST",
+        credentials: "include",
+      }
+    );
+
     const user = (api.getState() as RootState).auth.user;
     const data = await res.json(); // Parse the JSON response
     if (data?.data?.accessToken && user !== null) {
