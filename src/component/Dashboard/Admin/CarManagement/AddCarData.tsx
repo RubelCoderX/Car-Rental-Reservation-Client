@@ -1,5 +1,5 @@
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import Select from "react-select";
+import Select, { MultiValue } from "react-select";
 import {
   carFeatures,
   vehicleSpecifications,
@@ -28,8 +28,8 @@ const AddCarData = () => {
   } = useForm();
 
   // Handle change for car features
-  const handleFeatureChange = (selectedOptions) => {
-    setSelectOptions(selectedOptions);
+  const handleFeatureChange = (selectedOptions: MultiValue<OptionType>) => {
+    setSelectOptions(selectedOptions as OptionType[]);
     setValue(
       "carFeatures",
       selectedOptions.map((option) => option.value)
@@ -37,8 +37,10 @@ const AddCarData = () => {
   };
 
   // Handle change for vehicle specifications
-  const handleSpecificationChange = (selectedOptions) => {
-    setSelectVehicleSpecifications(selectedOptions);
+  const handleSpecificationChange = (
+    selectedOptions: MultiValue<OptionType>
+  ) => {
+    setSelectVehicleSpecifications(selectedOptions as OptionType[]);
     setValue(
       "vehicleSpecifications",
       selectedOptions.map((option) => option.value)
@@ -126,7 +128,7 @@ const AddCarData = () => {
               </label>
               <input
                 type="number"
-                {...register("ratings", { required: "Car rating is required" })}
+                {...register("rating", { required: "Car rating is required" })}
                 className="mt-1 p-2 border border-gray-300 rounded w-full"
               />
               {errors.rating && (

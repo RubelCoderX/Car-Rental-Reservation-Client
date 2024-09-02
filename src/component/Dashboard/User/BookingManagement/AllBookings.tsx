@@ -7,10 +7,11 @@ import { useState } from "react";
 import { TCarBooking } from "../../../../type/global.type";
 import Loader from "../../../../shared/Loader/Loader";
 import Swal from "sweetalert2";
-import { carApi } from "../../../../redux/features/Car/carApi";
+import type { ColumnsType } from "antd/es/table";
 
 const AllBookings = () => {
-  const [returnCarWithPayment] = carApi.useCompletePaymentMutation();
+  const [returnCarWithPayment] =
+    bookingApi.useCarReturnAndWithPaymentMutation();
   const {
     data: myBookings,
     isFetching,
@@ -36,7 +37,6 @@ const AllBookings = () => {
     totalCost: item?.totalCost,
   }));
 
-  // Delete my booking with SweetAlert confirmation
   const handleDeleteMyBooking: SubmitHandler<FieldValues> = async (
     bookingId
   ) => {
@@ -65,13 +65,13 @@ const AllBookings = () => {
       }
     });
   };
-  // complete payment && return car
+
   const handleReturnCarWithPayment: SubmitHandler<FieldValues> = async (
     bookingId
   ) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You want to return the car with payment?",
+      text: "You want to complete the payment?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Yes, return it!",
@@ -81,7 +81,6 @@ const AllBookings = () => {
       if (result.isConfirmed) {
         try {
           const res = await returnCarWithPayment(bookingId).unwrap();
-          console.log(res);
           window.location.href = res.data.payment_url;
         } catch (error: any) {
           Swal.fire(
@@ -96,28 +95,31 @@ const AllBookings = () => {
     });
   };
 
-  const columns = [
+  const columns: ColumnsType<TCarBooking> = [
     {
       title: "Car Name",
       dataIndex: "name",
       key: "name",
+      responsive: ["xs", "sm", "md", "lg"],
     },
     {
       title: "Price",
       dataIndex: "price",
       key: "price",
-      render: (last: number) => `Tk ${last.toFixed(2)}/ hour`,
+      render: (last: number) => `Tk ${last.toFixed(2)}/hour`,
+      responsive: ["xs", "sm", "md", "lg"],
     },
-
     {
       title: "Pick-Up Date",
       dataIndex: "pickUpDate",
       key: "pickUpDate",
+      responsive: ["xs", "sm", "md", "lg"],
     },
     {
       title: "Pick-Up Time",
       dataIndex: "pickOfTime",
       key: "pickOfTime",
+      responsive: ["xs", "sm", "md", "lg"],
     },
     {
       title: "Drop-Off Date",
@@ -125,6 +127,7 @@ const AllBookings = () => {
       key: "dropOffDate",
       render: (text: any, record: { status: string }) =>
         record.status === "completed" ? text : "N/A",
+      responsive: ["xs", "sm", "md", "lg"],
     },
     {
       title: "Drop-Off Time",
@@ -132,30 +135,34 @@ const AllBookings = () => {
       key: "dropOfTime",
       render: (text: any, record: { status: string }) =>
         record.status === "completed" ? text : "N/A",
+      responsive: ["xs", "sm", "md", "lg"],
     },
     {
       title: "Car Booking Status",
       dataIndex: "status",
       key: "status",
       render: (status: string) => GetStatusTag(status),
+      responsive: ["xs", "sm", "md", "lg"],
     },
     {
       title: "Payment Status",
       dataIndex: "paymentStatus",
       key: "paymentStatus",
       render: (paymentStatus: string) => PaymentStatusTag(paymentStatus),
+      responsive: ["xs", "sm", "md", "lg"],
     },
     {
       title: "Total Cost",
       dataIndex: "totalCost",
       key: "totalCost",
+      responsive: ["xs", "sm", "md", "lg"],
     },
     {
       title: "Action",
       key: "action",
       render: (item: any) => {
         const onGoing = item.status === "ongoing";
-        const completed = item.status === "completed";
+        const paymentPaid = item.paymentStatus === "paid";
         const payment = item.status === "pending";
 
         return (
@@ -169,32 +176,34 @@ const AllBookings = () => {
             </Button>
             <Button
               onClick={() => handleReturnCarWithPayment(item.key)}
-              disabled={payment || completed}
+              disabled={payment || onGoing || paymentPaid}
             >
               Payment
             </Button>
           </Space>
         );
       },
+      responsive: ["xs", "sm", "md", "lg"],
     },
   ];
 
   return (
-    <div>
+    <div className="p-4 md:p-8">
       <div className="bg-slate-300 p-4 mb-10 rounded-lg shadow-md">
-        <h2 className="text-4xl font-serif font-bold text-center text-black mb-8">
+        <h2 className="text-2xl md:text-4xl font-serif font-bold text-center text-black mb-4 md:mb-8">
           Total Bookings <span className="text-red-600">List</span>
         </h2>
       </div>
       {isLoading || isFetching ? (
         <Loader />
       ) : (
-        <Table
-          columns={columns}
-          dataSource={tableData || []}
-          // pagination={false}
-          className="overflow-x-auto"
-        />
+        <div className="overflow-x-auto">
+          <Table
+            columns={columns}
+            dataSource={tableData || []}
+            pagination={false}
+          />
+        </div>
       )}
     </div>
   );
@@ -255,12 +264,13 @@ const UpdateBookingModel = ({ data }: any) => {
         open={isModalOpen}
         onCancel={handleCancel}
         footer={null}
+        className="w-full max-w-lg"
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col mb-3">
             <label>NID/PASSPORT</label>
             <select
-              className="mt-1 bg-white border text-gray-900 text-sm rounded block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white shadow-lg"
+              className="mt-1 bg-white border text-gray-900 text-sm rounded block w-full p-2.5 shadow-lg"
               {...register("identity")}
             >
               <option value="nid" selected={data.identity === "nid"}>
@@ -271,38 +281,25 @@ const UpdateBookingModel = ({ data }: any) => {
               </option>
             </select>
           </div>
-
           <div className="flex flex-col mb-3">
-            <label>NID/PASSPORT No.</label>
+            <label>ID Number</label>
             <input
-              className="mt-1 bg-white border text-gray-900 text-sm rounded block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white shadow-lg"
+              className="mt-1 bg-white border text-gray-900 text-sm rounded block w-full p-2.5 shadow-lg"
               {...register("identityNo")}
               defaultValue={data.identityNo}
             />
           </div>
-
           <div className="flex flex-col mb-3">
-            <label>Driving License No.</label>
+            <label>Driving License Number</label>
             <input
-              className="mt-1 bg-white border text-gray-900 text-sm rounded block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white shadow-lg"
+              className="mt-1 bg-white border text-gray-900 text-sm rounded block w-full p-2.5 shadow-lg"
               {...register("drivingLicenseNo")}
               defaultValue={data.drivingLicenseNo}
             />
           </div>
-
-          <div className="space-x-4">
-            <Button key="back" onClick={handleCancel}>
-              Cancel
-            </Button>
-            <Button
-              key="submit"
-              type="primary"
-              htmlType="submit"
-              style={{ backgroundColor: "red" }}
-            >
-              Update
-            </Button>
-          </div>
+          <Button className="mt-4 bg-blue-500 text-white" htmlType="submit">
+            Submit
+          </Button>
         </form>
       </Modal>
     </div>

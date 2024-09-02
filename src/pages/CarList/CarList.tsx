@@ -2,6 +2,7 @@ import { useState } from "react";
 import { carApi } from "../../redux/features/Car/carApi";
 import FeaturedCarCard from "../FeaturedCar/FeaturedCarCard";
 import Loader from "../../shared/Loader/Loader";
+import { TCar } from "../../type/global.type";
 
 const CarList = () => {
   const [carType, setCarType] = useState("");
@@ -102,7 +103,9 @@ const CarList = () => {
                 <Loader />
               </div>
             ) : (
-              carData?.map((car) => <FeaturedCarCard key={car.id} car={car} />)
+              carData?.map((car: TCar) => (
+                <FeaturedCarCard key={car._id} car={car} />
+              ))
             )}
           </div>
         </div>

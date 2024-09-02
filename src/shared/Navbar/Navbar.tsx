@@ -1,5 +1,3 @@
-import { useCurrentToken } from "../../redux/features/Auth/authSlice";
-import { useAppSelector } from "../../redux/hooks";
 import Container from "../Container/Container";
 import Logo from "./Logo";
 import MenuDropDown from "./MenuDropDown";

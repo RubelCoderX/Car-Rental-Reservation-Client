@@ -6,6 +6,7 @@ import { carApi } from "../../redux/features/Car/carApi";
 import Loader from "../../shared/Loader/Loader";
 import { FaArrowRight } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { TCar } from "../../type/global.type";
 
 const FeaturedCart = () => {
   const settings = {
@@ -65,8 +66,8 @@ const FeaturedCart = () => {
         <h2 className="text-3xl md:text-4xl font-semibold mb-4">
           Recommended <span className="text-red-500">Cars</span>
         </h2>
-        <div className="flex justify-between items-center mb-8">
-          <p className="text-gray-600 max-w-2xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-8 space-y-4 md:space-y-0">
+          <p className="text-gray-600 max-w-2xl mx-auto text-center md:text-left">
             Experience the perfect blend of performance and comfort with our
             top-rated vehicles, featuring advanced technology, sleek design, and
             exceptional fuel efficiency.
@@ -82,7 +83,7 @@ const FeaturedCart = () => {
           <Loader />
         ) : (
           <Slider {...settings}>
-            {carData?.map((car, index) => (
+            {carData?.map((car: TCar, index: number) => (
               <FeaturedCarCard car={car} key={index} />
             ))}
           </Slider>

@@ -2,12 +2,9 @@ import { useState } from "react";
 import { AiOutlineBars } from "react-icons/ai";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { GrLogout } from "react-icons/gr";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import {
-  logOut,
-  useCurrentToken,
-} from "../../../redux/features/Auth/authSlice";
-import { verifyToken } from "../../../utils/verifyToken";
+import { useAppDispatch } from "../../../redux/hooks";
+import { logOut } from "../../../redux/features/Auth/authSlice";
+
 import Avatar from "../../../shared/Navbar/Avater";
 import UserMenu from "./UserMenu/UserMenu";
 import Logo from "../../../shared/Navbar/Logo";

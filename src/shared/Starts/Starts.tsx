@@ -3,7 +3,7 @@ import { FaStarHalfAlt } from "react-icons/fa";
 import { FaStar } from "react-icons/fa6";
 
 const Stars = ({ star = 0 }) => {
-  const ratings = Array.from({ length: 5 }, (ele, index) => {
+  const ratings = Array.from({ length: 5 }, (_, index) => {
     const number = index + 1;
 
     return (

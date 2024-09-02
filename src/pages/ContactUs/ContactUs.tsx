@@ -98,7 +98,7 @@ const ContactUs = () => {
                   id="message"
                   className="shadow appearance-none border border-b-1 hover:border-b-red-600 rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-blue-500 resize-none"
                   placeholder="Write your message here..."
-                  rows="4"
+                  rows={5}
                   required
                 ></textarea>
               </div>

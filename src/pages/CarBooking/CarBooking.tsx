@@ -6,6 +6,7 @@ import { carApi } from "../../redux/features/Car/carApi";
 import FeaturedCarCard from "../FeaturedCar/FeaturedCarCard";
 import Loader from "../../shared/Loader/Loader";
 import { debounce } from "lodash";
+import { TCar } from "../../type/global.type";
 
 // define the SearchParams type
 type SearchParams = {
@@ -153,7 +154,7 @@ const CarBooking = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {carSearch?.data.map((car) => (
+            {carSearch?.data.map((car: TCar) => (
               <FeaturedCarCard key={car._id} car={car} />
             ))}
           </div>

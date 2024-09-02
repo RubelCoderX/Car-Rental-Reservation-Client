@@ -7,7 +7,9 @@ import Loader from "../../shared/Loader/Loader";
 const CarViewDetails = () => {
   const { id } = useParams();
 
-  const { data: carSingleData, isFetching } = carApi.useGetSingleCarsQuery(id);
+  const { data: carSingleData, isFetching } = carApi.useGetSingleCarsQuery(
+    id as string
+  );
   const carDetails = carSingleData?.data;
 
   return (

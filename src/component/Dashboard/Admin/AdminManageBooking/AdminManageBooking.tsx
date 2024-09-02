@@ -6,6 +6,7 @@ import Loader from "../../../../shared/Loader/Loader";
 import { TCarBooking } from "../../../../type/global.type";
 import Swal from "sweetalert2";
 import { FieldValues, SubmitHandler } from "react-hook-form";
+import { carApi } from "../../../../redux/features/Car/carApi";
 
 const AdminManageBooking = () => {
   const { data: allBookings, isLoading } =
@@ -13,6 +14,31 @@ const AdminManageBooking = () => {
   const allBookingData = allBookings?.data;
   const [updateStatus] = bookingApi.useUpdateBookingStatusMutation();
   const [deleteBooking] = bookingApi.useDeleteBookingMutation();
+  const [returnCarIntoGraze] = carApi.useReturnCarMutation();
+
+  // handle return car
+  const handleReturnCar: SubmitHandler<FieldValues> = async (bookingId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You are about to return this car.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, return it!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await returnCarIntoGraze(bookingId).unwrap();
+          Swal.fire("Returned!", "The car has been returned.", "success");
+        } catch (error: any) {
+          Swal.fire("Error!", error.message, "error");
+        }
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire("Cancelled", "The car return has been cancelled.", "error");
+      }
+    });
+  };
 
   // handle approve
   const handleApprove: SubmitHandler<FieldValues> = async (bookingId) => {
@@ -151,6 +177,12 @@ const AdminManageBooking = () => {
               disabled={isOngoing || isCompleted}
             >
               Approve
+            </Button>
+            <Button
+              onClick={() => handleReturnCar(item.key)}
+              disabled={isCompleted}
+            >
+              Return Car
             </Button>
             <Button
               onClick={() => handleDeleteBooking(item.key)}

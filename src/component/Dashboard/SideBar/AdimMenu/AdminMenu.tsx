@@ -6,9 +6,9 @@ import { FaCar, FaClipboardList } from "react-icons/fa"; // New icons
 import { NavLink } from "react-router-dom";
 
 const AdminMenu = () => {
-  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
-  const toggleDropdown = (menu) => {
+  const toggleDropdown = (menu: string) => {
     setActiveDropdown(activeDropdown === menu ? null : menu);
   };
 

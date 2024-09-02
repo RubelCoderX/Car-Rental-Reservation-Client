@@ -1,8 +1,7 @@
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import car1 from "../../assets/bann1.jpg";
 import car2 from "../../assets/banner2.jpg";
-import car3 from "../../assets/banner3.jpg";
 import car4 from "../../assets/banner4.jpg";
 import "./Banner.css";
 import { Link } from "react-router-dom";

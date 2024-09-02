@@ -67,11 +67,14 @@ export const carApi = baseApi.injectEndpoints({
       providesTags: ["car"],
     }),
     updateCar: builder.mutation({
-      query: (carData) => ({
-        url: `/cars/${carData.id}`,
-        method: "PUT",
-        body: carData,
-      }),
+      query: ({ id, carData }) => {
+        console.log(id, carData);
+        return {
+          url: `/cars/${id}`,
+          method: "PUT",
+          body: carData,
+        };
+      },
       invalidatesTags: ["car"],
     }),
     deleteCar: builder.mutation({
@@ -81,7 +84,7 @@ export const carApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["car"],
     }),
-    completePayment: builder.mutation({
+    returnCar: builder.mutation({
       query: (bookingId) => ({
         url: `/cars/return-car/${bookingId}`,
         method: "PUT",

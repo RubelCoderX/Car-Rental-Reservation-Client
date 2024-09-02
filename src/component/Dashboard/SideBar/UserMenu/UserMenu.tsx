@@ -3,13 +3,12 @@ import { BsFillHouseAddFill } from "react-icons/bs";
 import { MdOutlineManageHistory } from "react-icons/md";
 import { AiOutlineDown } from "react-icons/ai";
 
-import { Link, NavLink } from "react-router-dom";
-import { FaPersonRifle } from "react-icons/fa6";
+import { NavLink } from "react-router-dom";
 
 const UserMenu = () => {
-  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
-  const toggleDropdown = (menu) => {
+  const toggleDropdown = (menu: string) => {
     setActiveDropdown(activeDropdown === menu ? null : menu);
   };
 

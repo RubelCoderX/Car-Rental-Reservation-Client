@@ -1,52 +1,35 @@
-const testimonials = [
-  {
-    name: "Kevin Martin",
-    role: "Customer",
-    image: "https://randomuser.me/api/portraits/men/32.jpg",
-    text: "I Was Very Impressed Lorem posuere in miss drana en the nisan semere scerium amiss etiam ornare in the miss drana is lorem fermen nunt mauris.",
-    rating: 3,
-  },
-  {
-    name: "Devid Cullen",
-    role: "Customer",
-    image: "https://randomuser.me/api/portraits/men/33.jpg",
-    text: "I Was Very Impressed Lorem posuere in miss drana en the nisan semere scerium amiss etiam ornare in the miss drana is lorem fermen nunt mauris.",
-    rating: 5,
-  },
-  {
-    name: "Pitar Has",
-    role: "Customer",
-    image: "https://randomuser.me/api/portraits/men/34.jpg",
-    text: "I Was Very Impressed Lorem posuere in miss drana en the nisan semere scerium amiss etiam ornare in the miss drana is lorem fermen nunt mauris.",
-    rating: 5,
-  },
-];
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { feedBackApi } from "../../redux/features/FeedBack/feedBackApi";
 
 const Testimonial = () => {
+  const { data: getAllComment } = feedBackApi.useGetMyFeedBacksQuery(undefined);
+
+  const comments = getAllComment?.data;
+
   return (
     <div className="bg-[#F7F7F7] py-12">
-      <div className="container mx-auto">
-        <h2 className="text-4xl font-bold text-center mb-12">
+      <div className="container mx-auto px-4">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12">
           What Our Satisfied
-          <span className="text-red-600"> Customer Feedback</span>{" "}
+          <span className="text-red-600"> Customer Feedback</span>
         </h2>
-        <div className="grid grid-cols-1 px-4 md:grid-cols-2 lg:grid-cols-3 gap-20">
-          {testimonials.map((testimonial, index) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-16 lg:gap-20">
+          {comments?.map((testimonial: any, index: number) => (
             <div
               key={index}
-              className="md:p-6 p-6 bg-white rounded-md shadow-lg flex flex-col items-start text-left relative"
+              className="p-6 bg-white rounded-md shadow-lg flex flex-col items-center md:items-start text-center md:text-left relative"
             >
               <img
-                src={testimonial.image}
+                src={testimonial.profile}
                 alt={testimonial.name}
-                className="md:w-24 md:h-24 h-20 w-20  rounded-full mb-4 absolute -left-2   transform -translate-x-1/2"
+                className="w-20 h-20 md:w-24 md:h-24 rounded-full mb-4 md:absolute left-0 md:transform md:-translate-x-1/2"
               />
-              <div className="mt-2 ml-8 w-full">
-                <h3 className="text-xl font-semibold mb-1">
+              <div className="mt-2 md:ml-8 w-full">
+                <h3 className="text-lg md:text-xl font-semibold mb-1">
                   {testimonial.name}
                 </h3>
-                <p className="text-gray-500 mb-3">{testimonial.role}</p>
-                <div className="flex mb-2">
+                <p className="text-gray-500 mb-3">customer</p>
+                <div className="flex justify-center md:justify-start mb-2">
                   {Array(testimonial.rating)
                     .fill(2)
                     .map((_, i) => (
@@ -63,8 +46,8 @@ const Testimonial = () => {
                 </div>
               </div>
               <div>
-                <p className="text-gray-600 text-justify mb-6">
-                  {testimonial.text}
+                <p className="text-gray-600 text-sm md:text-base text-justify mb-6">
+                  {testimonial.message}
                 </p>
               </div>
             </div>

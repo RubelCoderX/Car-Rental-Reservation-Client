@@ -6,6 +6,11 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
 import { logOut, useCurrentToken } from "../../redux/features/Auth/authSlice";
 import { verifyToken } from "../../utils/verifyToken";
+import { JwtPayload } from "jsonwebtoken";
+
+interface CustomJwtPayload extends JwtPayload {
+  role: string;
+}
 
 const MenuDropDown = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -36,7 +41,7 @@ const MenuDropDown = () => {
 
   let user;
   if (token) {
-    user = verifyToken(token);
+    user = verifyToken(token) as CustomJwtPayload;
   }
 
   return (
@@ -53,7 +58,7 @@ const MenuDropDown = () => {
         </div>
       </div>
       {menuOpen && (
-        <div className="absolute rounded-b-md shadow-md w-[40vw] md:w-[150px] bg-white overflow-hidden md:-right-20 -right-0 top-16 md:top-14 text-sm">
+        <div className="absolute rounded-b-md shadow-md w-[40vw] md:w-[150px] bg-white overflow-hidden md:-right-20 -right-6 top-16 md:top-14 text-sm">
           <div className="flex flex-col cursor-pointer">
             <Link
               to="/"

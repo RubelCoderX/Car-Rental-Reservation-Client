@@ -1,17 +1,18 @@
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Space, Table, Tag } from "antd";
 import { carApi } from "../../../../redux/features/Car/carApi";
 import { toast } from "sonner";
 import Loader from "../../../../shared/Loader/Loader";
 import { TCar } from "../../../../type/global.type";
+import { Link } from "react-router-dom";
+import UpdateCar from "./UpdateCar";
 
 const GetAllCarData = () => {
   const { data: allCars, isLoading: isFetching } = carApi.useGetAllCarsQuery(
     {}
   );
   const carData = allCars?.data;
-  const [deleteCar, { isLoading: isDeleting }] = carApi.useDeleteCarMutation();
-  const [loadingId, setLoadingId] = useState<string | null>(null);
+  const [deleteCar] = carApi.useDeleteCarMutation();
 
   const tableData = carData?.map((item: TCar) => ({
     key: item._id,
@@ -20,18 +21,22 @@ const GetAllCarData = () => {
     carName: item?.name,
     status: item?.status,
     carType: item?.carType,
+    rating: item?.rating,
+    pricePerHour: item?.pricePerHour,
+    description: item?.description,
+    color: item?.color,
+    maxSeats: item?.maxSeats,
+    gearType: item?.gearType,
+    fuelType: item?.fuelType,
   }));
 
   // delete car
   const handleDeleteCar = async (id: string) => {
     try {
-      setLoadingId(id);
       await deleteCar(id).unwrap();
       toast.success("Car Deleted Successfully");
     } catch (error: any) {
       toast.error(error.message);
-    } finally {
-      setLoadingId(null);
     }
   };
 
@@ -82,13 +87,8 @@ const GetAllCarData = () => {
       key: "action",
       render: (item: any) => (
         <Space size="middle">
-          <Button
-            onClick={() => handleDeleteCar(item.key)}
-            loading={isDeleting && loadingId === item.key}
-            disabled={isFetching || (isDeleting && loadingId === item.key)}
-          >
-            Delete
-          </Button>
+          <Button onClick={() => handleDeleteCar(item.key)}>Delete</Button>
+          <UpdateCar data={item} />
         </Space>
       ),
     },

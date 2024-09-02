@@ -6,10 +6,11 @@ import { Modal } from "antd";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { bookingApi } from "../../redux/features/Booking/bookingApi";
 import { toast } from "sonner";
+import { TCar } from "../../type/global.type";
 
-const BookingFormModal = ({ car }) => {
+const BookingFormModal = ({ car }: { car: TCar }) => {
   const [card, setCard] = useState(true);
-  const [createBooking, { isFetching }] = bookingApi.useAddBookMutation();
+  const [createBooking] = bookingApi.useAddBookMutation();
   const { user, token } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
   const { register, handleSubmit, reset } = useForm();
@@ -35,7 +36,9 @@ const BookingFormModal = ({ car }) => {
         toast.error(res.message, { position: "top-center" });
       }
     } catch (error) {
-      toast.error(error?.data?.message || "Something went wrong");
+      toast.error(
+        (error as { message?: string })?.message || "Something went wrong"
+      );
     }
   };
   //show model

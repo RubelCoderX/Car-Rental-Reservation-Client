@@ -51,5 +51,12 @@ export const bookingApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["booking"],
     }),
+    carReturnAndWithPayment: builder.mutation({
+      query: (bookingId) => ({
+        url: `/bookings/complete-booking/${bookingId}`,
+        method: "POST",
+      }),
+      invalidatesTags: ["booking"],
+    }),
   }),
 });

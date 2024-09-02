@@ -1,71 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// import {
-//   BaseQueryApi,
-//   BaseQueryFn,
-//   createApi,
-//   DefinitionType,
-//   FetchArgs,
-//   fetchBaseQuery,
-// } from "@reduxjs/toolkit/query/react";
-// import { RootState } from "../store";
-// import { logOut, setUser } from "../features/Auth/authSlice";
-
-// const baseQuery = fetchBaseQuery({
-//   baseUrl: "http://localhost:3000/api",
-//   credentials: "include",
-//   prepareHeaders: (headers, { getState }) => {
-//     const token = (getState() as RootState)?.auth?.token;
-
-//     if (token) {
-//       headers.set("Authorization", `Bearer ${token}`);
-//     }
-//     return headers;
-//   },
-// });
-// // create refresh token
-// const baseQueryWithRefreshToken: BaseQueryFn<
-//   FetchArgs,
-//   BaseQueryApi,
-//   DefinitionType
-//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-// > = async (args, api, extraOptions): Promise<any> => {
-//   let result = await baseQuery(args, api, extraOptions);
-
-//   // if (result?.error?.status === 401) {
-//   //   // toast.error(result.error.data.message, { position: "top-center" });
-//   //   console.log("sending refresh token");
-//   // }
-
-//   if (result?.error?.status === 401) {
-//     //* Send refresh token
-//     const res = await fetch("http://localhost:3000/api/auth/refresh-token", {
-//       method: "POST",
-//       credentials: "include",
-//     });
-//     const data = await res.json();
-//     if (data?.data?.accessToken) {
-//       const user = (api.getState() as RootState).auth.user;
-//       api.dispatch(
-//         setUser({
-//           user,
-//           token: data.data.accessToken,
-//         })
-//       );
-//       result = await baseQuery(args, api, extraOptions);
-//     } else {
-//       api.dispatch(logOut());
-//     }
-//   }
-//   return result;
-// };
-
-// export const baseApi = createApi({
-//   reducerPath: "baseApi",
-//   baseQuery: baseQueryWithRefreshToken,
-//   tagTypes: ["user", "booking", "car"],
-//   endpoints: () => ({}),
-// });
-
 import {
   BaseQueryApi,
   BaseQueryFn,
@@ -77,9 +9,11 @@ import {
 import { RootState } from "../store";
 import { logOut, setUser } from "../features/Auth/authSlice";
 
+// https://car-rental-reservation-system-backend-sand.vercel.app
 // Base query configuration with the API base URL
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:3000/api", // Ensure this is your correct base URL
+  // baseUrl: "https://car-rental-reservation-system-backend-sand.vercel.app",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState)?.auth?.token; // Access the token from state
@@ -96,6 +30,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   FetchArgs,
   BaseQueryApi,
   DefinitionType
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 > = async (args, api, extraOptions): Promise<any> => {
   let result = await baseQuery(args, api, extraOptions);
 
@@ -105,6 +40,13 @@ const baseQueryWithRefreshToken: BaseQueryFn<
       method: "POST",
       credentials: "include",
     });
+    // const res = await fetch(
+    //   "https://car-rental-reservation-system-backend-sand.vercel.app/api/auth/refresh-token",
+    //   {
+    //     method: "POST",
+    //     credentials: "include",
+    //   }
+    // );
     const user = (api.getState() as RootState).auth.user;
     const data = await res.json(); // Parse the JSON response
     if (data?.data?.accessToken && user !== null) {

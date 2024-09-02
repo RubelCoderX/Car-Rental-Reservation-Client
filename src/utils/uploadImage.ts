@@ -23,7 +23,8 @@ const uploadImageToCloudinary = async (
     return response.data.secure_url;
   } catch (error) {
     if (error) {
-      toast.error(`Image upload failed: ${error?.message}`);
+      const axiosError = error as { message: string };
+      toast.error(`Image upload failed: ${axiosError.message}`);
       return undefined;
     }
   }

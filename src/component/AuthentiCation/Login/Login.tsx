@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FieldValues, useForm } from "react-hook-form";
 import { authApi } from "../../../redux/features/Auth/authApi";
 import { toast } from "sonner";
@@ -18,7 +19,7 @@ const Login = () => {
     const toastId = toast.loading("Logging in");
     try {
       const res = await addLogin(data).unwrap();
-      const user = verifyToken(res.token);
+      verifyToken(res.token);
 
       dispatch(setUser({ user: res.data, token: res.token }));
       toast.success("Logged in", {
@@ -29,7 +30,7 @@ const Login = () => {
 
       console.log("Navigating to home...");
       navigate("/");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login error:", error);
       toast.error(error?.data?.message || "Login failed", {
         id: toastId,

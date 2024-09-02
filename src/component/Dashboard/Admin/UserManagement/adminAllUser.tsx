@@ -3,7 +3,6 @@
 import { Button, Space, Table, Tag } from "antd";
 import { userManagementApi } from "../../../../redux/features/Admin/userManagementApi";
 import { toast } from "sonner";
-import { FieldValues, SubmitHandler } from "react-hook-form";
 import { TUser } from "../../../../type/global.type";
 import { userApi } from "../../../../redux/features/user/userApi";
 import Loader from "../../../../shared/Loader/Loader";
@@ -27,7 +26,7 @@ const AdminAllUser = () => {
   }));
 
   // delete user with SweetAlert confirmation
-  const handleDeleteUser: SubmitHandler<FieldValues> = async (id) => {
+  const handleDeleteUser = async (id: string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -89,7 +88,7 @@ const AdminAllUser = () => {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (status) => (
+      render: (status: string) => (
         <Tag color={status === "Blocked" ? "red" : "green"}>{status}</Tag>
       ),
     },
@@ -97,7 +96,7 @@ const AdminAllUser = () => {
       title: "Role",
       dataIndex: "role",
       key: "role",
-      render: (role) => (
+      render: (role: string) => (
         <Tag color={role === "admin" ? "green" : "blue"}>{role}</Tag>
       ),
     },
@@ -109,7 +108,7 @@ const AdminAllUser = () => {
     {
       title: "Action",
       key: "action",
-      render: (item) => (
+      render: (item: any) => (
         <Space size="middle">
           <Button onClick={() => updateRoleHandler(item.key)}>
             Update Role

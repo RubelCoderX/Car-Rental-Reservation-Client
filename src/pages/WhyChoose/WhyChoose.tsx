@@ -24,7 +24,7 @@ const WhyChoose = () => {
         Why We are <span className="text-red-600">Specialized!</span> Why Choose
         Us?
       </h2>
-      <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+      <p className="text-gray-600 mb-8 max-w-2xl mx-auto p-2">
         We believe in delivering excellence through personalized services,
         available support, and a dedicated team. Our commitment to quality
         ensures that you receive the best possible experience every time.

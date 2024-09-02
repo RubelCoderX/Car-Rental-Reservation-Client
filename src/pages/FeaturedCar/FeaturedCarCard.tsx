@@ -2,8 +2,9 @@
 import { Link, useLocation } from "react-router-dom";
 import Starts from "../../shared/Starts/Starts";
 import BookingFormModal from "../CarBooking/BookingFromModal";
+import { TCar } from "../../type/global.type";
 
-const FeaturedCarCard = ({ car }: any) => {
+const FeaturedCarCard = ({ car }: { car: TCar }) => {
   const id = car?._id;
   const star = car?.rating;
   const { pathname } = useLocation();

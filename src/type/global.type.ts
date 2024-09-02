@@ -1,5 +1,7 @@
 export type TCar = {
   _id: string;
+  key: string;
+  carName: string;
   name: string;
   description: string;
   color: string;
@@ -11,7 +13,7 @@ export type TCar = {
   carImgUrl: string[];
   vehicleSpecification: string[];
   maxSeats: number;
-  ratings: number;
+  rating: number;
   gearType: string;
   fuelType: string;
   carType: string;
@@ -19,6 +21,7 @@ export type TCar = {
 };
 export type TCarBooking = {
   _id: string;
+
   user: TUser;
   car: TCar;
   dropOffDate: string;
