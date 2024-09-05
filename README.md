@@ -124,8 +124,9 @@ npm run dev
 
 For any inquiries or support, please contact us:
 
-- **Email:** mehedi.haassan1@gmail.com
-- **Phone:** (+880) 13259 12538
-- **Address:** Nilphamari, Rangpur, Bangladesh
+- **Email:** rubel29879@gmail.com
+- **Phone:** (+91 7405868453) (whatsapp)
+- **Permanent Address:** Bangladesh
+- **Present Address:** Gujarat ,India
 
 Feel free to reach out for any questions or feedback regarding the Car Rental Web App. I'm here to help!
