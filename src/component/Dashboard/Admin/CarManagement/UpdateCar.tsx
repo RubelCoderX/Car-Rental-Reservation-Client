@@ -23,6 +23,7 @@ const UpdateCar = ({ data }: any) => {
     useState<OptionType[]>([]);
   const { register, setValue, handleSubmit } = useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -46,7 +47,7 @@ const UpdateCar = ({ data }: any) => {
     setValue(
       "vehicleSpecifications",
       selectedOptions.map((option) => option.value)
-    ); // Store selected specification values
+    );
   };
 
   const handleOk = () => {
@@ -58,6 +59,7 @@ const UpdateCar = ({ data }: any) => {
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (cdata) => {
+    setIsLoading(true);
     const { rating, maxSeats, pricePerHour, carImgUrl, isElectric, ...rest } =
       cdata;
 
@@ -77,10 +79,6 @@ const UpdateCar = ({ data }: any) => {
       isElectric: isElectric === "true" ? true : false,
       carImgUrl: imageUploadResult,
     };
-
-    // Add your API call here to update the car data with updatedData
-    console.log(updatedData);
-
     try {
       const res = await updateCar({
         id: data?.key,
@@ -91,6 +89,8 @@ const UpdateCar = ({ data }: any) => {
       setIsModalOpen(false);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -324,9 +324,15 @@ const UpdateCar = ({ data }: any) => {
               />
             </div>
 
-            <Button htmlType="submit" className="mt-6 w-full">
-              Update
-            </Button>
+            <button
+              type="submit"
+              className={`bg-blue-500 text-white w-full font-bold py-2 px-4 rounded ${
+                isLoading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={isLoading}
+            >
+              {isLoading ? "updating..." : "Update Car"}
+            </button>
           </form>
         </div>
       </Modal>

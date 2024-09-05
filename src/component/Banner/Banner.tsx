@@ -11,8 +11,8 @@ const Banner = () => {
     <div className="hero-section relative pt-24 md:pt-0">
       <Carousel
         className="main-slide"
-        // autoPlay={true}
-        interval={3000}
+        autoPlay={true}
+        interval={7000}
         infiniteLoop={true}
         showThumbs={false}
         showStatus={false}
@@ -32,7 +32,7 @@ const Banner = () => {
             <p className="text-sm sm:text-lg md:text-xl -mt-3 mb:-mt-0  lg:text-2xl text-gray-700 mb:text-gray-400 mb-4">
               Drive away with unbeatable deals on top-rated <br /> vehicles.
             </p>
-            <Link to="/book" className="md:mt-4 mb-6 mb:mb-0">
+            <Link to="/booking" className="md:mt-4 mb-6 mb:mb-0">
               <button className="border border-red-500 bg-black text-white hover:border-b-2 hover:border-b-white hover:text-white py-2 px-4 md:px-6 rounded-md hover:bg-red-500 hover:text-primary transition duration-300">
                 Book Now
               </button>
@@ -55,7 +55,7 @@ const Banner = () => {
               From compact cars to luxury SUVs, we have the perfect <br /> ride
               for every journey.
             </p>
-            <Link to="/fleet" className="md:mt-4 mb-6 mb:mb-0">
+            <Link to="/car" className="md:mt-4 mb-6 mb:mb-0">
               <button className="border border-white bg-black text-white hover:text-black py-2 px-4 md:px-6 rounded-md hover:bg-white hover:text-primary transition duration-300">
                 Explore Our Fleet
               </button>
@@ -77,7 +77,7 @@ const Banner = () => {
             <p className="text-sm sm:text-lg md:text-xl lg:text-2xl text-white -mt-3 mb:-mt-0 mb-4">
               Rent by the day, week, or month – the choice is yours.
             </p>
-            <Link to="/plans" className="md:mt-4 mb-6 mb:mb-0">
+            <Link to="/car" className="md:mt-4 mb-6 mb:mb-0">
               <button className="border border-white bg-black text-white hover:text-black py-2 px-4 md:px-6 rounded-md hover:bg-white hover:text-primary transition duration-300">
                 Choose Your Plan
               </button>
@@ -100,7 +100,7 @@ const Banner = () => {
               We're here for you anytime, anywhere. Your satisfaction <br /> is
               our priority.
             </p>
-            <Link to="/support" className="">
+            <Link to="/contact-us" className="">
               <button className="border border-white bg-black text-white hover:text-black py-2 px-4 md:px-6 rounded-md hover:bg-white hover:text-primary transition duration-300">
                 Contact Us
               </button>

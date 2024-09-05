@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import { TCar } from "../../../../type/global.type";
 import Loader from "../../../../shared/Loader/Loader";
+import { FaCar, FaCaretLeft, FaUsers } from "react-icons/fa6";
 
 const AdminViewProfile = () => {
   // Fetch all cars
@@ -137,7 +138,7 @@ const AdminViewProfile = () => {
               <h2 className="text-3xl font-semibold text-gray-800">
                 {userData?.name}
               </h2>
-              <p className="mt-2 text-gray-600">{userData?.role}</p>
+              <Tag className="mt-2 text-gray-600">{userData?.role}</Tag>
             </div>
             <div className="mt-8 text-center text-gray-600">
               <p>
@@ -154,11 +155,13 @@ const AdminViewProfile = () => {
           {/* Total Booking History Card */}
           <div className="bg-white shadow-md rounded-lg p-6 transition-transform duration-300 hover:shadow-xl col-span-1 sm:col-span-2 lg:col-span-1 transform hover:-translate-y-1">
             <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">
-              Booking <span className="text-yellow-500">Summary</span>
+              <FaCar className="inline mr-2 text-yellow-500" /> Booking
+              <span className="text-yellow-500">Summary</span>
             </h2>
             <div className="bg-gray-100 p-8 rounded-lg text-center">
               <span className="text-red-600 font-bold text-4xl">
                 {totalBookings}{" "}
+                <FaCaretLeft className="inline justify-center items-center mr-2 text-red-500" />
               </span>
               <p className="text-xl text-gray-700">
                 You have received a total of car bookings.
@@ -169,11 +172,13 @@ const AdminViewProfile = () => {
           {/* User Summary Card */}
           <div className="bg-white shadow-md rounded-lg p-6 transition-transform duration-300 hover:shadow-xl col-span-1 sm:col-span-2 lg:col-span-1 transform hover:-translate-y-1">
             <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">
-              User <span className="text-yellow-500">Summary</span>
+              <FaUsers className="inline mr-2 text-yellow-500" /> User
+              <span className="text-yellow-500">Summary</span>
             </h2>
             <div className="bg-gray-100 p-8 rounded-lg text-center">
               <span className="text-red-600 font-bold text-4xl">
-                {totalUser}{" "}
+                {totalUser}
+                <FaUsers className="inline text-4xl justify-center items-center mr-2 text-red-500" />
               </span>
               <p className="text-xl text-gray-700 ">
                 Users are registered in the system.
@@ -195,7 +200,6 @@ const AdminViewProfile = () => {
           <Table
             columns={columns}
             dataSource={tableData || []}
-            pagination={false}
             className="overflow-x-auto"
           />
         </div>

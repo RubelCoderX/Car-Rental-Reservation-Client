@@ -14,8 +14,8 @@ const CarDetailsCard = ({ carDetails }: any) => {
       {/* Left side - Image/Slider */}
       <div className="lg:w-1/2 w-full flex justify-center">
         <Carousel
-          interval={2000}
-          // autoPlay={true}
+          interval={6000}
+          autoPlay={true}
           infiniteLoop={true}
           showThumbs={false}
           showStatus={false}
@@ -49,7 +49,7 @@ const CarDetailsCard = ({ carDetails }: any) => {
               </div>
             </div>
             <div className="text-lg text-red-500 mt-2">
-              ${carDetails?.pricePerHour}
+              Tk{carDetails?.pricePerHour}
               <span className="text-gray-500"> / PerHour</span>
             </div>
             <p className="mt-4 text-gray-700 line-clamp-2">

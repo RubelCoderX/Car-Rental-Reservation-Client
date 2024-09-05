@@ -19,11 +19,12 @@ const AddCarData = () => {
   const [selectVehicleSpecifications, setSelectVehicleSpecifications] =
     useState<OptionType[]>([]);
   const [addCar] = carApi.useCreateCarMutation();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
     handleSubmit,
-    setValue, // Add setValue for controlled components
+    setValue,
     formState: { errors },
   } = useForm();
 
@@ -44,10 +45,11 @@ const AddCarData = () => {
     setValue(
       "vehicleSpecifications",
       selectedOptions.map((option) => option.value)
-    ); // Store selected specification values
+    );
   };
   // Handle onSubmit
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    setIsLoading(true);
     const {
       rating,
       pricePerHour,
@@ -88,6 +90,8 @@ const AddCarData = () => {
         confirmButtonText: "OK",
       });
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
@@ -374,9 +378,12 @@ const AddCarData = () => {
           <div className="flex justify-center mt-10 col-span-full">
             <button
               type="submit"
-              className="bg-blue-500 text-white w-full font-bold py-2 px-4 rounded"
+              className={`bg-blue-500 text-white w-full font-bold py-2 px-4 rounded ${
+                isLoading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={isLoading}
             >
-              Add Car
+              {isLoading ? "Creating..." : "Add Car"}
             </button>
           </div>
         </form>

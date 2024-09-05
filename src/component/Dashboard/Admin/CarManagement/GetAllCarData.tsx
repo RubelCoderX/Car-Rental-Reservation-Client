@@ -34,7 +34,7 @@ const GetAllCarData = () => {
   const handleDeleteCar = async (id: string) => {
     try {
       await deleteCar(id).unwrap();
-      toast.success("Car Deleted Successfully");
+      toast.success("Car Deleted Successfully", { position: "top-right" });
     } catch (error: any) {
       toast.error(error.message);
     }

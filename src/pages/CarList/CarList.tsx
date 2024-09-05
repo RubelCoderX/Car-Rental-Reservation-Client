@@ -86,17 +86,6 @@ const CarList = () => {
           </div>
         </div>
         <div className="w-full">
-          <div
-            style={{ background: "#EFF2F4" }}
-            className="mb-10 p-4 rounded-lg"
-          >
-            <input
-              id="search"
-              type="search"
-              placeholder="Search Here..."
-              className="p-4 border rounded-md w-full bg-white shadow-lg"
-            />
-          </div>
           <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4">
             {isFetching ? (
               <div className="col-span-full text-center">
