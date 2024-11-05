@@ -50,7 +50,7 @@ const Register = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-70"></div>
         </div>
       </div>
-      <div style={{ background: "#E9E9E7" }}>
+      <div>
         <div className="container mx-auto pb-10 pt-20 px-4">
           <div className="flex flex-col md:flex-row items-center md:items-start md:space-x-8">
             {/* Form Section */}

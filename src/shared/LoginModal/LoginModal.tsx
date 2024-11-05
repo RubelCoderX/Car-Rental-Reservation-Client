@@ -1,16 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Modal } from "antd";
 import { FieldValues, useForm } from "react-hook-form";
-import { authApi } from "../../../redux/features/Auth/authApi";
-import { toast } from "sonner";
-import { useAppDispatch } from "../../../redux/hooks";
-import { verifyToken } from "../../../utils/verifyToken";
-import { setUser } from "../../../redux/features/Auth/authSlice";
+import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../redux/hooks";
+import { authApi } from "../../redux/features/Auth/authApi";
+import { toast } from "sonner";
+import { verifyToken } from "../../utils/verifyToken";
+import { setUser } from "../../redux/features/Auth/authSlice";
+import React, { useState } from "react";
 
-// Adjust the path as necessary
+interface LoginModalProps {
+  isModalOpen: boolean;
+  setIsModalOpen: (open: boolean) => void;
+}
 
-const Login = () => {
+const LoginModal: React.FC<LoginModalProps> = ({
+  isModalOpen,
+  setIsModalOpen,
+}) => {
   const { register, handleSubmit } = useForm();
+  const [showPassword, setShowPassword] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [addLogin, { isLoading }] = authApi.useLoginMutation();
@@ -31,8 +42,7 @@ const Login = () => {
         duration: 2000,
         position: "top-center",
       });
-
-      console.log("Navigating to home...");
+      setIsModalOpen(false);
       navigate("/");
     } catch (error: any) {
       console.error("Login error:", error);
@@ -43,64 +53,70 @@ const Login = () => {
       });
     }
   };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
 
-  // if (isLoading) {
-  //   return <Loader />; // Show loader while logging in
-  // }
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   return (
-    <div>
-      {/* Background Section */}
-      <div className="relative h-[300px] md:h-[400px] w-full">
-        <div
-          style={{
-            backgroundImage: "url('https://i.postimg.cc/7Lr2YHMZ/login.png')",
-            backgroundAttachment: "fixed",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-          className="absolute inset-0"
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-70"></div>
-        </div>
-      </div>
-
-      {/* Main Content Section */}
-      <div style={{ background: "#E9E9E7" }}>
-        <div className="container mx-auto pb-10 pt-20 px-4">
-          <div className="flex flex-col md:flex-row items-center md:items-start md:space-x-8">
+    <Modal
+      title=" Welcome to Drive Lux"
+      open={isModalOpen}
+      onOk={handleOk}
+      onCancel={handleCancel}
+      footer={null}
+    >
+      <div>
+        <div className="bg-[#4252B1] p-4">
+          <div className="flex flex-col md:flex-row items-center md:items-start">
             {/* Form Section */}
-            <div className="w-full my-auto md:w-1/2 bg-[#4252B1] p-8 rounded-lg">
+            <div className="w-full  rounded-lg">
               <h2 className="text-4xl font-serif font-bold text-center text-white mb-8">
-                Welcome to Drive Lux
+                Please Login to Your Account
               </h2>
               <form onSubmit={handleSubmit(onSubmit)}>
                 {/* Email Field */}
                 <div>
-                  <label htmlFor="email" className="block text-white mb-2">
-                    Email
+                  <label
+                    htmlFor="email"
+                    className="block font-semibold text-white mb-2"
+                  >
+                    Write Your Email
                   </label>
                   <input
                     type="email"
                     id="email"
                     placeholder="Email"
-                    className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none "
                     {...register("email", { required: true })}
                   />
                 </div>
 
                 {/* Password Field */}
-                <div className="mt-6 mb-4">
-                  <label htmlFor="password" className="block text-white mb-3">
-                    Password
+                <div className="mt-6 mb-4 relative">
+                  <label
+                    htmlFor="password"
+                    className="block font-semibold mb-3 text-white"
+                  >
+                    Write Your Password
                   </label>
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     placeholder="Password"
-                    className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border-b-4 border-transparent rounded-md hover:border-red-600 transition duration-300 focus:outline-none"
                     {...register("password", { required: true })}
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-10"
+                  >
+                    {showPassword ? <EyeTwoTone /> : <EyeInvisibleOutlined />}
+                  </button>
                 </div>
 
                 {/* Submit Button */}
@@ -108,9 +124,7 @@ const Login = () => {
                   type="submit"
                   className={`w-full mt-4 py-2 rounded-md transition duration-200 
                     ${
-                      isLoading
-                        ? "bg-blue-300"
-                        : "bg-blue-500 hover:bg-blue-600"
+                      isLoading ? "bg-blue-300" : "bg-red-500 hover:bg-red-600"
                     } 
                     text-white flex items-center justify-center`}
                   disabled={isLoading}
@@ -121,7 +135,7 @@ const Login = () => {
                       <span className="ml-2">Logging in...</span>
                     </>
                   ) : (
-                    "Login"
+                    "Submit"
                   )}
                 </button>
               </form>
@@ -140,8 +154,8 @@ const Login = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Modal>
   );
 };
 
-export default Login;
+export default LoginModal;

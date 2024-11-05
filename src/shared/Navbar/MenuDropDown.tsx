@@ -7,6 +7,8 @@ import { useAppSelector } from "../../redux/hooks";
 import { logOut, useCurrentToken } from "../../redux/features/Auth/authSlice";
 import { verifyToken } from "../../utils/verifyToken";
 import { JwtPayload } from "jsonwebtoken";
+import LoginModal from "../LoginModal/LoginModal";
+import RegisterModal from "../RegisterModal/RegisterModal";
 
 interface CustomJwtPayload extends JwtPayload {
   role: string;
@@ -15,6 +17,8 @@ interface CustomJwtPayload extends JwtPayload {
 const MenuDropDown = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const dispatch = useDispatch();
   const token = useAppSelector(useCurrentToken);
 
@@ -44,6 +48,16 @@ const MenuDropDown = () => {
     user = verifyToken(token) as CustomJwtPayload;
   }
 
+  const handleLoginClick = () => {
+    setIsModalOpen(true); // Open modal on "Login" click
+  };
+  const handleRegisterClick = () => {
+    setIsRegisterModalOpen(true);
+  };
+  const openLoginModal = () => {
+    setIsRegisterModalOpen(false); // Close Register modal
+    setIsModalOpen(true); // Open Login modal
+  };
   return (
     <div className="relative" ref={menuRef}>
       <div className="flex flex-row items-center gap-3">
@@ -88,18 +102,18 @@ const MenuDropDown = () => {
               </>
             ) : (
               <>
-                <Link
-                  to="/login"
+                <div
+                  onClick={handleLoginClick}
                   className="px-4 py-3 hover:bg-neutral-100 transition font-semibold"
                 >
                   Login
-                </Link>
-                <Link
-                  to="/register"
+                </div>
+                <div
+                  onClick={handleRegisterClick}
                   className="px-4 py-3 hover:bg-neutral-100 transition font-semibold"
                 >
                   Sign Up
-                </Link>
+                </div>
               </>
             )}
             <Link
@@ -117,6 +131,12 @@ const MenuDropDown = () => {
           </div>
         </div>
       )}
+      <LoginModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <RegisterModal
+        isModalOpen={isRegisterModalOpen}
+        setIsModalOpen={setIsRegisterModalOpen}
+        openLoginModal={openLoginModal}
+      />
     </div>
   );
 };

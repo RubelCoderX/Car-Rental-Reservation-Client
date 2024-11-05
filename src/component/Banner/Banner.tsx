@@ -2,7 +2,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import car1 from "../../assets/bann1.jpg";
 import car2 from "../../assets/banner2.jpg";
-import car4 from "../../assets/banner4.jpg";
+// import car4 from "../../assets/banner4.jpg";
 import "./Banner.css";
 import { Link } from "react-router-dom";
 
@@ -11,7 +11,7 @@ const Banner = () => {
     <div className="hero-section relative pt-24 md:pt-0">
       <Carousel
         className="main-slide"
-        autoPlay={true}
+        // autoPlay={true}
         interval={7000}
         infiniteLoop={true}
         showThumbs={false}
@@ -19,11 +19,12 @@ const Banner = () => {
       >
         <div>
           <img
-            src={car1}
-            className="w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] xl:h-[800px] 2xl:h-[900px] object-cover"
+            src="https://i.ibb.co/wJdcQsR/container-banner.png"
+            // className="w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] xl:h-[800px] 2xl:h-[900px] object-cover"
+            className="w-full h-[60vh] object-cover"
             alt="Affordable car rentals"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-70"></div>
+          {/* <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-70"></div>
           <div className="slide-content absolute inset-0 flex flex-col justify-center items-start text-left p-4 md:p-4 lg:p-16">
             <h1 className="text-lg sm:text-xl md:text-3xl  lg:text-5xl font-bold leading-tight mb-4 text-black">
               We offer the best prices{" "}
@@ -37,13 +38,14 @@ const Banner = () => {
                 Book Now
               </button>
             </Link>
-          </div>
+          </div> */}
         </div>
 
         <div>
           <img
             src={car2}
-            className="w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] xl:h-[800px] 2xl:h-[900px] object-cover"
+            // className="w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] xl:h-[800px] 2xl:h-[900px] object-cover"
+            className="w-full h-[60vh] object-cover"
             alt="Wide selection of cars"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-70"></div>
@@ -66,7 +68,8 @@ const Banner = () => {
         <div>
           <img
             src="https://i.postimg.cc/bNFJ59zc/banner4.jpg"
-            className="w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] xl:h-[800px] 2xl:h-[900px] object-cover"
+            // className="w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] xl:h-[800px] 2xl:h-[900px] object-cover"
+            className="w-full h-[60vh] object-cover"
             alt="Flexible rental options"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-70"></div>
@@ -87,8 +90,9 @@ const Banner = () => {
 
         <div>
           <img
-            src={car4}
-            className="w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] xl:h-[800px] 2xl:h-[900px] object-cover"
+            src={car1}
+            // className="w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] xl:h-[800px] 2xl:h-[900px] object-cover"
+            className="w-full h-[60vh] object-cover"
             alt="24/7 customer support"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-70"></div>
